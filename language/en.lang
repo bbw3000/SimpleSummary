@@ -1,0 +1,212 @@
+# SimpleSummary - English language pack
+
+# ── Language ──
+lang.name = English
+lang.code = en
+
+# ── Header ──
+header.title = SimpleSummary
+header.themeToggle = Toggle Theme
+header.close = Close
+
+# ── Tabs ──
+tab.home = Home
+tab.edit = Summary Edit
+tab.api = API Settings
+tab.preprocess = Preprocessing
+tab.prompt = Prompt
+tab.settings = Settings
+
+# ── Home Tab ──
+home.currentChat = Current Chat
+home.pendingCount = Pending / Total
+home.summaryLength = Summary Length
+home.summaryLengthUnit = chars
+home.autoHide = Auto-hide
+home.autoHideHint = When saving a summary, messages in the selected range will be hidden from the LLM, just like /hide.
+home.useStream = Stream Request
+home.summaryRange = Summary Range · Retain Messages
+home.startBtn = ▶ Generate
+home.unhideBtn = Unhide
+home.unhideHint = Make all unsummarized messages visible to the LLM again.
+home.requestPreviewBtn = Request Preview
+
+# ── Edit Tab ──
+edit.placeholder = No summary yet...
+edit.deleteSegment = Delete
+edit.revert = Revert
+edit.save = Save
+
+# ── API Tab ──
+api.presetList = Presets
+api.addPreset = + Add Preset
+api.emptyHint = Select or add a preset
+api.presetName = Preset Name
+api.presetNamePlaceholder = e.g. DeepSeek Chat
+api.apiType = API Type
+api.apiTypeOpenAI = OpenAI Compatible
+api.apiTypeAnthropic = Anthropic
+api.apiTypeGoogle = Google AI Studio
+api.apiTypeOpenRouter = OpenRouter
+api.apiTypeDeepSeek = DeepSeek
+api.apiTypeSiliconFlowCN = SiliconFlow (CN)
+api.apiTypeSiliconFlowGlobal = SiliconFlow (Global)
+api.apiTypeMistral = Mistral AI
+api.apiTypeNVIDIA = NVIDIA NIM
+api.baseUrl = Base URL
+api.apiKey = API Key
+api.showHideKey = Show/Hide Key
+api.model = Model
+api.selectModel = Select model...
+api.manualModel = Manual Input
+api.fetchModels = Fetch Available Models
+api.outputLimit = Output Limit
+api.maxOutput = Max Output
+api.samplingParams = Sampling Parameters
+api.freqPenalty = Freq. Penalty
+api.presPenalty = Pres. Penalty
+api.testBtn = Send Test
+api.deletePreset = Delete This Preset
+
+# ── Prompt Tab ──
+prompt.prevTab = ◀
+prompt.nextTab = ▶
+prompt.addTab = +
+prompt.prevTabTitle = Scroll Left
+prompt.nextTabTitle = Scroll Right
+prompt.addTabTitle = Add Custom Prompt
+prompt.systemTitle = System Prompt
+prompt.systemPlaceholder = Enter system prompt here...
+prompt.userTitle = User Prompt
+prompt.userPlaceholder = Enter user prompt here...
+prompt.revert = Revert
+prompt.save = Save
+
+# ── Settings Tab ──
+settings.injectionTitle = Feature Settings
+settings.typographyTitle = Typography
+settings.googleFonts = Google Fonts
+settings.googleFontsHint = Google Fonts are off by default. Turn on this switch, then type any Google Font family name in custom input (for example: Open Sans).
+settings.loadLocalFonts = Load Local Fonts
+settings.localFontsGroup = Installed on this device
+settings.uiFontFamily = UI Font
+settings.textFontFamily = Long Text
+settings.sizeLabel = Size:
+settings.longTextWeight = Weight:
+settings.customUiFontPlaceholder = Custom UI Font
+settings.customTextFontPlaceholder = Custom LongText Font
+settings.longTextPreviewSample = The primary task in life is to avoid suffering, not to pursue happiness. Reject all unnecessary feelings of guilt, and prioritize your own comfort and well being, that is the highest principle.
+settings.fontInherit = Follow SillyTavern Default
+settings.fontCustom = Custom Input
+settings.resetTypography = Reset Typography to Default
+settings.injectionDepth = Chat Depth
+settings.injectionEnabled = Enable Plugin Injection
+settings.injectionHint = When enabled, the plugin injects the summary into the chat at the specified depth (default 999, i.e. top). When disabled, the plugin won't auto-inject; you can use the {{SPSummaries}} macro anywhere in your ST preset to inject manually.
+settings.autoCleanupExpired = Auto-clean expired summaries
+settings.autoCleanupExpiredHint = When enabled, summaries untouched for more than 180 days will be removed automatically from the plugin data file.
+settings.resetPlugin = Reset Plugin
+
+# ── Preprocess Tab ──
+preprocess.structuredCleanup = Structured Cleanup
+preprocess.structuredHint = Remove obvious interface-only nodes before extracting text.
+preprocess.stripHtml = Strip HTML Text
+preprocess.stripHint = Convert the remaining HTML into plain text.
+preprocess.regexTitle = Custom Regex Rules
+preprocess.regexHint = Rules run first, before structured cleanup and HTML stripping. Empty patterns are ignored.
+preprocess.addRule = + Add Rule
+preprocess.ruleEnabled = Enabled
+preprocess.rulePattern = Pattern
+preprocess.ruleReplacement = Replacement
+preprocess.ruleFlags = Flags
+preprocess.removeRule = Remove rule
+preprocess.emptyRules = No regex rules yet. Add one to start filtering the chat log.
+preprocess.invalidRule = Invalid regex pattern or flags
+
+# ── Reset Dialog ──
+reset.header = Reset Plugin Settings
+reset.body = Reset plugin settings?
+reset.item1 = UI preferences and selected presets will return to defaults.
+reset.item2 = API presets, summaries, and custom prompts will be preserved.
+reset.cancel = Cancel
+reset.confirm = Confirm
+
+# ── Preview Overlay ──
+preview.status.requesting = Requesting...
+preview.status.streaming = Generating (stream)...
+preview.status.stopped = ⏹ Stopped
+preview.status.complete = ✅ Complete
+preview.thinkingChain = 🧠 Thinking Chain
+preview.thinkingAria = Thinking chain
+preview.placeholder = Waiting for generation...
+preview.cancel = Cancel
+preview.stopRequest = Stop Request
+preview.saveAppend = Save & Append
+
+# ── Macros ──
+macro.spSummaries = Current chat summary
+macro.spSummariesFallback = (No summary yet)
+macro.latestSegment = Latest summary segment
+macro.chatAfter = Following chat context
+macro.chatLang = Chat language distribution
+
+# ── Toast Messages ──
+toast.unsummarizedUnhidden = Made all unsummarized messages visible again.
+toast.summarySaved = Summary saved
+toast.pluginReset = Browser plugin settings cleared
+toast.noChat = No chat history
+toast.noApiPreset = Please configure and select an API preset first
+toast.noMessagesInRange = No messages to summarize in selected range
+toast.contentEmpty = Content is empty
+toast.segmentDeleted = Latest segment deleted
+toast.segmentHiddenRestored = Latest segment hidden range restored
+toast.expiredSummariesCleared = Cleared ${count} expired summaries
+toast.promptSaved = Prompt saved
+toast.typographyReset = Typography settings reset
+toast.localFontsUnsupported = This browser does not support querying local fonts
+toast.localFontsDenied = Local font access was denied
+toast.localFontsLoaded = Loaded ${count} local font families
+
+# ── Confirm Dialogs ──
+confirm.cancel = Cancel
+confirm.confirm = Confirm
+confirm.deleteSegmentHeader = Delete Latest Segment
+confirm.deleteLatestSegment = Delete the latest segment ${range}?
+confirm.deleteLatestSegmentUnsaved = Unsaved edits in this segment will be lost.
+confirm.deletePresetHeader = Delete Preset
+confirm.deletePreset = Delete preset "${name}"?
+confirm.deletePromptHeader = Delete Prompt Preset
+confirm.deletePromptPreset = Delete prompt preset "${name}"?
+confirm.unsavedHeader = Unsaved changes
+confirm.unsavedBody = You have unsaved changes. Save before leaving?
+confirm.unsavedCancel = Cancel
+confirm.unsavedDiscard = Discard
+confirm.unsavedSave = Save
+
+# ── API Status Messages ──
+api.status.missingUrl = ❌ Missing URL
+api.status.missingModel = ❌ Missing Model
+api.status.success = ✅ Success — ${reply}
+api.status.timeout = ❌ Timeout (30s) — Check URL/Key/Model
+api.status.fetchUrlKey = Please fill in URL and Key
+api.status.fetching = Fetching model list...
+api.status.fetchOk = Fetched ${count} models
+api.status.fetchFail = Fetch failed: ${error}
+
+# ── API Preset Defaults ──
+api.newPresetName = New Preset
+
+# ── Prompt Preset Defaults ──
+prompt.defaultName = Default Prompt
+prompt.defaultPresetName = Custom
+prompt.defaultTitle = Default Prompt (Read-only)
+prompt.deleteTitle = Delete ${name}
+prompt.unnamed = Unnamed
+
+# ── Generation Status ──
+gen.chatLogAppend = --- Chat log to summarize below ---
+gen.stopRequest = Stop Request
+gen.cancel = Cancel
+
+# ── LLM Errors ──
+llm.noStreamBody = Response has no streaming body
+llm.noStreamResponseBody = Stream response has no body

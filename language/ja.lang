@@ -1,0 +1,212 @@
+# SimpleSummary - 日本語 language pack
+
+# ── Language ──
+lang.name = 日本語
+lang.code = ja
+
+# ── Header ──
+header.title = SimpleSummary
+header.themeToggle = テーマ切替
+header.close = 閉じる
+
+# ── Tabs ──
+tab.home = ホーム
+tab.edit = 要約編集
+tab.api = API設定
+tab.preprocess = 前処理
+tab.prompt = プロンプト
+tab.settings = 設定
+
+# ── Home Tab ──
+home.currentChat = 現在のチャット
+home.pendingCount = 未要約 / 合計
+home.summaryLength = 要約長
+home.summaryLengthUnit = 文字
+home.autoHide = 自動非表示
+home.autoHideHint = 要約を保存すると、選択範囲のメッセージは LLM から非表示になります。/hide と同じ動作です。
+home.useStream = ストリームリクエスト
+home.summaryRange = 要約範囲 · 残すメッセージ数
+home.startBtn = ▶ 要約生成
+home.unhideBtn = 非表示解除
+home.unhideHint = 未要約のメッセージをすべて LLM に見える状態へ戻します。
+home.requestPreviewBtn = リクエスト確認
+
+# ── Edit Tab ──
+edit.placeholder = まだ要約がありません...
+edit.deleteSegment = 削除
+edit.revert = 元に戻す
+edit.save = 保存
+
+# ── API Tab ──
+api.presetList = プリセット
+api.addPreset = + プリセット追加
+api.emptyHint = プリセットを選択または追加してください
+api.presetName = プリセット名
+api.presetNamePlaceholder = 例：DeepSeek チャット
+api.apiType = APIタイプ
+api.apiTypeOpenAI = OpenAI互換
+api.apiTypeAnthropic = Anthropic
+api.apiTypeGoogle = Google AI Studio
+api.apiTypeOpenRouter = OpenRouter
+api.apiTypeDeepSeek = DeepSeek
+api.apiTypeSiliconFlowCN = SiliconFlow（中国）
+api.apiTypeSiliconFlowGlobal = SiliconFlow（グローバル）
+api.apiTypeMistral = Mistral AI
+api.apiTypeNVIDIA = NVIDIA NIM
+api.baseUrl = Base URL
+api.apiKey = APIキー
+api.showHideKey = キーの表示/非表示
+api.model = モデル
+api.selectModel = モデルを選択...
+api.manualModel = 手動入力
+api.fetchModels = 利用可能なモデルを取得
+api.outputLimit = 出力制限
+api.maxOutput = 最大出力
+api.samplingParams = サンプリングパラメータ
+api.freqPenalty = 頻度ペナルティ
+api.presPenalty = 存在ペナルティ
+api.testBtn = テスト送信
+api.deletePreset = このプリセットを削除
+
+# ── Prompt Tab ──
+prompt.prevTab = ◀
+prompt.nextTab = ▶
+prompt.addTab = +
+prompt.prevTabTitle = 左にスクロール
+prompt.nextTabTitle = 右にスクロール
+prompt.addTabTitle = カスタムプロンプトを追加
+prompt.systemTitle = システムプロンプト
+prompt.systemPlaceholder = ここにシステムプロンプトを入力...
+prompt.userTitle = ユーザープロンプト
+prompt.userPlaceholder = ここにユーザープロンプトを入力...
+prompt.revert = 元に戻す
+prompt.save = 保存
+
+# ── Settings Tab ──
+settings.injectionTitle = 機能設定
+settings.typographyTitle = フォント設定
+settings.googleFonts = Google Fonts
+settings.googleFontsHint = Google Fonts はデフォルトでオフです。オンにした後、カスタム入力欄に任意の Google Fonts ファミリー名を入力してください（例：Open Sans）。
+settings.loadLocalFonts = ローカルフォント読込
+settings.localFontsGroup = この端末にインストール済み
+settings.uiFontFamily = UI フォント
+settings.textFontFamily = 長文テキスト
+settings.sizeLabel = サイズ：
+settings.longTextWeight = 太さ：
+settings.customUiFontPlaceholder = カスタム UI フォント
+settings.customTextFontPlaceholder = カスタム長文フォント
+settings.longTextPreviewSample = 人生における第一の課題は幸福を追い求めることではなく、苦しみを避けることです。不要な罪悪感は退け、自分の快適さと心身の健やかさを優先しましょう。それこそが最も高い原則です。
+settings.fontInherit = SillyTavern の既定値に従う
+settings.fontCustom = カスタム入力
+settings.resetTypography = フォント設定をリセット
+settings.injectionDepth = チャット深度
+settings.injectionEnabled = プラグイン注入を有効化
+settings.injectionHint = 有効にすると、プラグインは指定深度（デフォルト 999、最上部）に要約を注入します。無効にすると自動注入されず、STプロンプト内の{{SPSummaries}}マクロでいつでも手動注入できます。
+settings.autoCleanupExpired = 期限切れの要約を自動削除
+settings.autoCleanupExpiredHint = 有効にすると、180日以上更新されていない要約がプラグインのデータファイルから自動的に削除されます。
+settings.resetPlugin = プラグインリセット
+
+# ── Preprocess Tab ──
+preprocess.structuredCleanup = 構造化クリーンアップ
+preprocess.structuredHint = テキスト抽出前に、明らかにUI専用のノードを削除します。
+preprocess.stripHtml = HTMLを除去
+preprocess.stripHint = 残ったHTMLをプレーンテキストに変換します。
+preprocess.regexTitle = カスタム正規表現ルール
+preprocess.regexHint = ルールは構造化クリーンアップとHTML除去より先に実行されます。空のパターンは無視されます。
+preprocess.addRule = + ルール追加
+preprocess.ruleEnabled = 有効
+preprocess.rulePattern = パターン
+preprocess.ruleReplacement = 置換
+preprocess.ruleFlags = フラグ
+preprocess.removeRule = ルール削除
+preprocess.emptyRules = 正規表現ルールはまだありません。ルールを追加してチャットログのフィルタリングを開始してください。
+preprocess.invalidRule = 正規表現パターンまたはフラグが無効です
+
+# ── Reset Dialog ──
+reset.header = プラグイン設定をリセット
+reset.body = プラグイン設定をリセットしますか？
+reset.item1 = UI 設定と選択中のプリセットはデフォルトに戻ります。
+reset.item2 = API プリセット、要約、カスタムプロンプトは保持されます。
+reset.cancel = キャンセル
+reset.confirm = 確認
+
+# ── Preview Overlay ──
+preview.status.requesting = リクエスト中...
+preview.status.streaming = 生成中（ストリーム）...
+preview.status.stopped = ⏹ 停止
+preview.status.complete = ✅ 完了
+preview.thinkingChain = 🧠 思考チェーン
+preview.thinkingAria = 思考チェーン
+preview.placeholder = 生成待ち...
+preview.cancel = キャンセル
+preview.stopRequest = リクエスト停止
+preview.saveAppend = 保存して追加
+
+# ── Macros ──
+macro.spSummaries = 現在のチャット要約
+macro.spSummariesFallback = （まだ要約がありません）
+macro.latestSegment = 最新の要約分割
+macro.chatAfter = 後続チャット文脈
+macro.chatLang = 現在セッションの言語比率
+
+# ── Toast Messages ──
+toast.unsummarizedUnhidden = 未要約のメッセージをすべて再表示しました。
+toast.summarySaved = 要約を保存しました
+toast.pluginReset = ブラウザのプラグイン設定を消去しました
+toast.noChat = チャット履歴がありません
+toast.noApiPreset = 先にAPIプリセットを設定して選択してください
+toast.noMessagesInRange = 選択範囲内に要約するメッセージがありません
+toast.contentEmpty = 内容が空です
+toast.segmentDeleted = 最新分段を削除しました
+toast.segmentHiddenRestored = 最新分段の非表示状態を復元しました
+toast.expiredSummariesCleared = 期限切れの要約を ${count} 件削除しました
+toast.promptSaved = プロンプトを保存しました
+toast.typographyReset = フォント設定をリセットしました
+toast.localFontsUnsupported = このブラウザはローカルフォントの取得に対応していません
+toast.localFontsDenied = ローカルフォントへのアクセスが拒否されました
+toast.localFontsLoaded = ローカルフォント ${count} ファミリーを読み込みました
+
+# ── Confirm Dialogs ──
+confirm.cancel = キャンセル
+confirm.confirm = 確認
+confirm.deleteSegmentHeader = 最新分段を削除
+confirm.deleteLatestSegment = 最新分段 ${range} を削除しますか？
+confirm.deleteLatestSegmentUnsaved = この分段の未保存の編集内容も失われます。
+confirm.deletePresetHeader = プリセット削除
+confirm.deletePreset = プリセット「${name}」を削除しますか？
+confirm.deletePromptHeader = プロンプトプリセット削除
+confirm.deletePromptPreset = プロンプトプリセット「${name}」を削除しますか？
+confirm.unsavedHeader = 未保存の変更があります
+confirm.unsavedBody = 未保存の変更があります。離れる前に保存しますか？
+confirm.unsavedCancel = キャンセル
+confirm.unsavedDiscard = 破棄
+confirm.unsavedSave = 保存
+
+# ── API Status Messages ──
+api.status.missingUrl = ❌ URLが欠落しています
+api.status.missingModel = ❌ モデルが欠落しています
+api.status.success = ✅ 成功 — ${reply}
+api.status.timeout = ❌ タイムアウト（30秒）— URL/キー/モデルを確認してください
+api.status.fetchUrlKey = URLとキーを入力してください
+api.status.fetching = モデルリストを取得中...
+api.status.fetchOk = ${count}個のモデルを取得しました
+api.status.fetchFail = 取得失敗：${error}
+
+# ── API Preset Defaults ──
+api.newPresetName = 新規プリセット
+
+# ── Prompt Preset Defaults ──
+prompt.defaultName = デフォルトプロンプト
+prompt.defaultPresetName = カスタム
+prompt.defaultTitle = デフォルトプロンプト（読み取り専用）
+prompt.deleteTitle = ${name}を削除
+prompt.unnamed = 名前なし
+
+# ── Generation Status ──
+gen.chatLogAppend = --- 以下は要約対象のチャットログ ---
+gen.stopRequest = リクエスト停止
+gen.cancel = キャンセル
+
+# ── LLM Errors ──
+llm.noStreamBody = レスポンスにストリームボディがありません
+llm.noStreamResponseBody = ストリームレスポンスにボディがありません

@@ -1,0 +1,212 @@
+# SimpleSummary - 正體字 language pack
+
+# ── Language ──
+lang.name = 正體字
+lang.code = zh-TW
+
+# ── Header ──
+header.title = 極簡摘要
+header.themeToggle = 切換主題
+header.close = 關閉
+
+# ── Tabs ──
+tab.home = 首頁
+tab.edit = 摘要編輯
+tab.api = API 設定
+tab.preprocess = 預處理
+tab.prompt = 提示詞
+tab.settings = 設定
+
+# ── Home Tab ──
+home.currentChat = 目前對話
+home.pendingCount = 待處理 / 總計
+home.summaryLength = 摘要長度
+home.summaryLengthUnit = 字元
+home.autoHide = 自動隱藏
+home.autoHideHint = 摘要儲存時，所選範圍內的訊息會對 LLM 隱藏，效果等同 /hide。
+home.useStream = 串流請求
+home.summaryRange = 摘要範圍 · 保留訊息數
+home.startBtn = ▶ 產生摘要
+home.unhideBtn = 取消隱藏
+home.unhideHint = 讓所有未被摘要的訊息重新對 LLM 可見。
+home.requestPreviewBtn = 請求預覽
+
+# ── Edit Tab ──
+edit.placeholder = 尚無摘要...
+edit.deleteSegment = 刪除
+edit.revert = 還原
+edit.save = 儲存
+
+# ── API Tab ──
+api.presetList = 預設組合
+api.addPreset = + 新增預設
+api.emptyHint = 請選擇或新增一個預設組合
+api.presetName = 預設名稱
+api.presetNamePlaceholder = 例如：DeepSeek 聊天
+api.apiType = API 類型
+api.apiTypeOpenAI = OpenAI 相容
+api.apiTypeAnthropic = Anthropic
+api.apiTypeGoogle = Google AI Studio
+api.apiTypeOpenRouter = OpenRouter
+api.apiTypeDeepSeek = DeepSeek
+api.apiTypeSiliconFlowCN = SiliconFlow（中國）
+api.apiTypeSiliconFlowGlobal = SiliconFlow（全球）
+api.apiTypeMistral = Mistral AI
+api.apiTypeNVIDIA = NVIDIA NIM
+api.baseUrl = Base URL
+api.apiKey = API 金鑰
+api.showHideKey = 顯示/隱藏金鑰
+api.model = 模型
+api.selectModel = 選擇模型...
+api.manualModel = 手動輸入
+api.fetchModels = 擷取可用模型
+api.outputLimit = 輸出限制
+api.maxOutput = 最大輸出
+api.samplingParams = 取樣參數
+api.freqPenalty = 頻率懲罰
+api.presPenalty = 存在懲罰
+api.testBtn = 傳送測試
+api.deletePreset = 刪除此預設
+
+# ── Prompt Tab ──
+prompt.prevTab = ◀
+prompt.nextTab = ▶
+prompt.addTab = +
+prompt.prevTabTitle = 向左捲動
+prompt.nextTabTitle = 向右捲動
+prompt.addTabTitle = 新增自訂提示詞
+prompt.systemTitle = 系統提示詞
+prompt.systemPlaceholder = 在此輸入系統提示詞...
+prompt.userTitle = 使用者提示詞
+prompt.userPlaceholder = 在此輸入使用者提示詞...
+prompt.revert = 還原
+prompt.save = 儲存
+
+# ── Settings Tab ──
+settings.injectionTitle = 功能設定
+settings.typographyTitle = 字體設定
+settings.googleFonts = Google Fonts
+settings.googleFontsHint = Google Fonts 預設為關閉。開啟後，可在自訂輸入框填入任何 Google Fonts 字體家族名稱（例如：Open Sans）。
+settings.loadLocalFonts = 載入本機字體
+settings.localFontsGroup = 此裝置已安裝
+settings.uiFontFamily = UI 字體
+settings.textFontFamily = 長文本
+settings.sizeLabel = 大小：
+settings.longTextWeight = 字重：
+settings.customUiFontPlaceholder = 自訂 UI 字體
+settings.customTextFontPlaceholder = 自訂長文本字體
+settings.longTextPreviewSample = 人生的首要任務不是追求幸福，而是避免痛苦。拒絕一切不必要的罪惡感，並優先照顧自己的舒適與身心狀態——這才是最高原則。
+settings.fontInherit = 跟隨 SillyTavern 預設
+settings.fontCustom = 自訂輸入
+settings.resetTypography = 重設字體設定
+settings.injectionDepth = 對話深度
+settings.injectionEnabled = 啟用插件注入
+settings.injectionHint = 啟用後，插件會將摘要注入到指定深度（預設 999，即最頂端）。停用時插件不會自動注入，您可以透過 ST 設定中的 {{SPSummaries}} 巨集隨時手動注入。
+settings.autoCleanupExpired = 自動清理過期摘要
+settings.autoCleanupExpiredHint = 啟用後，超過 180 天未更新的摘要會從插件資料檔中自動刪除。
+settings.resetPlugin = 重設插件
+
+# ── Preprocess Tab ──
+preprocess.structuredCleanup = 結構化清理
+preprocess.structuredHint = 在擷取文字前，先移除明顯只用於介面的節點。
+preprocess.stripHtml = 去除 HTML
+preprocess.stripHint = 將剩餘的 HTML 轉為純文字。
+preprocess.regexTitle = 自訂正規規則
+preprocess.regexHint = 規則會最先執行，先於結構化清理和 HTML 去除。空模式會被忽略。
+preprocess.addRule = + 新增規則
+preprocess.ruleEnabled = 啟用
+preprocess.rulePattern = 模式
+preprocess.ruleReplacement = 取代
+preprocess.ruleFlags = 旗標
+preprocess.removeRule = 移除規則
+preprocess.emptyRules = 目前還沒有正規規則。新增一條後即可開始過濾聊天記錄。
+preprocess.invalidRule = 正規模式或旗標無效
+
+# ── Reset Dialog ──
+reset.header = 重設插件設定
+reset.body = 確定要重設插件設定嗎？
+reset.item1 = 介面偏好、選定預設將恢復為預設值。
+reset.item2 = API 預設、摘要和自訂提示詞都會保留。
+reset.cancel = 取消
+reset.confirm = 確認
+
+# ── Preview Overlay ──
+preview.status.requesting = 請求中...
+preview.status.streaming = 生成中（串流）...
+preview.status.stopped = ⏹ 已停止
+preview.status.complete = ✅ 完成
+preview.thinkingChain = 🧠 思考鏈
+preview.thinkingAria = 思考鏈
+preview.placeholder = 等待生成中...
+preview.cancel = 取消
+preview.stopRequest = 停止請求
+preview.saveAppend = 儲存並附加
+
+# ── Macros ──
+macro.spSummaries = 目前對話摘要
+macro.spSummariesFallback = （尚無摘要）
+macro.latestSegment = 最新摘要分段
+macro.chatAfter = 後續聊天上下文
+macro.chatLang = 當前會話語言占比
+
+# ── Toast Messages ──
+toast.unsummarizedUnhidden = 所有未被摘要的訊息已重新可見。
+toast.summarySaved = 摘要已儲存
+toast.pluginReset = 已清除瀏覽器插件設定
+toast.noChat = 尚無聊天紀錄
+toast.noApiPreset = 請先設定並選擇一組 API 預設
+toast.noMessagesInRange = 所選範圍內沒有可摘要的訊息
+toast.contentEmpty = 內容為空
+toast.segmentDeleted = 最新分段已刪除
+toast.segmentHiddenRestored = 已恢復最新分段的隱藏狀態
+toast.expiredSummariesCleared = 已清理 ${count} 個過期摘要
+toast.promptSaved = 提示詞已儲存
+toast.typographyReset = 字體設定已重設
+toast.localFontsUnsupported = 目前瀏覽器不支援讀取本機字體清單
+toast.localFontsDenied = 本機字體存取權限遭拒
+toast.localFontsLoaded = 已載入 ${count} 個本機字體家族
+
+# ── Confirm Dialogs ──
+confirm.cancel = 取消
+confirm.confirm = 確認
+confirm.deleteSegmentHeader = 刪除最新分段
+confirm.deleteLatestSegment = 刪除最新分段 ${range}？
+confirm.deleteLatestSegmentUnsaved = 此分段中未儲存的修改也會一併遺失。
+confirm.deletePresetHeader = 刪除預設
+confirm.deletePreset = 刪除預設「${name}」？
+confirm.deletePromptHeader = 刪除提示詞預設
+confirm.deletePromptPreset = 刪除提示詞預設「${name}」？
+confirm.unsavedHeader = 有未儲存的修改
+confirm.unsavedBody = 你有未儲存的修改。離開前要先儲存嗎？
+confirm.unsavedCancel = 取消
+confirm.unsavedDiscard = 放棄
+confirm.unsavedSave = 儲存
+
+# ── API Status Messages ──
+api.status.missingUrl = ❌ 缺少網址
+api.status.missingModel = ❌ 缺少模型
+api.status.success = ✅ 成功 — ${reply}
+api.status.timeout = ❌ 逾時（30 秒）— 請檢查網址/金鑰/模型
+api.status.fetchUrlKey = 請填入網址與金鑰
+api.status.fetching = 正在擷取模型列表...
+api.status.fetchOk = 已擷取 ${count} 個模型
+api.status.fetchFail = 擷取失敗：${error}
+
+# ── API Preset Defaults ──
+api.newPresetName = 新預設
+
+# ── Prompt Preset Defaults ──
+prompt.defaultName = 預設提示詞
+prompt.defaultPresetName = 自訂
+prompt.defaultTitle = 預設提示詞（唯讀）
+prompt.deleteTitle = 刪除 ${name}
+prompt.unnamed = 未命名
+
+# ── Generation Status ──
+gen.chatLogAppend = --- 以下為待摘要的聊天紀錄 ---
+gen.stopRequest = 停止請求
+gen.cancel = 取消
+
+# ── LLM Errors ──
+llm.noStreamBody = 回應沒有串流主體
+llm.noStreamResponseBody = 串流回應沒有主體

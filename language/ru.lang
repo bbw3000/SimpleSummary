@@ -1,0 +1,212 @@
+# SimpleSummary - Русский language pack
+
+# ── Language ──
+lang.name = Русский
+lang.code = ru
+
+# ── Header ──
+header.title = SimpleSummary
+header.themeToggle = Переключить тему
+header.close = Закрыть
+
+# ── Tabs ──
+tab.home = Главная
+tab.edit = Редактирование сводки
+tab.api = Настройки API
+tab.preprocess = Предобработка
+tab.prompt = Промпт
+tab.settings = Настройки
+
+# ── Home Tab ──
+home.currentChat = Текущий чат
+home.pendingCount = Ожидает / Всего
+home.summaryLength = Длина сводки
+home.summaryLengthUnit = символов
+home.autoHide = Автоскрытие
+home.autoHideHint = При сохранении сводки сообщения в выбранном диапазоне скрываются от LLM. Это то же самое, что /hide.
+home.useStream = Потоковый запрос
+home.summaryRange = Диапазон сводки · Сообщений оставить
+home.startBtn = ▶ Создать сводку
+home.unhideBtn = Снять скрытие
+home.unhideHint = Снова показать LLM все несводные сообщения.
+home.requestPreviewBtn = Предпросмотр запроса
+
+# ── Edit Tab ──
+edit.placeholder = Сводки пока нет...
+edit.deleteSegment = Удалить
+edit.revert = Отменить
+edit.save = Сохранить
+
+# ── API Tab ──
+api.presetList = Пресеты
+api.addPreset = + Добавить пресет
+api.emptyHint = Выберите или добавьте пресет
+api.presetName = Название пресета
+api.presetNamePlaceholder = напр.: DeepSeek Чат
+api.apiType = Тип API
+api.apiTypeOpenAI = OpenAI-совместимый
+api.apiTypeAnthropic = Anthropic
+api.apiTypeGoogle = Google AI Studio
+api.apiTypeOpenRouter = OpenRouter
+api.apiTypeDeepSeek = DeepSeek
+api.apiTypeSiliconFlowCN = SiliconFlow (CN)
+api.apiTypeSiliconFlowGlobal = SiliconFlow (Global)
+api.apiTypeMistral = Mistral AI
+api.apiTypeNVIDIA = NVIDIA NIM
+api.baseUrl = Base URL
+api.apiKey = API-ключ
+api.showHideKey = Показать/скрыть ключ
+api.model = Модель
+api.selectModel = Выбрать модель...
+api.manualModel = Ручной ввод
+api.fetchModels = Загрузить доступные модели
+api.outputLimit = Лимит вывода
+api.maxOutput = Макс. вывод
+api.samplingParams = Параметры семплирования
+api.freqPenalty = Частотный штраф
+api.presPenalty = Штраф присутствия
+api.testBtn = Отправить тест
+api.deletePreset = Удалить этот пресет
+
+# ── Prompt Tab ──
+prompt.prevTab = ◀
+prompt.nextTab = ▶
+prompt.addTab = +
+prompt.prevTabTitle = Прокрутить влево
+prompt.nextTabTitle = Прокрутить вправо
+prompt.addTabTitle = Добавить пользовательский промпт
+prompt.systemTitle = Системный промпт
+prompt.systemPlaceholder = Введите системный промпт здесь...
+prompt.userTitle = Пользовательский промпт
+prompt.userPlaceholder = Введите пользовательский промпт здесь...
+prompt.revert = Отменить
+prompt.save = Сохранить
+
+# ── Settings Tab ──
+settings.injectionTitle = Настройки функций
+settings.typographyTitle = Типографика
+settings.googleFonts = Google Fonts
+settings.googleFontsHint = Google Fonts по умолчанию отключён. Включите переключатель, затем введите в пользовательское поле любое семейство Google Fonts (например: Open Sans).
+settings.loadLocalFonts = Локальные шрифты
+settings.localFontsGroup = Установлено на этом устройстве
+settings.uiFontFamily = Шрифт интерфейса
+settings.textFontFamily = Длинный текст
+settings.sizeLabel = Размер:
+settings.longTextWeight = Насыщенность:
+settings.customUiFontPlaceholder = Пользовательский шрифт интерфейса
+settings.customTextFontPlaceholder = Пользовательский шрифт для длинного текста
+settings.longTextPreviewSample = Главная задача в жизни — избегать страданий, а не гнаться за счастьем. Откажитесь от ненужного чувства вины и ставьте на первое место собственный комфорт и благополучие — это и есть высший принцип.
+settings.fontInherit = Следовать значению SillyTavern по умолчанию
+settings.fontCustom = Пользовательский ввод
+settings.resetTypography = Сбросить типографику
+settings.injectionDepth = Глубина чата
+settings.injectionEnabled = Включить внедрение плагина
+settings.injectionHint = Если включено, плагин внедряет сводку в чат на указанной глубине (по умолчанию 999, т.е. наверху). Если отключено, плагин не внедряет автоматически; вы можете использовать макрос {{SPSummaries}} в любом месте пресета ST для ручного внедрения.
+settings.autoCleanupExpired = Автоматически очищать устаревшие сводки
+settings.autoCleanupExpiredHint = Если включено, сводки, не обновлявшиеся более 180 дней, будут автоматически удаляться из файла данных плагина.
+settings.resetPlugin = Сбросить плагин
+
+# ── Preprocess Tab ──
+preprocess.structuredCleanup = Структурная очистка
+preprocess.structuredHint = Удаляет очевидные элементы интерфейса перед извлечением текста.
+preprocess.stripHtml = Удалить HTML
+preprocess.stripHint = Преобразует оставшийся HTML в обычный текст.
+preprocess.regexTitle = Пользовательские regex-правила
+preprocess.regexHint = Правила выполняются первыми, до структурной очистки и удаления HTML. Пустые шаблоны игнорируются.
+preprocess.addRule = + Добавить правило
+preprocess.ruleEnabled = Включено
+preprocess.rulePattern = Шаблон
+preprocess.ruleReplacement = Замена
+preprocess.ruleFlags = Флаги
+preprocess.removeRule = Удалить правило
+preprocess.emptyRules = Regex-правил пока нет. Добавьте правило, чтобы начать фильтровать журнал чата.
+preprocess.invalidRule = Недопустимый regex-шаблон или флаги
+
+# ── Reset Dialog ──
+reset.header = Сбросить настройки плагина
+reset.body = Сбросить настройки плагина?
+reset.item1 = Параметры интерфейса и выбранные пресеты вернутся к значениям по умолчанию.
+reset.item2 = API-пресеты, сводки и пользовательские промпты будут сохранены.
+reset.cancel = Отмена
+reset.confirm = Подтвердить
+
+# ── Preview Overlay ──
+preview.status.requesting = Запрос...
+preview.status.streaming = Генерация (поток)...
+preview.status.stopped = ⏹ Остановлено
+preview.status.complete = ✅ Завершено
+preview.thinkingChain = 🧠 Цепь рассуждений
+preview.thinkingAria = Цепь рассуждений
+preview.placeholder = Ожидание генерации...
+preview.cancel = Отмена
+preview.stopRequest = Остановить запрос
+preview.saveAppend = Сохранить и добавить
+
+# ── Macros ──
+macro.spSummaries = Текущая сводка чата
+macro.spSummariesFallback = (Сводки пока нет)
+macro.latestSegment = Последний сегмент сводки
+macro.chatAfter = Последующий контекст чата
+macro.chatLang = Распределение языков текущей сессии
+
+# ── Toast Messages ──
+toast.unsummarizedUnhidden = Все несводные сообщения снова видны.
+toast.summarySaved = Сводка сохранена
+toast.pluginReset = Настройки плагина сброшены
+toast.noChat = Нет истории чата
+toast.noApiPreset = Пожалуйста, сначала настройте и выберите пресет API
+toast.noMessagesInRange = В выбранном диапазоне нет сообщений для сводки
+toast.contentEmpty = Содержимое пусто
+toast.segmentDeleted = Последний сегмент удалён
+toast.segmentHiddenRestored = Состояние скрытия последнего сегмента восстановлено
+toast.expiredSummariesCleared = Очищено ${count} устаревших сводок
+toast.promptSaved = Промпт сохранён
+toast.typographyReset = Настройки типографики сброшены
+toast.localFontsUnsupported = Этот браузер не поддерживает доступ к локальным шрифтам
+toast.localFontsDenied = Доступ к локальным шрифтам запрещён
+toast.localFontsLoaded = Загружено локальных семейств шрифтов: ${count}
+
+# ── Confirm Dialogs ──
+confirm.cancel = Отмена
+confirm.confirm = Подтвердить
+confirm.deleteSegmentHeader = Удалить последний сегмент
+confirm.deleteLatestSegment = Удалить последний сегмент ${range}?
+confirm.deleteLatestSegmentUnsaved = Несохранённые правки этого сегмента будут потеряны.
+confirm.deletePresetHeader = Удалить пресет
+confirm.deletePreset = Удалить пресет "${name}"?
+confirm.deletePromptHeader = Удалить пресет промпта
+confirm.deletePromptPreset = Удалить пресет промпта "${name}"?
+confirm.unsavedHeader = Есть несохранённые изменения
+confirm.unsavedBody = У вас есть несохранённые изменения. Сохранить перед выходом?
+confirm.unsavedCancel = Отмена
+confirm.unsavedDiscard = Не сохранять
+confirm.unsavedSave = Сохранить
+
+# ── API Status Messages ──
+api.status.missingUrl = ❌ Отсутствует URL
+api.status.missingModel = ❌ Отсутствует модель
+api.status.success = ✅ Успех — ${reply}
+api.status.timeout = ❌ Таймаут (30с) — Проверьте URL/Ключ/Модель
+api.status.fetchUrlKey = Пожалуйста, заполните URL и Ключ
+api.status.fetching = Загрузка списка моделей...
+api.status.fetchOk = Загружено ${count} моделей
+api.status.fetchFail = Ошибка загрузки: ${error}
+
+# ── API Preset Defaults ──
+api.newPresetName = Новый пресет
+
+# ── Prompt Preset Defaults ──
+prompt.defaultName = Промпт по умолчанию
+prompt.defaultPresetName = Пользовательский
+prompt.defaultTitle = Промпт по умолчанию (только чтение)
+prompt.deleteTitle = Удалить ${name}
+prompt.unnamed = Без названия
+
+# ── Generation Status ──
+gen.chatLogAppend = --- Журнал чата для сводки ниже ---
+gen.stopRequest = Остановить запрос
+gen.cancel = Отмена
+
+# ── LLM Errors ──
+llm.noStreamBody = У ответа нет потокового тела
+llm.noStreamResponseBody = У потокового ответа нет тела

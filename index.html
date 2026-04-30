@@ -1,0 +1,577 @@
+<!-- Backdrop blur overlay -->
+<div id="sp-backdrop" style="display: none;"></div>
+
+<div id="sp-window" style="display: none;">
+    <div id="sp-header">
+        <div id="sp-title" data-i18n="header.title">SimpleSummary</div>
+        <div class="sp-header-actions">
+            <div id="sp-lang-dropdown" class="sp-lang-dropdown">
+                <button id="sp-lang-toggle-btn" class="sp-header-icon-btn" type="button">
+                    <span class="sp-lang-icon"></span>
+                </button>
+                <div id="sp-lang-menu" class="sp-lang-menu"></div>
+            </div>
+            <button id="sp-theme-toggle-btn" class="sp-header-icon-btn" data-i18n-title="header.themeToggle" title="Toggle Theme">
+                <svg class="sp-theme-icon sp-theme-icon-light" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="sp-theme-icon sp-theme-icon-dark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+            <button id="sp-close-btn" class="sp-header-icon-btn" data-i18n-title="header.close" title="Close"></button>
+        </div>
+    </div>
+
+    <div id="sp-tabs-wrap" class="sp-tabs-wrap">
+        <div id="sp-tabs">
+            <button class="sp-tab sp-tab-active" data-tab="home" data-i18n="tab.home">Home</button>
+            <button class="sp-tab" data-tab="edit" data-i18n="tab.edit">Summary Edit</button>
+            <button class="sp-tab" data-tab="api" data-i18n="tab.api">API Settings</button>
+            <button class="sp-tab" data-tab="preprocess" data-i18n="tab.preprocess">Preprocessing</button>
+            <button class="sp-tab" data-tab="prompt" data-i18n="tab.prompt">Prompt</button>
+            <button class="sp-tab" data-tab="settings" data-i18n="tab.settings">Settings</button>
+        </div>
+        <div class="sp-tabs-fade sp-tabs-fade-left" aria-hidden="true"></div>
+        <div class="sp-tabs-fade sp-tabs-fade-right" aria-hidden="true"></div>
+    </div>
+
+    <div id="sp-body">
+        <!-- Home -->
+        <div id="sp-tab-home" class="sp-tab-content">
+            <div class="sp-home-layout">
+                <div class="sp-home-portrait-panel">
+                    <img id="sp-home-char-image" class="sp-home-char-image" alt="Character card">
+                    <div class="sp-status-item sp-home-char-status-overlay">
+                        <span class="sp-status-label" data-i18n="home.currentChat">Current Chat</span>
+                        <span id="sp-home-char-name-overlay" class="sp-status-value">-</span>
+                    </div>
+                </div>
+
+                <div class="sp-home-right">
+                    <div class="sp-status-grid">
+                        <div id="sp-home-char-status-right" class="sp-status-item sp-home-char-status-right">
+                            <span class="sp-status-label" data-i18n="home.currentChat">Current Chat</span>
+                            <span id="sp-home-char-name" class="sp-status-value">-</span>
+                        </div>
+                        <div class="sp-status-item">
+                            <span class="sp-status-label" data-i18n="home.pendingCount">Pending / Total</span>
+                            <span id="sp-home-pending-count" class="sp-status-value">0/0</span>
+                        </div>
+                        <div class="sp-status-item">
+                            <span class="sp-status-label" data-i18n="home.summaryLength">Summary Length</span>
+                            <span id="sp-home-summary-len" class="sp-status-value">0<span class="sp-len-unit" data-i18n="home.summaryLengthUnit">chars</span></span>
+                        </div>
+                    </div>
+
+                    <div class="sp-actions">
+                        <div class="sp-toggle-row-center">
+                            <span class="sp-toggle-label" data-i18n="home.autoHide">Auto-hide</span>
+                            <span class="sp-help-tip" id="sp-auto-hide-help">?</span>
+                            <label class="sp-switch">
+                                <input type="checkbox" id="sp-opt-auto-hide">
+                                <span class="sp-slider"></span>
+                            </label>
+                        </div>
+                        <div id="sp-auto-hide-hint" class="sp-injection-hint" style="display: none;" data-i18n="home.autoHideHint">When saving a summary, the messages in the corresponding range will be hidden (not visible to the LLM, equivalent to the /hide command).</div>
+                        <div class="sp-home-unhide-row">
+                            <button id="sp-unhide-btn" class="sp-btn sp-btn-secondary sp-home-unhide-btn" data-i18n="home.unhideBtn">Unhide</button>
+                            <span class="sp-help-tip" id="sp-unhide-help">?</span>
+                        </div>
+                        <div id="sp-unhide-hint" class="sp-injection-hint" style="display: none;" data-i18n="home.unhideHint">Restore all unsummarized messages so they are visible to the LLM.</div>
+                        <div class="sp-toggle-row-center">
+                            <span class="sp-toggle-label" data-i18n="home.useStream">Stream Request</span>
+                            <label class="sp-switch">
+                                <input type="checkbox" id="sp-opt-stream">
+                                <span class="sp-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="sp-divider" style="margin-top: 8px; margin-bottom: 8px;"></div>
+
+                        <div class="sp-range-wrapper">
+                            <div class="sp-range-label" data-i18n="home.summaryRange">Summary Range · Retain Floors</div>
+                            <div class="sp-range-display-row">
+                                <span id="sp-range-start" class="sp-range-start">0</span>
+                                <span class="sp-len-unit sp-range-sep">~</span>
+                                <input type="number" id="sp-range-end" class="sp-range-end" placeholder="0" min="0" step="1">
+                                <span class="sp-len-unit sp-range-sep sp-range-retain-sep">/</span>
+                                <input type="number" id="sp-range-retain" class="sp-range-retain" placeholder="5" min="0" step="1">
+                            </div>
+                        </div>
+
+                        <div class="sp-home-actions-row">
+                            <button id="sp-start-btn" class="sp-btn sp-btn-primary sp-home-main-btn" data-i18n="home.startBtn">▶ Generate Summary</button>
+                            <button id="sp-request-preview-btn" class="sp-btn sp-btn-secondary sp-home-main-btn" data-i18n="home.requestPreviewBtn">Request Preview</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit -->
+        <div id="sp-tab-edit" class="sp-tab-content" style="display: none;">
+            <div id="sp-segment-bar" class="sp-segment-bar" style="display: none;">
+                <div id="sp-segment-timeline" class="sp-segment-timeline"></div>
+                <div class="sp-segment-fade-left"></div>
+                <div class="sp-segment-fade-right"></div>
+            </div>
+            <div class="sp-edit-textarea-wrapper">
+                <div id="sp-edit-textarea" class="sp-edit-area" tabindex="0" aria-label="Summary editor"></div>
+            </div>
+            <div class="sp-edit-footer">
+                <button id="sp-segment-delete-btn" class="sp-btn sp-btn-secondary" disabled data-i18n="edit.deleteSegment">Delete</button>
+                <button id="sp-edit-revert-btn" class="sp-btn sp-btn-ghost" data-i18n="edit.revert">Revert</button>
+                <button id="sp-edit-save-btn" class="sp-btn sp-btn-primary" data-i18n="edit.save">Save</button>
+            </div>
+        </div>
+
+        <!-- API Settings -->
+        <div id="sp-tab-api" class="sp-tab-content" style="display: none;">
+            <div class="sp-api-layout">
+                <div id="sp-api-save-floating" class="sp-api-save-floating" style="display: none;">
+                    <button id="sp-api-save-btn" class="sp-btn sp-btn-primary" data-i18n="edit.save">Save</button>
+                </div>
+                <div id="sp-api-sidebar" class="sp-api-sidebar">
+                    <div class="sp-api-sidebar-header">
+                        <span class="sp-api-sidebar-title" data-i18n="api.presetList">Presets</span>
+                        <span class="sp-api-collapse-icon">‹</span>
+                    </div>
+                    <div id="sp-api-preset-list" class="sp-api-list"></div>
+                    <button id="sp-api-add-preset" class="sp-btn sp-btn-secondary sp-api-add-btn">
+                        <span class="sp-api-add-text" data-i18n="api.addPreset">+ Add Preset</span>
+                        <span class="sp-api-add-icon">+</span>
+                    </button>
+                </div>
+                <div id="sp-api-sidebar-resizer" class="sp-api-sidebar-resizer" aria-hidden="true"></div>
+                
+                <div id="sp-api-detail" class="sp-api-detail">
+                    <div id="sp-api-empty" class="sp-api-empty" data-i18n="api.emptyHint">Select or add a preset</div>
+                    
+                    <div id="sp-api-form" class="sp-api-form" style="display: none;">
+                        <input type="hidden" id="sp-preset-id">
+                        
+                        <div class="sp-form-row">
+                            <label data-i18n="api.presetName">Preset Name</label>
+                            <input type="text" id="sp-api-name" data-i18n-placeholder="api.presetNamePlaceholder" placeholder="e.g. DeepSeek Chat">
+                        </div>
+                        
+                        <div class="sp-form-row">
+                            <label data-i18n="api.apiType">API Type</label>
+                            <div class="sp-select-wrapper">
+                                <select id="sp-api-type">
+                                    <option value="openai" data-i18n="api.apiTypeOpenAI">OpenAI Compatible</option>
+                                    <option value="anthropic" data-i18n="api.apiTypeAnthropic">Anthropic</option>
+                                    <option value="google" data-i18n="api.apiTypeGoogle">Google AI Studio</option>
+                                    <option value="openrouter" data-i18n="api.apiTypeOpenRouter">OpenRouter</option>
+                                    <option value="deepseek" data-i18n="api.apiTypeDeepSeek">DeepSeek</option>
+                                    <option value="siliconflow_cn" data-i18n="api.apiTypeSiliconFlowCN">SiliconFlow (CN)</option>
+                                    <option value="siliconflow_global" data-i18n="api.apiTypeSiliconFlowGlobal">SiliconFlow (Global)</option>
+                                    <option value="mistral" data-i18n="api.apiTypeMistral">Mistral AI</option>
+                                    <option value="nvidia" data-i18n="api.apiTypeNVIDIA">nVidia NIM</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="sp-form-row">
+                            <label>Base URL</label>
+                            <input type="text" id="sp-api-url" placeholder="https://api.openai.com/v1">
+                        </div>
+                        
+                        <div class="sp-form-row">
+                            <div class="sp-form-row-label">
+                                <label for="sp-api-key">API Key</label>
+                                <button id="sp-api-key-toggle" type="button" class="sp-inline-label-btn" data-i18n-title="api.showHideKey" title="Show/Hide Key">👁</button>
+                            </div>
+                            <div class="sp-key-row">
+                                <input type="password" id="sp-api-key" placeholder="sk-...">
+                            </div>
+                        </div>
+                        
+                        <div class="sp-form-row">
+                            <label data-i18n="api.model">Model</label>
+                            <div class="sp-model-row">
+                                <select id="sp-api-model-select">
+                                    <option value="" data-i18n="api.selectModel">Select model...</option>
+                                </select>
+                                <button id="sp-api-fetch-models" class="sp-icon-btn" data-i18n-title="api.fetchModels" title="Fetch Available Models">↻</button>
+                                <button id="sp-api-test-btn" class="sp-icon-btn sp-test-icon-btn" data-i18n-title="api.testBtn" title="Send Test">▶</button>
+                            </div>
+                        </div>
+                        <div class="sp-form-row">
+                            <div class="sp-toggle-inline">
+                                <span data-i18n="api.manualModel">Manual Input</span>
+                                <label class="sp-switch">
+                                    <input type="checkbox" id="sp-api-manual-model-toggle">
+                                    <span class="sp-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="sp-form-row" id="sp-api-model-manual-row" style="display: none;">
+                            <input type="text" id="sp-api-model-manual" placeholder="">
+                        </div>
+
+                        <div class="sp-test-row">
+                            <span id="sp-test-status"></span>
+                        </div>
+
+                        <div class="sp-form-separator"></div>
+
+                        <div class="sp-form-row">
+                            <div class="sp-toggle-inline">
+                                <span data-i18n="api.maxOutput">Max Output</span>
+                                <span id="sp-api-val-maxtokens" class="sp-param-val">4K</span>
+                                <label class="sp-switch">
+                                    <input type="checkbox" id="sp-api-en-maxtokens">
+                                    <span class="sp-slider"></span>
+                                </label>
+                            </div>
+                            <input type="range" id="sp-api-p-maxtokens" min="1" max="16" step="1" value="4">
+                        </div>
+
+                        <div class="sp-form-row">
+                            <label>Temperature <span id="sp-api-val-temp" class="sp-param-val">0.7</span></label>
+                            <input type="range" id="sp-api-p-temp" min="0" max="2" step="0.05" value="0.7">
+                        </div>
+
+                        <div class="sp-form-row">
+                            <label>Top P <span id="sp-api-val-topp" class="sp-param-val">1.0</span></label>
+                            <input type="range" id="sp-api-p-topp" min="0" max="1" step="0.05" value="1.0">
+                        </div>
+
+                        <div class="sp-form-row">
+                            <div class="sp-toggle-inline">
+                                <span>Top K</span>
+								<span id="sp-api-val-topk" class="sp-param-val">50</span>
+                                <label class="sp-switch">
+                                    <input type="checkbox" id="sp-api-en-topk">
+                                    <span class="sp-slider"></span>
+                                </label>
+								
+                            </div>
+                            
+                            <input type="range" id="sp-api-p-topk" min="1" max="100" step="1" value="50" disabled>
+                        </div>
+
+                        <div class="sp-form-row">
+                            <div class="sp-toggle-inline">
+                                <span data-i18n="api.freqPenalty">Freq. Penalty</span>
+								<span id="sp-api-val-freqp" class="sp-param-val">0</span>
+                                <label class="sp-switch">
+                                    <input type="checkbox" id="sp-api-en-freqp">
+                                    <span class="sp-slider"></span>
+                                </label>
+                            </div>
+                            
+                            <input type="range" id="sp-api-p-freqp" min="-2" max="2" step="0.05" value="0" disabled>
+                        </div>
+
+                        <div class="sp-form-row">
+                            <div class="sp-toggle-inline">
+                                <span data-i18n="api.presPenalty">Pres. Penalty</span>
+								<span id="sp-api-val-presp" class="sp-param-val">0</span>
+                                <label class="sp-switch">
+                                    <input type="checkbox" id="sp-api-en-presp">
+                                    <span class="sp-slider"></span>
+                                </label>
+                            </div>
+                            
+                            <input type="range" id="sp-api-p-presp" min="-2" max="2" step="0.05" value="0" disabled>
+                        </div>
+
+                        <div style="margin-top: 10px;">
+                            <button id="sp-api-del-btn" class="sp-btn sp-btn-danger" style="width: 100%;" data-i18n="api.deletePreset">Delete This Preset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preprocess -->
+        <div id="sp-tab-preprocess" class="sp-tab-content" style="display: none;">
+            <div class="sp-settings-section">
+                <div class="sp-preprocess-card">
+                    <div class="sp-settings-stack sp-preprocess-stack">
+                        <div class="sp-preprocess-regex-header">
+                            <div class="sp-settings-line sp-settings-line-toggle">
+                                <span class="sp-toggle-label" data-i18n="preprocess.regexTitle">Custom Regex Rules</span>
+                                <span class="sp-help-tip" id="sp-preprocess-regex-help">?</span>
+                            </div>
+                            <div id="sp-preprocess-regex-hint" class="sp-injection-hint" style="display: none;" data-i18n="preprocess.regexHint">Rules run first, before structured cleanup and HTML stripping. Empty patterns are ignored.</div>
+                        </div>
+
+                        <div id="sp-preprocess-rules-list" class="sp-preprocess-rules"></div>
+
+                        <button id="sp-preprocess-add-rule" class="sp-btn sp-btn-secondary sp-preprocess-add-btn" type="button">
+                            <span data-i18n="preprocess.addRule">+ Add Rule</span>
+                        </button>
+
+                        <div class="sp-form-separator"></div>
+
+                        <div class="sp-preprocess-step">
+                            <div class="sp-settings-line sp-settings-line-toggle">
+                                <span class="sp-toggle-label" data-i18n="preprocess.structuredCleanup">Structured Cleanup</span>
+                                <span class="sp-help-tip" id="sp-preprocess-structure-help">?</span>
+                                <label class="sp-switch">
+                                    <input type="checkbox" id="sp-preprocess-structured-toggle">
+                                    <span class="sp-slider"></span>
+                                </label>
+                            </div>
+                            <div id="sp-preprocess-structure-hint" class="sp-injection-hint" style="display: none;" data-i18n="preprocess.structuredHint">Remove obvious interface-only nodes before extracting text.</div>
+                        </div>
+
+                        <div class="sp-preprocess-step">
+                            <div class="sp-settings-line sp-settings-line-toggle">
+                                <span class="sp-toggle-label" data-i18n="preprocess.stripHtml">Strip HTML Text</span>
+                                <span class="sp-help-tip" id="sp-preprocess-strip-help">?</span>
+                                <label class="sp-switch">
+                                    <input type="checkbox" id="sp-preprocess-strip-toggle">
+                                    <span class="sp-slider"></span>
+                                </label>
+                            </div>
+                            <div id="sp-preprocess-strip-hint" class="sp-injection-hint" style="display: none;" data-i18n="preprocess.stripHint">Convert the remaining HTML into plain text.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prompt Settings -->
+        <div id="sp-tab-prompt" class="sp-tab-content" style="display: none;">
+            <div class="sp-prompt-tabs-bar">
+                <button id="sp-prompt-tabs-prev" class="sp-prompt-nav-btn" data-i18n-title="prompt.prevTabTitle" title="Scroll Left">◀</button>
+                <div id="sp-prompt-tabs-scroll" class="sp-prompt-tabs-scroll">
+                    <div id="sp-prompt-tabs" class="sp-prompt-tabs"></div>
+                </div>
+				<button id="sp-prompt-add-btn" class="sp-prompt-add-btn" data-i18n-title="prompt.addTabTitle" title="Add Custom Prompt">+</button>
+                <button id="sp-prompt-tabs-next" class="sp-prompt-nav-btn" data-i18n-title="prompt.nextTabTitle" title="Scroll Right">▶</button>
+            </div>
+            <div class="sp-prompt-editor-stack">
+                <section id="sp-prompt-system-section" class="sp-prompt-section sp-prompt-section-open" data-section="system">
+                    <button id="sp-prompt-system-header" type="button" class="sp-prompt-section-header sp-prompt-section-toggle">
+                        <span class="sp-prompt-section-title" data-i18n="prompt.systemTitle">System Prompt</span>
+                    </button>
+                    <div class="sp-prompt-section-body">
+                        <textarea id="sp-prompt-system-textarea" class="sp-prompt-area sp-prompt-system-area" data-i18n-placeholder="prompt.systemPlaceholder" placeholder="Enter system prompt here..."></textarea>
+                    </div>
+                </section>
+                <section id="sp-prompt-user-section" class="sp-prompt-section" data-section="user">
+                    <button id="sp-prompt-user-header" type="button" class="sp-prompt-section-header sp-prompt-section-toggle">
+                        <span class="sp-prompt-section-title" data-i18n="prompt.userTitle">User Prompt</span>
+                    </button>
+                    <div class="sp-prompt-section-body">
+                        <textarea id="sp-prompt-user-textarea" class="sp-prompt-area sp-prompt-user-area" data-i18n-placeholder="prompt.userPlaceholder" placeholder="Enter user prompt here..."></textarea>
+                    </div>
+                </section>
+            </div>
+            <div class="sp-prompt-footer-actions">
+                <button id="sp-prompt-revert-btn" class="sp-btn sp-btn-secondary" disabled data-i18n="prompt.revert">Revert</button>
+                <button id="sp-prompt-save-btn" class="sp-btn sp-btn-primary" disabled data-i18n="prompt.save">Save</button>
+            </div>
+        </div>
+
+        <!-- Settings -->
+        <div id="sp-tab-settings" class="sp-tab-content" style="display: none;">
+            <div class="sp-settings-section">
+                <div class="sp-edit-header">
+                    <span class="sp-edit-title" data-i18n="settings.injectionTitle">Summary Injection Settings</span>
+                </div>
+                <div class="sp-injection-card">
+                    <div class="sp-settings-stack">
+                        <div class="sp-settings-line sp-settings-line-toggle">
+                            <span class="sp-toggle-label" data-i18n="settings.injectionEnabled">Enable Plugin Injection</span>
+                            <span class="sp-help-tip" id="sp-injection-help">?</span>
+                            <label class="sp-switch">
+                                <input type="checkbox" id="sp-injection-enabled">
+                                <span class="sp-slider"></span>
+                            </label>
+                        </div>
+                        <div class="sp-settings-line sp-settings-line-depth">
+                            <label for="sp-injection-depth" data-i18n="settings.injectionDepth">Chat Depth</label>
+                            <input type="number" id="sp-injection-depth" min="0" max="9999" placeholder="999">
+                        </div>
+                        <div class="sp-settings-line sp-settings-line-toggle">
+                            <div class="sp-settings-line-label">
+                                <span class="sp-toggle-label" data-i18n="settings.autoCleanupExpired">Auto-clean expired summaries</span>
+                                <span class="sp-help-tip" id="sp-auto-cleanup-help">?</span>
+                            </div>
+                            <label class="sp-switch">
+                                <input type="checkbox" id="sp-auto-cleanup-expired">
+                                <span class="sp-slider"></span>
+                            </label>
+                        </div>
+                        <div id="sp-auto-cleanup-hint" class="sp-injection-hint" style="display: none;" data-i18n="settings.autoCleanupExpiredHint">When enabled, summaries untouched for more than 180 days will be removed automatically from the plugin data file.</div>
+                    </div>
+                    <div id="sp-injection-hint" class="sp-injection-hint" style="display: none;" data-i18n="settings.injectionHint">When enabled, the plugin injects the summary into the chat at the specified depth (default 999, i.e. top). When disabled, the plugin won't auto-inject; you can use the {{SPSummaries}} macro anywhere in your ST preset to inject manually.</div>
+                </div>
+            </div>
+
+            <div class="sp-settings-section">
+                <div class="sp-edit-header">
+                    <span class="sp-edit-title" data-i18n="settings.typographyTitle">Typography</span>
+                </div>
+                <div class="sp-typography-card">
+                    <div class="sp-settings-stack">
+                        <button id="sp-font-load-local-btn" class="sp-btn sp-btn-ghost" data-i18n="settings.loadLocalFonts">Load Local Installed Fonts</button>
+
+                        <div class="sp-settings-line sp-settings-line-toggle">
+                            <span class="sp-typography-label" data-i18n="settings.googleFonts">Google Fonts</span>
+                            <span class="sp-help-tip" id="sp-font-google-help">?</span>
+                            <label class="sp-switch">
+                                <input type="checkbox" id="sp-font-google-enable">
+                                <span class="sp-slider"></span>
+                            </label>
+                        </div>
+                        <div id="sp-font-google-hint" class="sp-injection-hint" style="display: none;" data-i18n="settings.googleFontsHint">Google Fonts are off by default. Turn on this switch, then type any Google Font family name in custom input (for example: Open Sans).</div>
+
+                        <div class="sp-form-separator"></div>
+
+                        <label for="sp-font-ui-select" class="sp-typography-field-label" data-i18n="settings.uiFontFamily">UI Font</label>
+                        <div class="sp-form-row sp-typography-field">
+                            <div class="sp-select-wrapper">
+                                <select id="sp-font-ui-select"></select>
+                            </div>
+                        </div>
+                        <div class="sp-form-row sp-typography-field" id="sp-font-ui-custom-row" style="display: none;">
+                            <input type="text" id="sp-font-ui-custom" data-i18n-placeholder="settings.customUiFontPlaceholder" placeholder="Custom UI Font">
+                        </div>
+
+                        <div class="sp-typography-group sp-font-slider-group">
+                            <label for="sp-font-ui-size-range"><span data-i18n="settings.sizeLabel">Size:</span> <span id="sp-font-ui-size-value">14</span></label>
+                            <div class="sp-font-size-row">
+                                <input type="range" id="sp-font-ui-size-range" min="14" max="18" step="0.5" value="14">
+                            </div>
+                        </div>
+
+                        <div class="sp-form-separator"></div>
+
+                        <label for="sp-font-text-select" class="sp-typography-field-label" data-i18n="settings.textFontFamily">Long Text</label>
+                        <div class="sp-form-row sp-typography-field">
+                            <div class="sp-select-wrapper">
+                                <select id="sp-font-text-select"></select>
+                            </div>
+                        </div>
+                        <div class="sp-form-row sp-typography-field" id="sp-font-text-custom-row" style="display: none;">
+                            <input type="text" id="sp-font-text-custom" data-i18n-placeholder="settings.customTextFontPlaceholder" placeholder="Custom LongText Font">
+                        </div>
+
+                        <div id="sp-font-text-preview" data-i18n="settings.longTextPreviewSample" class="sp-font-text-preview">The primary task in life is to avoid suffering, not to pursue happiness. Reject all unnecessary feelings of guilt, and prioritize your own comfort and well being, that is the highest principle.</div>
+
+                        <div class="sp-typography-group sp-font-slider-group">
+                            <label for="sp-font-text-size-range"><span data-i18n="settings.sizeLabel">Size:</span> <span id="sp-font-text-size-value">14</span></label>
+                            <div class="sp-font-size-row">
+                                <input type="range" id="sp-font-text-size-range" min="14" max="24" step="0.5" value="14">
+                            </div>
+                        </div>
+
+                        <div class="sp-typography-group sp-font-slider-group">
+                            <label for="sp-font-text-weight-range"><span data-i18n="settings.longTextWeight">Weight:</span> <span id="sp-font-text-weight-value">400</span></label>
+                            <div class="sp-font-size-row">
+                                <input type="range" id="sp-font-text-weight-range" min="200" max="900" step="50" value="400">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sp-form-separator"></div>
+                    <div class="sp-typography-actions">
+                        <button id="sp-font-reset-btn" class="sp-btn sp-btn-secondary" data-i18n="settings.resetTypography">Reset Typography to Default</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sp-reset-row">
+                <button id="sp-reset-plugin-btn" class="sp-btn sp-btn-danger" data-i18n="settings.resetPlugin">Reset Plugin</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Confirm Dialog -->
+    <div id="sp-confirm-overlay" style="display: none;">
+        <div id="sp-confirm-dialog">
+            <div id="sp-confirm-dialog-header"></div>
+            <div id="sp-confirm-dialog-body"></div>
+            <div id="sp-confirm-dialog-footer">
+                <button id="sp-confirm-cancel-btn" class="sp-btn sp-btn-secondary" data-i18n="confirm.cancel">Cancel</button>
+                <button id="sp-confirm-confirm-btn" class="sp-btn sp-btn-danger" data-i18n="confirm.confirm">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="sp-unsaved-overlay" style="display: none;">
+        <div id="sp-unsaved-dialog">
+            <div id="sp-unsaved-dialog-header" data-i18n="confirm.unsavedHeader">Unsaved changes</div>
+            <div id="sp-unsaved-dialog-body" data-i18n="confirm.unsavedBody">You have unsaved changes. Save before leaving?</div>
+            <div id="sp-unsaved-dialog-footer">
+                <button id="sp-unsaved-cancel-btn" class="sp-btn sp-btn-secondary" data-i18n="confirm.unsavedCancel">Cancel</button>
+                <button id="sp-unsaved-discard-btn" class="sp-btn sp-btn-ghost" data-i18n="confirm.unsavedDiscard">Discard</button>
+                <button id="sp-unsaved-save-btn" class="sp-btn sp-btn-primary" data-i18n="confirm.unsavedSave">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preview Overlay -->
+    <div id="sp-preview-overlay" style="display: none;">
+        <div id="sp-preview-body">
+            <span class="sp-preview-label"><span id="sp-preview-status"></span></span>
+            <div id="sp-preview-editor-stack" class="sp-preview-editor-stack">
+                <section id="sp-preview-thinking-panel" class="sp-preview-section sp-preview-thinking-panel" style="display: none;">
+                    <details id="sp-thinking-details" class="sp-thinking-details" open>
+                        <summary class="sp-preview-section-header sp-thinking-summary">
+                            <span class="sp-preview-section-title sp-thinking-title" data-i18n="preview.thinkingChain">🧠 Thinking Chain</span>
+                        </summary>
+                        <div class="sp-preview-section-body">
+                            <pre id="sp-thinking-pre" class="sp-thinking-pre"></pre>
+                        </div>
+                    </details>
+                </section>
+                <section class="sp-preview-section sp-preview-summary-section">
+                    <div class="sp-preview-section-body sp-preview-summary-body">
+                        <div id="sp-preview-textarea" contenteditable="false" role="textbox" aria-multiline="true" data-i18n-placeholder="preview.placeholder" placeholder="Waiting for generation..."></div>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <div id="sp-preview-footer">
+            <button id="sp-preview-cancel-btn" class="sp-btn sp-btn-danger" data-i18n="preview.cancel">Cancel</button>
+            <button id="sp-preview-save-btn" class="sp-btn sp-btn-primary" disabled data-i18n="preview.saveAppend">Save & Append</button>
+        </div>
+    </div>
+
+    <!-- Request Preview Overlay -->
+    <div id="sp-request-preview-overlay" style="display: none;">
+        <div id="sp-request-preview-body">
+            <textarea id="sp-request-preview-textarea" readonly spellcheck="false"></textarea>
+        </div>
+        <div id="sp-request-preview-footer">
+            <button id="sp-request-preview-start-btn" class="sp-btn sp-btn-primary sp-home-main-btn" data-i18n="home.startBtn">▶ Generate Summary</button>
+            <button id="sp-request-preview-cancel-btn" class="sp-btn sp-btn-secondary" data-i18n="preview.cancel">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Reset Plugin Settings Dialog -->
+    <div id="sp-reset-overlay" style="display: none;">
+        <div id="sp-reset-dialog">
+            <div id="sp-reset-dialog-header" data-i18n="reset.header">Reset Plugin Settings</div>
+            <div id="sp-reset-dialog-body">
+                <div data-i18n="reset.body">Reset plugin settings?</div>
+                <ul>
+                    <li data-i18n="reset.item1">UI preferences and selected presets will return to defaults.</li>
+                    <li data-i18n="reset.item2">API presets, summaries, and custom prompts will be preserved.</li>
+                </ul>
+            </div>
+            <div id="sp-reset-dialog-footer">
+                <button id="sp-reset-cancel-btn" class="sp-btn sp-btn-secondary" data-i18n="reset.cancel">Cancel</button>
+                <button id="sp-reset-confirm-btn" class="sp-btn sp-btn-danger" data-i18n="reset.confirm">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>

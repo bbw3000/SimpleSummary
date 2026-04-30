@@ -1,0 +1,212 @@
+# SimpleSummary - हिन्दी language pack
+
+# ── Language ──
+lang.name = हिन्दी
+lang.code = hi
+
+# ── Header ──
+header.title = SimpleSummary
+header.themeToggle = थीम टॉगल करें
+header.close = बंद करें
+
+# ── Tabs ──
+tab.home = होम
+tab.edit = सारांश संपादित करें
+tab.api = API सेटिंग्स
+tab.preprocess = पूर्व-प्रसंस्करण
+tab.prompt = प्रॉम्प्ट
+tab.settings = सेटिंग्स
+
+# ── Home Tab ──
+home.currentChat = वर्तमान चैट
+home.pendingCount = लंबित / कुल
+home.summaryLength = सारांश की लंबाई
+home.summaryLengthUnit = अक्षर
+home.autoHide = स्वतः छिपाएँ
+home.autoHideHint = सारांश सहेजते समय चुनी हुई सीमा के संदेश LLM से छिपा दिए जाते हैं। यह /hide जैसा ही है।
+home.useStream = स्ट्रीम अनुरोध
+home.summaryRange = सारांश सीमा · रखने वाले संदेश
+home.startBtn = ▶ सारांश
+home.unhideBtn = छिपाना हटाएँ
+home.unhideHint = सभी असारांशित संदेशों को फिर से LLM के लिए दिखाएँ।
+home.requestPreviewBtn = अनुरोध पूर्वावलोकन
+
+# ── Edit Tab ──
+edit.placeholder = अभी तक कोई सारांश नहीं...
+edit.deleteSegment = हटाएं
+edit.revert = पूर्ववत करें
+edit.save = सहेजें
+
+# ── API Tab ──
+api.presetList = प्रीसेट
+api.addPreset = + प्रीसेट जोड़ें
+api.emptyHint = प्रीसेट चुनें या जोड़ें
+api.presetName = प्रीसेट नाम
+api.presetNamePlaceholder = उदा.: DeepSeek चैट
+api.apiType = API प्रकार
+api.apiTypeOpenAI = OpenAI संगत
+api.apiTypeAnthropic = Anthropic
+api.apiTypeGoogle = Google AI Studio
+api.apiTypeOpenRouter = OpenRouter
+api.apiTypeDeepSeek = DeepSeek
+api.apiTypeSiliconFlowCN = SiliconFlow (CN)
+api.apiTypeSiliconFlowGlobal = SiliconFlow (वैश्विक)
+api.apiTypeMistral = Mistral AI
+api.apiTypeNVIDIA = NVIDIA NIM
+api.baseUrl = बेस URL
+api.apiKey = API कुंजी
+api.showHideKey = कुंजी दिखाएं/छुपाएं
+api.model = मॉडल
+api.selectModel = मॉडल चुनें...
+api.manualModel = मैनुअल इनपुट
+api.fetchModels = उपलब्ध मॉडल लाएं
+api.outputLimit = आउटपुट सीमा
+api.maxOutput = अधिकतम आउटपुट
+api.samplingParams = सैंपलिंग पैरामीटर
+api.freqPenalty = आवृत्ति दंड
+api.presPenalty = उपस्थिति दंड
+api.testBtn = परीक्षण भेजें
+api.deletePreset = इस प्रीसेट को हटाएं
+
+# ── Prompt Tab ──
+prompt.prevTab = ◀
+prompt.nextTab = ▶
+prompt.addTab = +
+prompt.prevTabTitle = बाएं स्क्रॉल करें
+prompt.nextTabTitle = दाएं स्क्रॉल करें
+prompt.addTabTitle = कस्टम प्रॉम्प्ट जोड़ें
+prompt.systemTitle = सिस्टम प्रॉम्प्ट
+prompt.systemPlaceholder = यहां सिस्टम प्रॉम्प्ट दर्ज करें...
+prompt.userTitle = उपयोगकर्ता प्रॉम्प्ट
+prompt.userPlaceholder = यहां उपयोगकर्ता प्रॉम्प्ट दर्ज करें...
+prompt.revert = पूर्ववत करें
+prompt.save = सहेजें
+
+# ── Settings Tab ──
+settings.injectionTitle = फीचर सेटिंग्स
+settings.typographyTitle = टाइपोग्राफी
+settings.googleFonts = Google Fonts
+settings.googleFontsHint = Google Fonts डिफ़ॉल्ट रूप से बंद है। इसे चालू करें, फिर कस्टम इनपुट में कोई भी Google Fonts फैमिली नाम लिखें (उदाहरण: Open Sans)।
+settings.loadLocalFonts = लोकल फ़ॉन्ट लोड करें
+settings.localFontsGroup = इस डिवाइस पर इंस्टॉल
+settings.uiFontFamily = UI फ़ॉन्ट
+settings.textFontFamily = लंबा पाठ
+settings.sizeLabel = आकार:
+settings.longTextWeight = वज़न:
+settings.customUiFontPlaceholder = कस्टम UI फ़ॉन्ट
+settings.customTextFontPlaceholder = कस्टम लंबा-पाठ फ़ॉन्ट
+settings.longTextPreviewSample = जीवन का मुख्य कार्य सुख का पीछा करना नहीं, बल्कि पीड़ा से बचना है। अनावश्यक अपराधबोध को ठुकराइए, और अपने आराम व भलाई को प्राथमिकता दीजिए—यही सर्वोच्च सिद्धांत है।
+settings.fontInherit = SillyTavern डिफ़ॉल्ट का पालन करें
+settings.fontCustom = कस्टम इनपुट
+settings.resetTypography = टाइपोग्राफी रीसेट करें
+settings.injectionDepth = चैट गहराई
+settings.injectionEnabled = प्लगइन इंजेक्शन सक्षम करें
+settings.injectionHint = सक्षम होने पर, प्लगइन सारांश को निर्दिष्ट गहराई पर चैट में इंजेक्ट करता है (डिफ़ॉल्ट 999, यानी ऊपर)। अक्षम होने पर प्लगइन स्वचालित रूप से इंजेक्ट नहीं करता; मैन्युअल इंजेक्शन के लिए अपनी ST प्रीसेट में कहीं भी {{SPSummaries}} मैक्रो का उपयोग कर सकते हैं।
+settings.autoCleanupExpired = समाप्त सारों को स्वतः साफ़ करें
+settings.autoCleanupExpiredHint = सक्षम होने पर, 180 दिनों से अधिक समय से अपडेट न किए गए सार प्लगइन डेटा फ़ाइल से स्वतः हटा दिए जाएंगे।
+settings.resetPlugin = प्लगइन रीसेट करें
+
+# ── Preprocess Tab ──
+preprocess.structuredCleanup = संरचित सफ़ाई
+preprocess.structuredHint = टेक्स्ट निकालने से पहले केवल इंटरफ़ेस के लिए बने स्पष्ट नोड हटाता है।
+preprocess.stripHtml = HTML हटाएँ
+preprocess.stripHint = बचे हुए HTML को सादे टेक्स्ट में बदलता है।
+preprocess.regexTitle = कस्टम regex नियम
+preprocess.regexHint = नियम सबसे पहले चलते हैं, संरचित सफ़ाई और HTML हटाने से पहले। खाली पैटर्न अनदेखे किए जाते हैं।
+preprocess.addRule = + नियम जोड़ें
+preprocess.ruleEnabled = सक्षम
+preprocess.rulePattern = पैटर्न
+preprocess.ruleReplacement = प्रतिस्थापन
+preprocess.ruleFlags = फ़्लैग
+preprocess.removeRule = नियम हटाएँ
+preprocess.emptyRules = अभी कोई regex नियम नहीं है। चैट लॉग फ़िल्टर करना शुरू करने के लिए एक नियम जोड़ें।
+preprocess.invalidRule = अमान्य regex पैटर्न या फ़्लैग
+
+# ── Reset Dialog ──
+reset.header = प्लगइन सेटिंग्स रीसेट करें
+reset.body = प्लगइन सेटिंग्स रीसेट करनी हैं?
+reset.item1 = इंटरफ़ेस प्राथमिकताएँ और चयनित प्रीसेट डिफ़ॉल्ट पर लौट जाएँगे।
+reset.item2 = API प्रीसेट, सारांश और कस्टम प्रॉम्प्ट संरक्षित रहेंगे।
+reset.cancel = रद्द करें
+reset.confirm = पुष्टि करें
+
+# ── Preview Overlay ──
+preview.status.requesting = अनुरोध...
+preview.status.streaming = जनरेशन (स्ट्रीम)...
+preview.status.stopped = ⏹ रुका हुआ
+preview.status.complete = ✅ पूर्ण
+preview.thinkingChain = 🧠 विचार श्रृंखला
+preview.thinkingAria = विचार श्रृंखला
+preview.placeholder = जनरेशन की प्रतीक्षा...
+preview.cancel = रद्द करें
+preview.stopRequest = अनुरोध रोकें
+preview.saveAppend = सहेजें और जोड़ें
+
+# ── Macros ──
+macro.spSummaries = वर्तमान चैट सारांश
+macro.spSummariesFallback = (अभी तक कोई सारांश नहीं)
+macro.latestSegment = सारांश का नवीनतम खंड
+macro.chatAfter = आगे की चैट का संदर्भ
+macro.chatLang = वर्तमान सत्र की भाषा-वितरण
+
+# ── Toast Messages ──
+toast.unsummarizedUnhidden = सभी असारांशित संदेश अब फिर से दिखाई दे रहे हैं।
+toast.summarySaved = सारांश सहेजा गया
+toast.pluginReset = ब्राउज़र प्लगइन सेटिंग्स साफ़ की गईं
+toast.noChat = कोई चैट इतिहास नहीं
+toast.noApiPreset = कृपया पहले API प्रीसेट कॉन्फ़िगर करें और चुनें
+toast.noMessagesInRange = चयनित सीमा में सारांशित करने के लिए कोई संदेश नहीं
+toast.contentEmpty = सामग्री खाली है
+toast.segmentDeleted = नवीनतम खंड हटाया गया
+toast.segmentHiddenRestored = नवीनतम खंड की छुपी हुई स्थिति पुनर्स्थापित
+toast.expiredSummariesCleared = ${count} समाप्त सारांश साफ़ किए गए
+toast.promptSaved = प्रॉम्प्ट सहेजा गया
+toast.typographyReset = टाइपोग्राफी सेटिंग्स रीसेट हो गईं
+toast.localFontsUnsupported = यह ब्राउज़र लोकल फ़ॉन्ट पढ़ने का समर्थन नहीं करता
+toast.localFontsDenied = लोकल फ़ॉन्ट एक्सेस अनुमति अस्वीकृत हुई
+toast.localFontsLoaded = ${count} लोकल फ़ॉन्ट परिवार लोड किए गए
+
+# ── Confirm Dialogs ──
+confirm.cancel = रद्द करें
+confirm.confirm = पुष्टि करें
+confirm.deleteSegmentHeader = नवीनतम खंड हटाएं
+confirm.deleteLatestSegment = नवीनतम खंड ${range} हटाएं?
+confirm.deleteLatestSegmentUnsaved = इस खंड के बिना सहेजे गए बदलाव भी खो जाएंगे।
+confirm.deletePresetHeader = प्रीसेट हटाएं
+confirm.deletePreset = प्रीसेट "${name}" हटाएं?
+confirm.deletePromptHeader = प्रॉम्प्ट प्रीसेट हटाएं
+confirm.deletePromptPreset = प्रॉम्प्ट प्रीसेट "${name}" हटाएं?
+confirm.unsavedHeader = बदलाव सहेजे नहीं गए
+confirm.unsavedBody = आपके कुछ बदलाव सहेजे नहीं गए हैं। क्या बाहर जाने से पहले सहेजना है?
+confirm.unsavedCancel = रद्द करें
+confirm.unsavedDiscard = त्यागें
+confirm.unsavedSave = सहेजें
+
+# ── API Status Messages ──
+api.status.missingUrl = ❌ URL अनुपस्थित
+api.status.missingModel = ❌ मॉडल अनुपस्थित
+api.status.success = ✅ सफल — ${reply}
+api.status.timeout = ❌ टाइमआउट (30से) — URL/कुंजी/मॉडल जांचें
+api.status.fetchUrlKey = कृपया URL और कुंजी भरें
+api.status.fetching = मॉडल सूची ला रहे हैं...
+api.status.fetchOk = ${count} मॉडल लाए गए
+api.status.fetchFail = लाना विफल: ${error}
+
+# ── API Preset Defaults ──
+api.newPresetName = नया प्रीसेट
+
+# ── Prompt Preset Defaults ──
+prompt.defaultName = डिफ़ॉल्ट प्रॉम्प्ट
+prompt.defaultPresetName = कस्टम
+prompt.defaultTitle = डिफ़ॉल्ट प्रॉम्प्ट (केवल पढ़ें)
+prompt.deleteTitle = ${name} हटाएं
+prompt.unnamed = बिना नाम
+
+# ── Generation Status ──
+gen.chatLogAppend = --- नीचे सारांशित करने के लिए चैट लॉग ---
+gen.stopRequest = अनुरोध रोकें
+gen.cancel = रद्द करें
+
+# ── LLM Errors ──
+llm.noStreamBody = प्रतिक्रिया में कोई स्ट्रीमिंग बॉडी नहीं
+llm.noStreamResponseBody = स्ट्रीमिंग प्रतिक्रिया में कोई बॉडी नहीं

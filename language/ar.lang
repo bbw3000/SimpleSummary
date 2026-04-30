@@ -1,0 +1,212 @@
+# SimpleSummary - العربية language pack
+
+# ── Language ──
+lang.name = العربية
+lang.code = ar
+
+# ── Header ──
+header.title = SimpleSummary
+header.themeToggle = تبديل السمة
+header.close = إغلاق
+
+# ── Tabs ──
+tab.home = الرئيسية
+tab.edit = تحرير الملخص
+tab.api = إعدادات API
+tab.preprocess = المعالجة المسبقة
+tab.prompt = الوصف
+tab.settings = الإعدادات
+
+# ── Home Tab ──
+home.currentChat = المحادثة الحالية
+home.pendingCount = قيد الانتظار / الإجمالي
+home.summaryLength = طول الملخص
+home.summaryLengthUnit = حرف
+home.autoHide = إخفاء تلقائي
+home.autoHideHint = عند حفظ الملخص، تُخفى الرسائل في النطاق المحدد عن الـ LLM. وهذا يعادل /hide.
+home.useStream = طلب بث
+home.summaryRange = نطاق الملخص · عدد الرسائل المحتفَظ بها
+home.startBtn = ▶ لخص
+home.unhideBtn = إلغاء الإخفاء
+home.unhideHint = إظهار جميع الرسائل غير المُلخَّصة للـ LLM مرة أخرى.
+home.requestPreviewBtn = معاينة الطلب
+
+# ── Edit Tab ──
+edit.placeholder = لا يوجد ملخص بعد...
+edit.deleteSegment = حذف
+edit.revert = التراجع
+edit.save = حفظ
+
+# ── API Tab ──
+api.presetList = الإعدادات المسبقة
+api.addPreset = + إضافة إعداد مسبق
+api.emptyHint = اختر أو أضف إعداداً مسبقاً
+api.presetName = اسم الإعداد المسبق
+api.presetNamePlaceholder = مثال: DeepSeek محادثة
+api.apiType = نوع API
+api.apiTypeOpenAI = متوافق مع OpenAI
+api.apiTypeAnthropic = Anthropic
+api.apiTypeGoogle = Google AI Studio
+api.apiTypeOpenRouter = OpenRouter
+api.apiTypeDeepSeek = DeepSeek
+api.apiTypeSiliconFlowCN = SiliconFlow (CN)
+api.apiTypeSiliconFlowGlobal = SiliconFlow (عالمي)
+api.apiTypeMistral = Mistral AI
+api.apiTypeNVIDIA = NVIDIA NIM
+api.baseUrl = رابط Base
+api.apiKey = مفتاح API
+api.showHideKey = إظهار/إخفاء المفتاح
+api.model = النموذج
+api.selectModel = اختر نموذجاً...
+api.manualModel = إدخال يدوي
+api.fetchModels = جلب النماذج المتاحة
+api.outputLimit = حد الإخراج
+api.maxOutput = أقصى إخراج
+api.samplingParams = معاملات أخذ العينات
+api.freqPenalty = عقوبة التكرار
+api.presPenalty = عقوبة الحضور
+api.testBtn = إرسال اختبار
+api.deletePreset = حذف هذا الإعداد المسبق
+
+# ── Prompt Tab ──
+prompt.prevTab = ◀
+prompt.nextTab = ▶
+prompt.addTab = +
+prompt.prevTabTitle = تمرير يسار
+prompt.nextTabTitle = تمرير يمين
+prompt.addTabTitle = إضافة وصف مخصص
+prompt.systemTitle = وصف النظام
+prompt.systemPlaceholder = أدخل وصف النظام هنا...
+prompt.userTitle = وصف المستخدم
+prompt.userPlaceholder = أدخل وصف المستخدم هنا...
+prompt.revert = التراجع
+prompt.save = حفظ
+
+# ── Settings Tab ──
+settings.injectionTitle = إعدادات الميزات
+settings.typographyTitle = الطباعة
+settings.googleFonts = Google Fonts
+settings.googleFontsHint = Google Fonts مُعطّل افتراضياً. فعّل الخيار ثم اكتب أي اسم عائلة خطوط من Google Fonts في خانة الإدخال المخصص (مثال: Open Sans).
+settings.loadLocalFonts = تحميل الخطوط المحلية
+settings.localFontsGroup = مثبّتة على هذا الجهاز
+settings.uiFontFamily = خط الواجهة
+settings.textFontFamily = النص الطويل
+settings.sizeLabel = الحجم:
+settings.longTextWeight = الوزن:
+settings.customUiFontPlaceholder = خط واجهة مخصص
+settings.customTextFontPlaceholder = خط مخصص للنص الطويل
+settings.longTextPreviewSample = المهمة الأساسية في الحياة هي تجنّب المعاناة، لا مطاردة السعادة. ارفض كل شعور غير ضروري بالذنب، واجعل راحتك ورفاهك في المقدمة — فهذا هو المبدأ الأعلى.
+settings.fontInherit = اتباع الإعداد الافتراضي في SillyTavern
+settings.fontCustom = إدخال مخصص
+settings.resetTypography = إعادة ضبط الطباعة
+settings.injectionDepth = عمق المحادثة
+settings.injectionEnabled = تفعيل حقن الإضافة
+settings.injectionHint = عند التفعيل، تحقن الإضافة الملخص في المحادثة على العمق المحدد (افتراضي 999، أي الأعلى). عند التعطيل، لا تحقن الإضافة تلقائياً؛ يمكنك استخدام ماكرو {{SPSummaries}} في أي مكان في إعداد ST للحقن اليدوي.
+settings.autoCleanupExpired = حذف الملخصات المنتهية تلقائياً
+settings.autoCleanupExpiredHint = عند التفعيل، سيتم حذف الملخصات التي لم تُحدَّث منذ أكثر من 180 يوماً تلقائياً من ملف بيانات الملحق.
+settings.resetPlugin = إعادة تعيين الإضافة
+
+# ── Preprocess Tab ──
+preprocess.structuredCleanup = تنظيف منظم
+preprocess.structuredHint = يزيل العقد الواضحة الخاصة بالواجهة فقط قبل استخراج النص.
+preprocess.stripHtml = إزالة HTML
+preprocess.stripHint = يحول HTML المتبقي إلى نص عادي.
+preprocess.regexTitle = قواعد regex مخصصة
+preprocess.regexHint = تعمل القواعد أولاً، قبل التنظيف المنظم وإزالة HTML. يتم تجاهل الأنماط الفارغة.
+preprocess.addRule = + إضافة قاعدة
+preprocess.ruleEnabled = مفعّل
+preprocess.rulePattern = النمط
+preprocess.ruleReplacement = الاستبدال
+preprocess.ruleFlags = العلامات
+preprocess.removeRule = إزالة القاعدة
+preprocess.emptyRules = لا توجد قواعد regex بعد. أضف قاعدة لبدء تصفية سجل المحادثة.
+preprocess.invalidRule = نمط regex أو علامات غير صالحة
+
+# ── Reset Dialog ──
+reset.header = إعادة تعيين إعدادات الإضافة
+reset.body = هل تريد إعادة تعيين إعدادات الإضافة؟
+reset.item1 = ستعود تفضيلات الواجهة والإعدادات المحددة إلى القيم الافتراضية.
+reset.item2 = سيتم الاحتفاظ بإعدادات API والملخصات والمطالبات المخصصة.
+reset.cancel = إلغاء
+reset.confirm = تأكيد
+
+# ── Preview Overlay ──
+preview.status.requesting = جارٍ الطلب...
+preview.status.streaming = جارٍ الإنشاء (بث)...
+preview.status.stopped = ⏹ متوقف
+preview.status.complete = ✅ مكتمل
+preview.thinkingChain = 🧠 سلسلة التفكير
+preview.thinkingAria = سلسلة التفكير
+preview.placeholder = في انتظار الإنشاء...
+preview.cancel = إلغاء
+preview.stopRequest = إيقاف الطلب
+preview.saveAppend = حفظ وإلحاق
+
+# ── Macros ──
+macro.spSummaries = ملخص المحادثة الحالية
+macro.spSummariesFallback = (لا يوجد ملخص بعد)
+macro.latestSegment = آخر مقطع من الملخص
+macro.chatAfter = سياق المحادثة اللاحق
+macro.chatLang = نسبة لغات الجلسة الحالية
+
+# ── Toast Messages ──
+toast.unsummarizedUnhidden = أصبحت جميع الرسائل غير المُلخَّصة مرئية مرة أخرى.
+toast.summarySaved = تم حفظ الملخص
+toast.pluginReset = تم مسح إعدادات الإضافة في المتصفح
+toast.noChat = لا يوجد سجل محادثة
+toast.noApiPreset = يرجى تكوين واختيار إعداد API مسبق أولاً
+toast.noMessagesInRange = لا توجد رسائل لتلخيصها في النطاق المحدد
+toast.contentEmpty = المحتوى فارغ
+toast.segmentDeleted = تم حذف أحدث جزء
+toast.segmentHiddenRestored = تم استعادة حالة الإخفاء لأحدث جزء
+toast.expiredSummariesCleared = تم تنظيف ${count} من الملخصات المنتهية
+toast.promptSaved = تم حفظ الوصف
+toast.typographyReset = تمت إعادة ضبط إعدادات الطباعة
+toast.localFontsUnsupported = هذا المتصفح لا يدعم الوصول إلى الخطوط المحلية
+toast.localFontsDenied = تم رفض الوصول إلى الخطوط المحلية
+toast.localFontsLoaded = تم تحميل ${count} عائلة خطوط محلية
+
+# ── Confirm Dialogs ──
+confirm.cancel = إلغاء
+confirm.confirm = تأكيد
+confirm.deleteSegmentHeader = حذف أحدث جزء
+confirm.deleteLatestSegment = حذف أحدث جزء ${range}؟
+confirm.deleteLatestSegmentUnsaved = سيتم فقدان التعديلات غير المحفوظة في هذا المقطع أيضًا.
+confirm.deletePresetHeader = حذف الإعداد المسبق
+confirm.deletePreset = حذف الإعداد المسبق "${name}"؟
+confirm.deletePromptHeader = حذف إعداد الوصف المسبق
+confirm.deletePromptPreset = حذف إعداد الوصف المسبق "${name}"؟
+confirm.unsavedHeader = تغييرات غير محفوظة
+confirm.unsavedBody = لديك تغييرات غير محفوظة. هل تريد الحفظ قبل المغادرة؟
+confirm.unsavedCancel = إلغاء
+confirm.unsavedDiscard = تجاهل
+confirm.unsavedSave = حفظ
+
+# ── API Status Messages ──
+api.status.missingUrl = ❌ الرابط مفقود
+api.status.missingModel = ❌ النموذج مفقود
+api.status.success = ✅ نجاح — ${reply}
+api.status.timeout = ❌ انتهاء المهلة (30 ثانية) — تحقق من الرابط/المفتاح/النموذج
+api.status.fetchUrlKey = يرجى تعبئة الرابط والمفتاح
+api.status.fetching = جارٍ جلب قائمة النماذج...
+api.status.fetchOk = تم جلب ${count} نماذج
+api.status.fetchFail = فشل الجلب: ${error}
+
+# ── API Preset Defaults ──
+api.newPresetName = إعداد مسبق جديد
+
+# ── Prompt Preset Defaults ──
+prompt.defaultName = الوصف الافتراضي
+prompt.defaultPresetName = مخصص
+prompt.defaultTitle = الوصف الافتراضي (قراءة فقط)
+prompt.deleteTitle = حذف ${name}
+prompt.unnamed = بدون اسم
+
+# ── Generation Status ──
+gen.chatLogAppend = --- سجل المحادثة المراد تلخيصه أدناه ---
+gen.stopRequest = إيقاف الطلب
+gen.cancel = إلغاء
+
+# ── LLM Errors ──
+llm.noStreamBody = الاستجابة لا تحتوي على جسم بث
+llm.noStreamResponseBody = استجابة البث لا تحتوي على جسم

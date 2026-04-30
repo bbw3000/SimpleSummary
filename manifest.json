@@ -1,0 +1,12 @@
+{
+  "display_name": "SimpleSummary",
+  "loading_order": 20,
+  "js": "index.js",
+  "css": "style.css",
+  "author": "BBW3000",
+  "version": "0.9.8.2",
+  "auto_update": false,
+  "hooks": {
+    "activate": "onActivate"
+  }
+}

@@ -1,0 +1,212 @@
+# SimpleSummary - 简体中文语言包
+
+# ── Language ──
+lang.name = 简体中文
+lang.code = zh-CN
+
+# ── Header ──
+header.title = 极简摘要
+header.themeToggle = 切换主题
+header.close = 关闭
+
+# ── Tabs ──
+tab.home = 主页
+tab.edit = 摘要编辑
+tab.api = API 设置
+tab.preprocess = 预处理
+tab.prompt = 提示词
+tab.settings = 设置
+
+# ── Home Tab ──
+home.currentChat = 当前聊天
+home.pendingCount = 待总结/总消息
+home.summaryLength = 摘要长度
+home.summaryLengthUnit = 字
+home.autoHide = 自动隐藏
+home.autoHideHint = 摘要保存时，所选范围内的消息会对 LLM 隐藏，效果等同 /hide。
+home.useStream = 流式请求 (Stream)
+home.summaryRange = 总结范围 · 保留消息数
+home.startBtn = ▶ 生成摘要
+home.unhideBtn = 取消隐藏
+home.unhideHint = 让所有未被摘要的消息重新对 LLM 可见。
+home.requestPreviewBtn = 请求预览
+
+# ── Edit Tab ──
+edit.placeholder = 暂无摘要内容...
+edit.deleteSegment = 删除
+edit.revert = 撤销
+edit.save = 保存
+
+# ── API Tab ──
+api.presetList = 预设列表
+api.addPreset = + 添加预设
+api.emptyHint = 请选择或添加一个预设
+api.presetName = 预设名称
+api.presetNamePlaceholder = 例如: DeepSeek Chat
+api.apiType = API 类型
+api.apiTypeOpenAI = OpenAI 兼容
+api.apiTypeAnthropic = Anthropic
+api.apiTypeGoogle = 谷歌AI Studio
+api.apiTypeOpenRouter = OpenRouter
+api.apiTypeDeepSeek = 深度求索
+api.apiTypeSiliconFlowCN = 硅基流动国内站
+api.apiTypeSiliconFlowGlobal = 硅基流动国际站
+api.apiTypeMistral = Mistral AI
+api.apiTypeNVIDIA = nVidia NIM
+api.baseUrl = Base URL
+api.apiKey = API Key
+api.showHideKey = 显示/隐藏 Key
+api.model = 模型 (Model)
+api.selectModel = 选择模型...
+api.manualModel = 手动输入
+api.fetchModels = 获取可用模型
+api.outputLimit = 输出限制
+api.maxOutput = 最大输出
+api.samplingParams = 采样参数
+api.freqPenalty = 频率惩罚 (Freq. Penalty)
+api.presPenalty = 存在惩罚 (Pres. Penalty)
+api.testBtn = 发送测试
+api.deletePreset = 删除此预设
+
+# ── Prompt Tab ──
+prompt.prevTab = ◀
+prompt.nextTab = ▶
+prompt.addTab = +
+prompt.prevTabTitle = 向左滚动
+prompt.nextTabTitle = 向右滚动
+prompt.addTabTitle = 添加自定义提示词
+prompt.systemTitle = 系统提示词
+prompt.systemPlaceholder = 在此输入系统提示词...
+prompt.userTitle = 用户提示词
+prompt.userPlaceholder = 在此输入用户提示词...
+prompt.revert = 撤销
+prompt.save = 保存
+
+# ── Settings Tab ──
+settings.injectionTitle = 功能设置
+settings.typographyTitle = 字体设置
+settings.googleFonts = Google Fonts
+settings.googleFontsHint = Google Fonts 默认关闭。打开此开关后，你可以在自定义输入框中填写任意 Google Fonts 字体名称（例如：Open Sans）。
+settings.loadLocalFonts = 加载本机字体
+settings.localFontsGroup = 当前设备已安装
+settings.uiFontFamily = UI 字体
+settings.textFontFamily = 长文本
+settings.sizeLabel = 大小：
+settings.longTextWeight = 字重：
+settings.customUiFontPlaceholder = 自定义 UI 字体
+settings.customTextFontPlaceholder = 自定义长文本字体
+settings.longTextPreviewSample = 人生的首要任务不是追求幸福，而是规避痛苦。拒绝一切不必要的愧疚感，把自己的舒适与情绪状态放在首要位置，这才是最高原则。
+settings.fontInherit = 跟随 SillyTavern 默认
+settings.fontCustom = 自定义输入
+settings.resetTypography = 重置字体设置
+settings.injectionDepth = 聊天记录深度
+settings.injectionEnabled = 启用插件注入
+settings.injectionHint = 开启后，插件会把摘要内容作为聊天记录注入到指定深度（默认深度999，即顶楼）。关闭后，插件不会自动注入，你可以在酒馆预设的任意位置自行使用 {{SPSummaries}}宏注入。
+settings.autoCleanupExpired = 自动清理过期摘要
+settings.autoCleanupExpiredHint = 启用后，超过 180 天未更新的摘要会从插件数据文件中自动删除。
+settings.resetPlugin = 重置插件
+
+# ── Preprocess Tab ──
+preprocess.structuredCleanup = 结构化清理
+preprocess.structuredHint = 在提取文本前，先移除明显只用于界面的节点。
+preprocess.stripHtml = 去除 HTML
+preprocess.stripHint = 将剩余的 HTML 转为纯文本。
+preprocess.regexTitle = 自定义正则规则
+preprocess.regexHint = 规则会最先执行，先于结构化清理和 HTML 去除。空模式会被忽略。
+preprocess.addRule = + 添加规则
+preprocess.ruleEnabled = 启用
+preprocess.rulePattern = 模式
+preprocess.ruleReplacement = 替换
+preprocess.ruleFlags = 标志
+preprocess.removeRule = 删除规则
+preprocess.emptyRules = 还没有正则规则。添加一条后即可开始过滤聊天记录。
+preprocess.invalidRule = 正则模式或标志无效
+
+# ── Reset Dialog ──
+reset.header = 重置插件设置
+reset.body = 确定要重置插件设置吗？
+reset.item1 = 界面偏好、选定预设将恢复为默认值。
+reset.item2 = API预设、摘要和自定义提示词都会保留。
+reset.cancel = 取消
+reset.confirm = 确定
+
+# ── Preview Overlay ──
+preview.status.requesting = 请求中…
+preview.status.streaming = 生成中（流式）…
+preview.status.stopped = ⏹ 已停止
+preview.status.complete = ✅ 生成完成
+preview.thinkingChain = 🧠 思维链
+preview.thinkingAria = 思维链
+preview.placeholder = 等待生成...
+preview.cancel = 取消
+preview.stopRequest = 停止请求
+preview.saveAppend = 保存追加
+
+# ── Macros ──
+macro.spSummaries = 极简摘要：当前聊天的剧情摘要
+macro.spSummariesFallback = (暂无剧情摘要)
+macro.latestSegment = 最新摘要分段
+macro.chatAfter = 后续聊天上下文
+macro.chatLang = 当前会话语言占比
+
+# ── Toast Messages ──
+toast.unsummarizedUnhidden = 已让所有未被摘要的消息重新可见。
+toast.summarySaved = 摘要已保存
+toast.pluginReset = 已清除浏览器插件设置
+toast.noChat = 没有聊天记录
+toast.noApiPreset = 请先配置并选择一个 API 预设
+toast.noMessagesInRange = 所选范围内没有待总结消息
+toast.contentEmpty = 内容为空
+toast.segmentDeleted = 最新分段已删除
+toast.segmentHiddenRestored = 已恢复最新分段的隐藏状态
+toast.expiredSummariesCleared = 已清理 ${count} 个过期摘要
+toast.promptSaved = 提示词已保存
+toast.typographyReset = 字体设置已重置
+toast.localFontsUnsupported = 当前浏览器不支持读取本机字体列表
+toast.localFontsDenied = 本机字体访问权限被拒绝
+toast.localFontsLoaded = 已加载 ${count} 个本机字体
+
+# ── Confirm Dialogs ──
+confirm.cancel = 取消
+confirm.confirm = 确定
+confirm.deleteSegmentHeader = 删除最新分段
+confirm.deleteLatestSegment = 确定删除最新分段 ${range}？
+confirm.deleteLatestSegmentUnsaved = 该分段中的未保存修改也会一并丢失。
+confirm.deletePresetHeader = 删除预设
+confirm.deletePreset = 确定删除预设 "${name}"？
+confirm.deletePromptHeader = 删除提示词预设
+confirm.deletePromptPreset = 确定删除提示词预设"${name}"吗？
+confirm.unsavedHeader = 有未保存的修改
+confirm.unsavedBody = 你有未保存的修改。离开前要先保存吗？
+confirm.unsavedCancel = 取消
+confirm.unsavedDiscard = 放弃
+confirm.unsavedSave = 保存
+
+# ── API Status Messages ──
+api.status.missingUrl = ❌ 缺少 URL
+api.status.missingModel = ❌ 缺少模型
+api.status.success = ✅ 成功 — ${reply}
+api.status.timeout = ❌ 超时（30秒）— 请检查 URL/Key/模型
+api.status.fetchUrlKey = 请填写 URL 和 Key
+api.status.fetching = 正在拉取模型列表…
+api.status.fetchOk = 拉取到 ${count} 个模型
+api.status.fetchFail = 拉取失败: ${error}
+
+# ── API Preset Defaults ──
+api.newPresetName = 新预设
+
+# ── Prompt Preset Defaults ──
+prompt.defaultName = 默认提示词
+prompt.defaultPresetName = 自定
+prompt.defaultTitle = 默认提示词（只读）
+prompt.deleteTitle = 删除 ${name}
+prompt.unnamed = 未命名
+
+# ── Generation Status ──
+gen.chatLogAppend = --- 以下为需要总结的聊天记录 ---
+gen.stopRequest = 停止请求
+gen.cancel = 取消
+
+# ── LLM Errors ──
+llm.noStreamBody = 响应无流式 body
+llm.noStreamResponseBody = 流式响应无 body

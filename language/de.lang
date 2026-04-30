@@ -1,0 +1,212 @@
+# SimpleSummary - Deutsch language pack
+
+# ── Language ──
+lang.name = Deutsch
+lang.code = de
+
+# ── Header ──
+header.title = SimpleSummary
+header.themeToggle = Theme umschalten
+header.close = Schließen
+
+# ── Tabs ──
+tab.home = Startseite
+tab.edit = Zusammenfassung bearbeiten
+tab.api = API-Einstellungen
+tab.preprocess = Vorverarbeitung
+tab.prompt = Prompt
+tab.settings = Einstellungen
+
+# ── Home Tab ──
+home.currentChat = Aktueller Chat
+home.pendingCount = Ausstehend / Gesamt
+home.summaryLength = Zusammenfassungslänge
+home.summaryLengthUnit = Zeichen
+home.autoHide = Automatisch ausblenden
+home.autoHideHint = Beim Speichern einer Zusammenfassung werden die Nachrichten im ausgewählten Bereich für das LLM ausgeblendet. Das entspricht /hide.
+home.useStream = Streaming-Anfrage
+home.summaryRange = Zusammenfassungsbereich · Nachrichten behalten
+home.startBtn = ▶ Zusammenfassen
+home.unhideBtn = Ausblenden aufheben
+home.unhideHint = Stellt alle nicht zusammengefassten Nachrichten wieder für das LLM sichtbar.
+home.requestPreviewBtn = Anfragevorschau
+
+# ── Edit Tab ──
+edit.placeholder = Noch keine Zusammenfassung...
+edit.deleteSegment = Löschen
+edit.revert = Rückgängig
+edit.save = Speichern
+
+# ── API Tab ──
+api.presetList = Presets
+api.addPreset = + Preset hinzufügen
+api.emptyHint = Preset auswählen oder hinzufügen
+api.presetName = Preset-Name
+api.presetNamePlaceholder = z.B. DeepSeek Chat
+api.apiType = API-Typ
+api.apiTypeOpenAI = OpenAI-kompatibel
+api.apiTypeAnthropic = Anthropic
+api.apiTypeGoogle = Google AI Studio
+api.apiTypeOpenRouter = OpenRouter
+api.apiTypeDeepSeek = DeepSeek
+api.apiTypeSiliconFlowCN = SiliconFlow (CN)
+api.apiTypeSiliconFlowGlobal = SiliconFlow (Global)
+api.apiTypeMistral = Mistral AI
+api.apiTypeNVIDIA = NVIDIA NIM
+api.baseUrl = Base-URL
+api.apiKey = API-Schlüssel
+api.showHideKey = Schlüssel anzeigen/ausblenden
+api.model = Modell
+api.selectModel = Modell auswählen...
+api.manualModel = Manuelle Eingabe
+api.fetchModels = Verfügbare Modelle abrufen
+api.outputLimit = Ausgabelimit
+api.maxOutput = Max. Ausgabe
+api.samplingParams = Sampling-Parameter
+api.freqPenalty = Frequenzstrafe
+api.presPenalty = Präsenzstrafe
+api.testBtn = Test senden
+api.deletePreset = Dieses Preset löschen
+
+# ── Prompt Tab ──
+prompt.prevTab = ◀
+prompt.nextTab = ▶
+prompt.addTab = +
+prompt.prevTabTitle = Nach links scrollen
+prompt.nextTabTitle = Nach rechts scrollen
+prompt.addTabTitle = Benutzerdefinierten Prompt hinzufügen
+prompt.systemTitle = System-Prompt
+prompt.systemPlaceholder = System-Prompt hier eingeben...
+prompt.userTitle = Benutzer-Prompt
+prompt.userPlaceholder = Benutzer-Prompt hier eingeben...
+prompt.revert = Rückgängig
+prompt.save = Speichern
+
+# ── Settings Tab ──
+settings.injectionTitle = Funktionseinstellungen
+settings.typographyTitle = Typografie
+settings.googleFonts = Google Fonts
+settings.googleFontsHint = Google Fonts ist standardmäßig deaktiviert. Aktivieren Sie es und geben Sie dann im benutzerdefinierten Feld eine beliebige Google-Font-Familie ein (z. B. Open Sans).
+settings.loadLocalFonts = Lokale Schriften
+settings.localFontsGroup = Auf diesem Gerät installiert
+settings.uiFontFamily = UI-Schriftart
+settings.textFontFamily = Langer Text
+settings.sizeLabel = Größe:
+settings.longTextWeight = Schriftschnitt:
+settings.customUiFontPlaceholder = Benutzerdefinierte UI-Schriftart
+settings.customTextFontPlaceholder = Benutzerdefinierte Schrift für langen Text
+settings.longTextPreviewSample = Die wichtigste Aufgabe im Leben ist es, Leid zu vermeiden, nicht Glück zu verfolgen. Weisen Sie jedes unnötige Schuldgefühl zurück und priorisieren Sie Ihren eigenen Komfort und Ihr Wohlbefinden – das ist das höchste Prinzip.
+settings.fontInherit = SillyTavern-Standard übernehmen
+settings.fontCustom = Benutzerdefinierte Eingabe
+settings.resetTypography = Typografie zurücksetzen
+settings.injectionDepth = Chat-Tiefe
+settings.injectionEnabled = Plugin-Injektion aktivieren
+settings.injectionHint = Wenn aktiviert, injiziert das Plugin die Zusammenfassung im Chat auf der angegebenen Tiefe (Standard 999, d.h. oben). Wenn deaktiviert, injiziert das Plugin nicht automatisch; Sie können das Makro {{SPSummaries}} beliebig in Ihrem ST-Preset verwenden, um manuell zu injizieren.
+settings.autoCleanupExpired = Abgelaufene Zusammenfassungen automatisch bereinigen
+settings.autoCleanupExpiredHint = Wenn aktiviert, werden Zusammenfassungen, die seit mehr als 180 Tagen nicht aktualisiert wurden, automatisch aus der Plugin-Datendatei entfernt.
+settings.resetPlugin = Plugin zurücksetzen
+
+# ── Preprocess Tab ──
+preprocess.structuredCleanup = Strukturierte Bereinigung
+preprocess.structuredHint = Entfernt offensichtliche reine Oberflächenknoten vor der Textextraktion.
+preprocess.stripHtml = HTML entfernen
+preprocess.stripHint = Wandelt verbleibendes HTML in Klartext um.
+preprocess.regexTitle = Benutzerdefinierte Regex-Regeln
+preprocess.regexHint = Regeln laufen zuerst, vor strukturierter Bereinigung und HTML-Entfernung. Leere Muster werden ignoriert.
+preprocess.addRule = + Regel hinzufügen
+preprocess.ruleEnabled = Aktiviert
+preprocess.rulePattern = Muster
+preprocess.ruleReplacement = Ersetzung
+preprocess.ruleFlags = Flags
+preprocess.removeRule = Regel entfernen
+preprocess.emptyRules = Noch keine Regex-Regeln. Fügen Sie eine hinzu, um das Chatprotokoll zu filtern.
+preprocess.invalidRule = Ungültiges Regex-Muster oder ungültige Flags
+
+# ── Reset Dialog ──
+reset.header = Plugin-Einstellungen zurücksetzen
+reset.body = Plugin-Einstellungen zurücksetzen?
+reset.item1 = UI-Einstellungen und ausgewählte Presets werden auf Standardwerte zurückgesetzt.
+reset.item2 = API-Presets, Zusammenfassungen und eigene Prompts bleiben erhalten.
+reset.cancel = Abbrechen
+reset.confirm = Bestätigen
+
+# ── Preview Overlay ──
+preview.status.requesting = Anfrage...
+preview.status.streaming = Generierung (Streaming)...
+preview.status.stopped = ⏹ Gestoppt
+preview.status.complete = ✅ Abgeschlossen
+preview.thinkingChain = 🧠 Denkkette
+preview.thinkingAria = Denkkette
+preview.placeholder = Warten auf Generierung...
+preview.cancel = Abbrechen
+preview.stopRequest = Anfrage stoppen
+preview.saveAppend = Speichern und anhängen
+
+# ── Macros ──
+macro.spSummaries = Aktuelle Chat-Zusammenfassung
+macro.spSummariesFallback = (Noch keine Zusammenfassung)
+macro.latestSegment = Letztes Zusammenfassungssegment
+macro.chatAfter = Nachfolgender Chatkontext
+macro.chatLang = Sprachverteilung der aktuellen Sitzung
+
+# ── Toast Messages ──
+toast.unsummarizedUnhidden = Alle nicht zusammengefassten Nachrichten sind wieder sichtbar.
+toast.summarySaved = Zusammenfassung gespeichert
+toast.pluginReset = Browser-Plugin-Einstellungen gelöscht
+toast.noChat = Kein Chatverlauf
+toast.noApiPreset = Bitte konfigurieren und wählen Sie zuerst ein API-Preset
+toast.noMessagesInRange = Keine Nachrichten zum Zusammenfassen im ausgewählten Bereich
+toast.contentEmpty = Inhalt ist leer
+toast.segmentDeleted = Letztes Segment gelöscht
+toast.segmentHiddenRestored = Ausgeblendeter Zustand des letzten Segments wiederhergestellt
+toast.expiredSummariesCleared = ${count} abgelaufene Zusammenfassungen bereinigt
+toast.promptSaved = Prompt gespeichert
+toast.typographyReset = Typografieeinstellungen zurückgesetzt
+toast.localFontsUnsupported = Dieser Browser unterstützt keinen Zugriff auf lokale Schriftarten
+toast.localFontsDenied = Zugriff auf lokale Schriftarten wurde verweigert
+toast.localFontsLoaded = ${count} lokale Schriftfamilien geladen
+
+# ── Confirm Dialogs ──
+confirm.cancel = Abbrechen
+confirm.confirm = Bestätigen
+confirm.deleteSegmentHeader = Letztes Segment löschen
+confirm.deleteLatestSegment = Letztes Segment ${range} löschen?
+confirm.deleteLatestSegmentUnsaved = Ungespeicherte Änderungen in diesem Segment gehen ebenfalls verloren.
+confirm.deletePresetHeader = Preset löschen
+confirm.deletePreset = Preset "${name}" löschen?
+confirm.deletePromptHeader = Prompt-Preset löschen
+confirm.deletePromptPreset = Prompt-Preset "${name}" löschen?
+confirm.unsavedHeader = Ungespeicherte Änderungen
+confirm.unsavedBody = Sie haben ungespeicherte Änderungen. Vor dem Verlassen speichern?
+confirm.unsavedCancel = Abbrechen
+confirm.unsavedDiscard = Verwerfen
+confirm.unsavedSave = Speichern
+
+# ── API Status Messages ──
+api.status.missingUrl = ❌ URL fehlt
+api.status.missingModel = ❌ Modell fehlt
+api.status.success = ✅ Erfolg — ${reply}
+api.status.timeout = ❌ Zeitüberschreitung (30s) — URL/Schlüssel/Modell prüfen
+api.status.fetchUrlKey = Bitte URL und Schlüssel eingeben
+api.status.fetching = Modellliste wird abgerufen...
+api.status.fetchOk = ${count} Modelle abgerufen
+api.status.fetchFail = Abruf fehlgeschlagen: ${error}
+
+# ── API Preset Defaults ──
+api.newPresetName = Neues Preset
+
+# ── Prompt Preset Defaults ──
+prompt.defaultName = Standard-Prompt
+prompt.defaultPresetName = Benutzerdefiniert
+prompt.defaultTitle = Standard-Prompt (Nur lesen)
+prompt.deleteTitle = ${name} löschen
+prompt.unnamed = Unbenannt
+
+# ── Generation Status ──
+gen.chatLogAppend = --- Chatprotokoll zur Zusammenfassung unten ---
+gen.stopRequest = Anfrage stoppen
+gen.cancel = Abbrechen
+
+# ── LLM Errors ──
+llm.noStreamBody = Antwort hat keinen Streaming-Body
+llm.noStreamResponseBody = Streaming-Antwort hat keinen Body
