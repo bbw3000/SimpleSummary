@@ -57,7 +57,7 @@ export function normalizeBaseUrl(rawUrl, type = 'openai') {
     url = url.replace(/\/+$/, '');
     url = url.replace(/\/(chat\/completions|completions|messages|models)$/, '');
 
-    if (type !== 'google') {
+    if (type !== 'google' && type !== 'custom') {
         if (!/\/v1(\/?|$)/.test(url)) url += '/v1';
         url = url.replace(/(\/v1)\/.*$/, '$1');
     }
@@ -67,6 +67,10 @@ export function normalizeBaseUrl(rawUrl, type = 'openai') {
 
 function getReverseProxyUrl(rawUrl, type = 'openai') {
     if (!rawUrl) return '';
+
+    if (type === 'custom') {
+        return normalizeBaseUrl(rawUrl, type);
+    }
 
     if (type === 'google') {
         return String(rawUrl)
@@ -131,27 +135,66 @@ function extractGoogleResponseContent(data) {
     return { content, reasoning };
 }
 
+function yamlScalar(value) {
+    const text = String(value ?? '');
+    if (!text) return "''";
+    if (/^[A-Za-z0-9_./:@+\- ]+$/.test(text)) return text;
+    return JSON.stringify(text);
+}
+
+function joinYamlBlocks(...blocks) {
+    return blocks.map(block => String(block || '').trim()).filter(Boolean).join('\n');
+}
+
+function buildCustomIncludeHeaders(preset) {
+    const headers = [];
+    if (preset.key) headers.push(`Authorization: ${yamlScalar(`Bearer ${preset.key}`)}`);
+    if (preset.customExtraEnabled) headers.push(preset.custom_include_headers || '');
+    return joinYamlBlocks(...headers);
+}
+
+function buildCustomIncludeBody(preset) {
+    const body = [];
+    const effort = preset.reasoning_effort || 'medium';
+    if (effort && effort !== 'auto') body.push(`reasoning_effort: ${yamlScalar(effort)}`);
+    if (preset.customExtraEnabled) body.push(preset.custom_include_body || '');
+    return joinYamlBlocks(...body);
+}
+
 export function buildStBackendRequestBody(preset, messages, stream) {
     let chat_completion_source = 'openai';
     if (preset.type === 'anthropic') chat_completion_source = 'claude';
     else if (preset.type === 'google') chat_completion_source = 'makersuite';
+    else if (preset.type === 'custom') chat_completion_source = 'custom';
 
-    const isNativeProvider = preset.type === 'anthropic' || preset.type === 'google';
+    const isNativeProvider = preset.type === 'anthropic' || preset.type === 'google' || preset.type === 'custom';
     const reverseProxy = isNativeProvider
         ? getReverseProxyUrl(preset.url, preset.type)
         : normalizeBaseUrl(preset.url, preset.type);
 
     const body = {
         chat_completion_source,
-        proxy_password: preset.key,
         model: preset.model,
         stream,
         temperature: preset.temperature ?? 0.7,
         top_p: preset.top_p ?? 1.0,
         messages,
     };
-    if (preset.en_maxtokens ?? false) body.max_completion_tokens = preset.max_completion_tokens ?? 4000;
-    body.reverse_proxy = reverseProxy;
+    if (preset.en_maxtokens ?? true) body.max_tokens = preset.max_tokens ?? 8000;
+    if (preset.reasoning_effort && preset.reasoning_effort !== 'auto' && preset.type !== 'custom') {
+        body.reasoning_effort = preset.reasoning_effort;
+    }
+    if (preset.type === 'custom') {
+        body.custom_url = reverseProxy;
+        body.custom_include_headers = buildCustomIncludeHeaders(preset);
+        body.custom_include_body = buildCustomIncludeBody(preset);
+        if (preset.customExtraEnabled && preset.custom_exclude_body) {
+            body.custom_exclude_body = preset.custom_exclude_body;
+        }
+    } else {
+        body.proxy_password = preset.key;
+        body.reverse_proxy = reverseProxy;
+    }
     if (preset.type === 'google') {
         body.include_reasoning = true;
     }

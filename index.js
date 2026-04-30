@@ -1076,18 +1076,24 @@ async function unhideUnsummarizedMessages() {
     const chat = ctx.chat || [];
     if (!chat.length) return;
 
+    const lastIndex = chat.length - 1;
     const segments = getSegments();
-    if (!segments.length) return;
+    if (!segments.length) {
+        await unhideMessagesByRange(0, lastIndex);
+        return;
+    }
 
     const ranges = segments
         .map(segment => normalizeRange(segment?.range))
         .filter(range => range.end >= range.start)
         .sort((a, b) => a.start - b.start);
 
-    if (!ranges.length) return;
+    if (!ranges.length) {
+        await unhideMessagesByRange(0, lastIndex);
+        return;
+    }
 
     const exec = getSlashExecutor();
-    const lastIndex = chat.length - 1;
 
     if (exec) {
         try {
@@ -1636,7 +1642,7 @@ function toggleWindow() {
     if (w.style.display === 'none' || !w.style.display) {
         if (backdrop) backdrop.style.display = fullscreen ? 'none' : 'block';
         w.style.display = 'flex';
-        refreshHome();
+        switchTab('home');
     } else {
         void closeMainWindowWithGuard();
     }
@@ -2030,7 +2036,15 @@ function bindEvents() {
         selectPreset(item.dataset.id);
     });
 
-    for (const inputId of ['sp-api-name', 'sp-api-url', 'sp-api-key', 'sp-api-model-manual']) {
+    for (const inputId of [
+        'sp-api-name',
+        'sp-api-url',
+        'sp-api-key',
+        'sp-api-model-manual',
+        'sp-api-custom-include-body',
+        'sp-api-custom-exclude-body',
+        'sp-api-custom-include-headers',
+    ]) {
         document.getElementById(inputId)?.addEventListener('input', () => {
             syncPresetForm();
         });
@@ -2040,18 +2054,34 @@ function bindEvents() {
         syncPresetForm();
     });
 
+    document.getElementById('sp-api-reasoning-effort')?.addEventListener('change', () => {
+        syncPresetForm();
+    });
+
+    document.getElementById('sp-api-custom-extra-toggle')?.addEventListener('change', e => {
+        const fields = document.getElementById('sp-api-custom-extra-fields');
+        const type = document.getElementById('sp-api-type')?.value || 'custom';
+        if (fields) fields.style.display = type === 'custom' && e.target.checked ? '' : 'none';
+        syncPresetForm();
+    });
+
     // API type change: fill defaults only if key is empty (new preset workflow)
     document.getElementById('sp-api-type')?.addEventListener('change', (e) => {
         const keyInput = document.getElementById('sp-api-key');
         const keyIsEmpty = !keyInput?.value?.trim();
-        
+
         if (keyIsEmpty) {
             const type = e.target.value;
             const defaults = getApiDefaults();
-            const d = defaults[type] || defaults.openai;
+            const d = defaults[type] || defaults.custom || defaults.openai;
             setVal('sp-api-url', d.url);
         }
-        
+
+        const customRow = document.getElementById('sp-api-custom-extra-row');
+        const customFields = document.getElementById('sp-api-custom-extra-fields');
+        const customToggle = document.getElementById('sp-api-custom-extra-toggle');
+        if (customRow) customRow.style.display = e.target.value === 'custom' ? '' : 'none';
+        if (customFields) customFields.style.display = e.target.value === 'custom' && customToggle?.checked ? '' : 'none';
         syncPresetForm();
     });
 

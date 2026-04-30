@@ -1869,6 +1869,7 @@
 .sp-form-row input[type="text"],
 .sp-form-row input[type="password"],
 .sp-form-row input[type="number"],
+.sp-form-row textarea,
 .sp-form-row select {
     padding: 8px 12px;
     background: var(--sp-bg-input);
@@ -1882,7 +1883,29 @@
     box-sizing: border-box;
     width: 100%;
 }
-.sp-form-row input:focus, .sp-form-row select:focus { border-color: var(--sp-border-focus); }
+.sp-form-row input:focus, .sp-form-row select:focus, .sp-form-row textarea:focus { border-color: var(--sp-border-focus); }
+
+.sp-api-custom-extra-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.sp-api-yaml-textarea {
+    min-height: 72px;
+    resize: vertical;
+    font-family: var(--sp-font-text);
+    font-size: 0.95em;
+    line-height: 1.4;
+}
+
+.sp-api-custom-extra-fields label {
+    margin-top: 4px;
+    font-family: inherit;
+    text-transform: none;
+    letter-spacing: normal;
+}
 
 .sp-form-row select {
     appearance: none;

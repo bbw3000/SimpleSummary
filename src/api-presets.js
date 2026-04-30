@@ -26,6 +26,9 @@ export function createApiPresetManager({
 
     const API_DEFAULTS = {
         openai: {
+            url: 'https://api.openai.com/v1',
+        },
+        custom: {
             url: '',
         },
         anthropic: {
@@ -67,7 +70,7 @@ export function createApiPresetManager({
         return {
             id: preset.id || '',
             name: preset.name || '',
-            type: preset.type || 'openai',
+            type: preset.type || 'custom',
             url: preset.url || '',
             key: preset.key || '',
             model: preset.model || '',
@@ -75,14 +78,19 @@ export function createApiPresetManager({
             useManualModel: !!preset.useManualModel,
             temperature: Number(preset.temperature ?? 0.7),
             top_p: Number(preset.top_p ?? 1.0),
+            reasoning_effort: preset.reasoning_effort || 'medium',
             top_k: Number(preset.top_k ?? 50),
             freq_penalty: Number(preset.freq_penalty ?? 0),
             pres_penalty: Number(preset.pres_penalty ?? 0),
-            max_completion_tokens: Number(preset.max_completion_tokens ?? 4000),
-            en_maxtokens: !!preset.en_maxtokens,
+            max_tokens: Number(preset.max_tokens ?? 8000),
+            en_maxtokens: preset.en_maxtokens ?? true,
             en_topk: !!preset.en_topk,
             en_freqp: !!preset.en_freqp,
             en_presp: !!preset.en_presp,
+            customExtraEnabled: !!preset.customExtraEnabled,
+            custom_include_body: preset.custom_include_body || '',
+            custom_exclude_body: preset.custom_exclude_body || '',
+            custom_include_headers: preset.custom_include_headers || '',
         };
     }
 
@@ -104,7 +112,7 @@ export function createApiPresetManager({
         const p = {
             id,
             name: t('api.newPresetName'),
-            type: 'openai',
+            type: 'custom',
             url: '',
             key: '',
             model: '',
@@ -112,14 +120,19 @@ export function createApiPresetManager({
             useManualModel: false,
             temperature: 0.7,
             top_p: 1.0,
+            reasoning_effort: 'medium',
             top_k: 50,
             freq_penalty: 0,
             pres_penalty: 0,
-            max_completion_tokens: 4000,
-            en_maxtokens: false,
+            max_tokens: 8000,
+            en_maxtokens: true,
             en_topk: false,
             en_freqp: false,
             en_presp: false,
+            customExtraEnabled: false,
+            custom_include_body: '',
+            custom_exclude_body: '',
+            custom_include_headers: '',
             availableModels: [],
         };
         const s = getSettings();
@@ -159,14 +172,19 @@ export function createApiPresetManager({
         
         presetDraft.temperature = +val('sp-api-p-temp') || 0;
         presetDraft.top_p = +val('sp-api-p-topp') || 0;
+        presetDraft.reasoning_effort = val('sp-api-reasoning-effort') || 'medium';
         presetDraft.top_k = +val('sp-api-p-topk') || 50;
         presetDraft.freq_penalty = +val('sp-api-p-freqp') || 0;
         presetDraft.pres_penalty = +val('sp-api-p-presp') || 0;
         presetDraft.en_maxtokens = document.getElementById('sp-api-en-maxtokens')?.checked ?? false;
-        presetDraft.max_completion_tokens = (+val('sp-api-p-maxtokens') || 4) * 1000;
+        presetDraft.max_tokens = (+val('sp-api-p-maxtokens') || 8) * 1000;
         presetDraft.en_topk = document.getElementById('sp-api-en-topk')?.checked ?? false;
         presetDraft.en_freqp = document.getElementById('sp-api-en-freqp')?.checked ?? false;
         presetDraft.en_presp = document.getElementById('sp-api-en-presp')?.checked ?? false;
+        presetDraft.customExtraEnabled = document.getElementById('sp-api-custom-extra-toggle')?.checked ?? false;
+        presetDraft.custom_include_body = val('sp-api-custom-include-body');
+        presetDraft.custom_exclude_body = val('sp-api-custom-exclude-body');
+        presetDraft.custom_include_headers = val('sp-api-custom-include-headers');
         renderApiPresetList();
         updateApiActionButtons();
         return presetDraft;
@@ -200,7 +218,7 @@ export function createApiPresetManager({
     }
 
     function getModelCacheKey(type, baseUrl) {
-        return MODEL_CACHE_PREFIX + `${type || 'openai'}|${baseUrl || ''}`;
+        return MODEL_CACHE_PREFIX + `${type || 'custom'}|${baseUrl || ''}`;
     }
 
     function readModelCache(type, baseUrl) {
@@ -259,6 +277,15 @@ export function createApiPresetManager({
         }
     }
 
+    function updateCustomExtraVisibility(preset = presetDraft) {
+        const isCustom = (preset?.type || 'custom') === 'custom';
+        const row = document.getElementById('sp-api-custom-extra-row');
+        const fields = document.getElementById('sp-api-custom-extra-fields');
+        const enabled = document.getElementById('sp-api-custom-extra-toggle')?.checked ?? false;
+        if (row) row.style.display = isCustom ? '' : 'none';
+        if (fields) fields.style.display = isCustom && enabled ? '' : 'none';
+    }
+
     function renderApiPresets() {
         const s = getSettings();
         const list = document.getElementById('sp-api-preset-list');
@@ -296,6 +323,11 @@ export function createApiPresetManager({
         setVal('sp-api-type', p.type);
         setVal('sp-api-url', p.url || API_DEFAULTS[p.type]?.url || '');
         setVal('sp-api-key', p.key);
+        setChecked('sp-api-custom-extra-toggle', p.customExtraEnabled ?? false);
+        setVal('sp-api-custom-include-body', p.custom_include_body || '');
+        setVal('sp-api-custom-exclude-body', p.custom_exclude_body || '');
+        setVal('sp-api-custom-include-headers', p.custom_include_headers || '');
+        updateCustomExtraVisibility(p);
         
         const manualToggle = document.getElementById('sp-api-manual-model-toggle');
         const manualInput = document.getElementById('sp-api-model-manual');
@@ -317,11 +349,12 @@ export function createApiPresetManager({
         
         setRange('sp-api-p-temp', 'sp-api-val-temp', p.temperature ?? 0.7);
         setRange('sp-api-p-topp', 'sp-api-val-topp', p.top_p ?? 1.0);
+        setVal('sp-api-reasoning-effort', p.reasoning_effort || 'medium');
         setRange('sp-api-p-topk', 'sp-api-val-topk', p.top_k ?? 50);
         setRange('sp-api-p-freqp', 'sp-api-val-freqp', p.freq_penalty ?? 0);
         setRange('sp-api-p-presp', 'sp-api-val-presp', p.pres_penalty ?? 0);
-        const maxtokensVal = Math.round((p.max_completion_tokens ?? 4000) / 1000);
-        setChecked('sp-api-en-maxtokens', p.en_maxtokens ?? false);
+        const maxtokensVal = Math.round((p.max_tokens ?? 8000) / 1000);
+        setChecked('sp-api-en-maxtokens', p.en_maxtokens ?? true);
         document.getElementById('sp-api-p-maxtokens').value = maxtokensVal;
         document.getElementById('sp-api-val-maxtokens').textContent = maxtokensVal + 'K';
 
@@ -447,12 +480,22 @@ export function createApiPresetManager({
             let ids = [];
             let usedBuiltinList = false;
 
-            if (targetPreset.type === 'anthropic') {
-                ids = getBuiltinModelsFromSt('anthropic');
-                usedBuiltinList = true;
-            } else if (targetPreset.type === 'google') {
-                ids = getBuiltinModelsFromSt('google');
-                usedBuiltinList = true;
+            if (targetPreset.type === 'anthropic' || targetPreset.type === 'google') {
+                toast(t('api.status.fetching'));
+                if (targetPreset?.url && targetPreset?.key) {
+                    const baseUrl = normalizeBaseUrl(targetPreset.url, 'openai');
+                    log('Fetching models via OpenAI-compatible endpoint, baseUrl:', baseUrl, 'type:', targetPreset.type);
+                    try {
+                        ids = await fetchModelsViaStBackend(baseUrl, targetPreset.key);
+                    } catch (error) {
+                        log('OpenAI-compatible model fetch failed, falling back to built-in ST list:', error?.message || error);
+                    }
+                }
+
+                if (ids.length === 0) {
+                    ids = getBuiltinModelsFromSt(targetPreset.type);
+                    usedBuiltinList = true;
+                }
             } else {
                 if (!targetPreset?.url || !targetPreset?.key) {
                     toast(t('api.status.fetchUrlKey'));
@@ -474,7 +517,9 @@ export function createApiPresetManager({
 
             targetPreset.availableModels = ids;
             if (presetDraft) presetDraft.availableModels = ids;
-            if (targetPreset.type !== 'anthropic' && targetPreset.type !== 'google') {
+            if (targetPreset.type === 'anthropic' || targetPreset.type === 'google') {
+                writeModelCache(targetPreset.type, normalizeBaseUrl(targetPreset.url || '', 'openai'), ids);
+            } else if (targetPreset.type !== 'anthropic' && targetPreset.type !== 'google') {
                 writeModelCache(targetPreset.type, normalizeBaseUrl(targetPreset.url, targetPreset.type), ids);
             }
             renderPresetModelsSelect(targetPreset);

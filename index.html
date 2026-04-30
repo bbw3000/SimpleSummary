@@ -168,7 +168,8 @@
                             <label data-i18n="api.apiType">API Type</label>
                             <div class="sp-select-wrapper">
                                 <select id="sp-api-type">
-                                    <option value="openai" data-i18n="api.apiTypeOpenAI">OpenAI Compatible</option>
+                                    <option value="openai" data-i18n="api.apiTypeOpenAI">OpenAI</option>
+                                    <option value="custom" data-i18n="api.apiTypeCustom">Custom (OpenAI Compatible)</option>
                                     <option value="anthropic" data-i18n="api.apiTypeAnthropic">Anthropic</option>
                                     <option value="google" data-i18n="api.apiTypeGoogle">Google AI Studio</option>
                                     <option value="openrouter" data-i18n="api.apiTypeOpenRouter">OpenRouter</option>
@@ -228,13 +229,45 @@
                         <div class="sp-form-row">
                             <div class="sp-toggle-inline">
                                 <span data-i18n="api.maxOutput">Max Output</span>
-                                <span id="sp-api-val-maxtokens" class="sp-param-val">4K</span>
+                                <span id="sp-api-val-maxtokens" class="sp-param-val">8K</span>
                                 <label class="sp-switch">
-                                    <input type="checkbox" id="sp-api-en-maxtokens">
+                                    <input type="checkbox" id="sp-api-en-maxtokens" checked>
                                     <span class="sp-slider"></span>
                                 </label>
                             </div>
-                            <input type="range" id="sp-api-p-maxtokens" min="1" max="16" step="1" value="4">
+                            <input type="range" id="sp-api-p-maxtokens" min="1" max="16" step="1" value="8">
+                        </div>
+
+                        <div class="sp-form-row">
+                            <label data-i18n="api.reasoningEffort">Reasoning Effort</label>
+                            <div class="sp-select-wrapper">
+                                <select id="sp-api-reasoning-effort">
+                                    <option value="auto" data-i18n="api.reasoningAuto">Auto</option>
+                                    <option value="min" data-i18n="api.reasoningMin">Min</option>
+                                    <option value="low" data-i18n="api.reasoningLow">Low</option>
+                                    <option value="medium" data-i18n="api.reasoningMedium" selected>Medium</option>
+                                    <option value="high" data-i18n="api.reasoningHigh">High</option>
+                                    <option value="max" data-i18n="api.reasoningMax">Max</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="sp-api-custom-extra-row" class="sp-form-row sp-api-custom-only" style="display: none;">
+                            <div class="sp-toggle-inline">
+                                <span data-i18n="api.customExtraParams">Additional Parameters</span>
+                                <label class="sp-switch">
+                                    <input type="checkbox" id="sp-api-custom-extra-toggle">
+                                    <span class="sp-slider"></span>
+                                </label>
+                            </div>
+                            <div id="sp-api-custom-extra-fields" class="sp-api-custom-extra-fields" style="display: none;">
+                                <label for="sp-api-custom-include-body">custom_include_body</label>
+                                <textarea id="sp-api-custom-include-body" class="sp-api-yaml-textarea" spellcheck="false" data-i18n-placeholder="api.customIncludeBodyPlaceholder" placeholder="reasoning_effort: high"></textarea>
+                                <label for="sp-api-custom-exclude-body">custom_exclude_body</label>
+                                <textarea id="sp-api-custom-exclude-body" class="sp-api-yaml-textarea" spellcheck="false" data-i18n-placeholder="api.customExcludeBodyPlaceholder" placeholder="temperature"></textarea>
+                                <label for="sp-api-custom-include-headers">custom_include_headers</label>
+                                <textarea id="sp-api-custom-include-headers" class="sp-api-yaml-textarea" spellcheck="false" data-i18n-placeholder="api.customIncludeHeadersPlaceholder" placeholder="HTTP-Referer: https://example.com"></textarea>
+                            </div>
                         </div>
 
                         <div class="sp-form-row">
