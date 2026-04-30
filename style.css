@@ -1808,20 +1808,6 @@
 
 .sp-api-form { display: flex; flex-direction: column; gap: 10px; }
 
-.sp-api-save-floating {
-    position: absolute;
-    top: 12px;
-    right: 14px;
-    z-index: 2;
-    display: flex;
-    pointer-events: none;
-}
-
-.sp-api-save-floating .sp-btn {
-    pointer-events: auto;
-    box-shadow: var(--sp-shadow);
-}
-
 .sp-api-form .sp-form-separator {
     margin: 10px 0;
 }

@@ -58,6 +58,7 @@ export function createStorageManager({ defaultSettings, browserSettingsKeys, mod
     let customPromptsLoaded = false;
     let customPromptsLoadPromise = null;
     let settingsSaveTimer = null;
+    let lastWrittenSettingsJson = null;
 
     const getSettings = () => {
         const s = settingsState;
@@ -163,7 +164,7 @@ export function createStorageManager({ defaultSettings, browserSettingsKeys, mod
         }
     };
 
-    const writeSettingsFile = async () => {
+    const buildSettingsJson = () => {
         const presetsToSave = Array.isArray(settingsState.presets)
             ? settingsState.presets.map(preset => {
                 if (!preset || typeof preset !== 'object') return preset;
@@ -173,11 +174,18 @@ export function createStorageManager({ defaultSettings, browserSettingsKeys, mod
                 return next;
             })
             : [];
-        await writeUserFileText(SETTINGS_FILE_NAME, JSON.stringify({
+        return JSON.stringify({
             version: STORAGE_VERSION,
             presets: presetsToSave,
             chatLogPreprocess: structuredClone(settingsState.chatLogPreprocess || {}),
-        }, null, 2));
+        }, null, 2);
+    };
+
+    const writeSettingsFile = async () => {
+        const json = buildSettingsJson();
+        if (json === lastWrittenSettingsJson) return;
+        await writeUserFileText(SETTINGS_FILE_NAME, json);
+        lastWrittenSettingsJson = json;
     };
 
     const queueSettingsSave = () => {
@@ -266,6 +274,7 @@ export function createStorageManager({ defaultSettings, browserSettingsKeys, mod
                 }
             }
             if (browserSettingsChanged) saveBrowserSettings();
+            lastWrittenSettingsJson = buildSettingsJson();
             settingsLoaded = true;
             return settingsState;
         })();

@@ -65,48 +65,6 @@ export function createApiPresetManager({
         return preset ? structuredClone(preset) : null;
     }
 
-    function normalizePresetForCompare(preset) {
-        if (!preset) return null;
-        return {
-            id: preset.id || '',
-            name: preset.name || '',
-            type: preset.type || 'custom',
-            url: preset.url || '',
-            key: preset.key || '',
-            model: preset.model || '',
-            manualModel: preset.manualModel || '',
-            useManualModel: !!preset.useManualModel,
-            temperature: Number(preset.temperature ?? 0.7),
-            top_p: Number(preset.top_p ?? 1.0),
-            reasoning_effort: preset.reasoning_effort || 'medium',
-            top_k: Number(preset.top_k ?? 50),
-            freq_penalty: Number(preset.freq_penalty ?? 0),
-            pres_penalty: Number(preset.pres_penalty ?? 0),
-            max_tokens: Number(preset.max_tokens ?? 8000),
-            en_maxtokens: preset.en_maxtokens ?? true,
-            en_topk: !!preset.en_topk,
-            en_freqp: !!preset.en_freqp,
-            en_presp: !!preset.en_presp,
-            customExtraEnabled: !!preset.customExtraEnabled,
-            custom_include_body: preset.custom_include_body || '',
-            custom_exclude_body: preset.custom_exclude_body || '',
-            custom_include_headers: preset.custom_include_headers || '',
-        };
-    }
-
-    function isApiPresetDirty() {
-        if (!presetView || !presetDraft) return false;
-        return JSON.stringify(normalizePresetForCompare(presetDraft)) !== JSON.stringify(normalizePresetForCompare(presetView));
-    }
-
-    function updateApiActionButtons() {
-        const saveBtn = document.getElementById('sp-api-save-btn');
-        const wrap = document.getElementById('sp-api-save-floating');
-        const dirty = isApiPresetDirty();
-        if (saveBtn) saveBtn.disabled = !dirty;
-        if (wrap) wrap.style.display = dirty ? 'flex' : 'none';
-    }
-
     function addPreset() {
         const id = 'p_' + Date.now();
         const p = {
@@ -186,25 +144,9 @@ export function createApiPresetManager({
         presetDraft.custom_exclude_body = val('sp-api-custom-exclude-body');
         presetDraft.custom_include_headers = val('sp-api-custom-include-headers');
         renderApiPresetList();
-        updateApiActionButtons();
-        return presetDraft;
-    }
-
-    function discardActivePresetChanges() {
-        if (!presetView) return;
-        presetDraft = clonePreset(presetView);
-        fillPresetForm(presetDraft);
-        renderApiPresetList();
-        updateApiActionButtons();
-    }
-
-    function saveActivePreset() {
-        if (!presetView || !presetDraft) return false;
-        syncPresetForm();
         Object.assign(presetView, clonePreset(presetDraft));
         saveSettings();
-        renderApiPresets();
-        return true;
+        return presetDraft;
     }
 
     function selectPreset(id) {
@@ -297,7 +239,6 @@ export function createApiPresetManager({
             hide('sp-api-form');
             presetView = null;
             presetDraft = null;
-            updateApiActionButtons();
             return;
         }
 
@@ -314,7 +255,6 @@ export function createApiPresetManager({
         hide('sp-api-empty');
         show('sp-api-form');
         fillPresetForm(presetDraft);
-        updateApiActionButtons();
     }
 
     function fillPresetForm(p) {
@@ -523,7 +463,6 @@ export function createApiPresetManager({
                 writeModelCache(targetPreset.type, normalizeBaseUrl(targetPreset.url, targetPreset.type), ids);
             }
             renderPresetModelsSelect(targetPreset);
-            updateApiActionButtons();
             log('Models fetched:', ids.length);
             toast(t('api.status.fetchOk', { count: ids.length }));
         } catch (e) {
@@ -558,11 +497,7 @@ export function createApiPresetManager({
         addPreset,
         deletePreset,
         syncPresetForm,
-        isApiPresetDirty,
-        discardActivePresetChanges,
-        saveActivePreset,
         selectPreset,
-        updateApiActionButtons,
         renderApiPresets,
         testPreset,
         fetchModels,

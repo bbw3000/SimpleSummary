@@ -271,11 +271,8 @@ globalThis.SimpleSummaryUpdateLocale = async (locale) => {
     if (activeTab === 'edit') {
         const ok = await beforeSummaryEditorLeave();
         if (!ok) return false;
-    } else if (activeTab === 'prompt') {
+} else if (activeTab === 'prompt') {
         const ok = await beforePromptEditorLeave();
-        if (!ok) return false;
-    } else if (activeTab === 'api') {
-        const ok = await beforeApiPresetLeave();
         if (!ok) return false;
     }
 
@@ -1311,14 +1308,6 @@ function setActivePromptSection(section) {
     userSection?.classList.toggle('sp-prompt-section-open', target === 'user');
 }
 
-function saveCurrentApiPreset() {
-    return saveActivePreset();
-}
-
-function discardCurrentApiPresetChanges() {
-    discardActivePresetChanges();
-}
-
 async function guardUnsavedChanges(kind, onSave, onDiscard) {
     const result = await showUnsavedChangesDialog();
     if (result === 'cancel') return false;
@@ -1337,11 +1326,6 @@ async function beforePromptEditorLeave() {
     return guardUnsavedChanges('prompt', saveCurrentPromptEditor, discardCurrentPromptEditorChanges);
 }
 
-async function beforeApiPresetLeave() {
-    if (!isApiPresetDirty()) return true;
-    return guardUnsavedChanges('api', saveCurrentApiPreset, discardCurrentApiPresetChanges);
-}
-
 async function beforePromptPresetChange() {
     return beforePromptEditorLeave();
 }
@@ -1351,7 +1335,6 @@ async function beforeTabSwitch(nextTab) {
     if (activeTab === nextTab) return true;
     if (activeTab === 'edit') return beforeSummaryEditorLeave();
     if (activeTab === 'prompt') return beforePromptEditorLeave();
-    if (activeTab === 'api') return beforeApiPresetLeave();
     return true;
 }
 
@@ -1360,11 +1343,8 @@ async function closeMainWindowWithGuard() {
     if (activeTab === 'edit') {
         const ok = await beforeSummaryEditorLeave();
         if (!ok) return false;
-    } else if (activeTab === 'prompt') {
+} else if (activeTab === 'prompt') {
         const ok = await beforePromptEditorLeave();
-        if (!ok) return false;
-    } else if (activeTab === 'api') {
-        const ok = await beforeApiPresetLeave();
         if (!ok) return false;
     }
 
@@ -1473,11 +1453,7 @@ const {
     addPreset,
     deletePreset,
     syncPresetForm,
-    isApiPresetDirty,
-    discardActivePresetChanges,
-    saveActivePreset,
     selectPreset,
-    updateApiActionButtons,
     renderApiPresets,
     testPreset,
     fetchModels,
@@ -1932,11 +1908,9 @@ function bindEvents() {
         if (sidebar?.classList.contains('sp-api-sidebar-collapsed')) {
             sidebar.classList.remove('sp-api-sidebar-collapsed');
             applyApiSidebarWidth();
-        }
-        saveCurrentApiPreset();
+}
         addPreset();
     });
-    on('sp-api-save-btn',    'click', saveCurrentApiPreset);
     on('sp-api-del-btn',     'click', deletePreset);
     on('sp-api-test-btn',    'click', testPreset);
     on('sp-api-fetch-models','click', fetchModels);
@@ -2031,8 +2005,7 @@ function bindEvents() {
         const item = e.target.closest('.sp-api-list-item');
         if (!item) return;
         const currentId = getSettings().activePresetId;
-        if (item.dataset.id === currentId) return;
-        saveCurrentApiPreset();
+if (item.dataset.id === currentId) return;
         selectPreset(item.dataset.id);
     });
 
