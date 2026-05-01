@@ -25,10 +25,10 @@ home.summaryLengthUnit = chars
 home.autoHide = Auto-hide
 home.autoHideHint = When saving a summary, messages in the selected range will be hidden from the LLM, just like /hide.
 home.useStream = Stream Request
+home.autoRepairSummary = Auto-repair summary
+home.autoRepairSummaryHint = Default enabled. Automatically checks and repairs summary hidden ranges when switching chats.
 home.summaryRange = Summary Range · Retain Messages
 home.startBtn = ▶ Generate
-home.unhideBtn = Unhide
-home.unhideHint = Make all unsummarized messages visible to the LLM again.
 home.requestPreviewBtn = Request Preview
 
 # ── Edit Tab ──
@@ -114,8 +114,6 @@ settings.resetTypography = Reset Typography to Default
 settings.injectionDepth = Chat Depth
 settings.injectionEnabled = Enable Plugin Injection
 settings.injectionHint = When enabled, the plugin injects the summary into the chat at the specified depth (default 999, i.e. top). When disabled, the plugin won't auto-inject; you can use the {{SPSummaries}} macro anywhere in your ST preset to inject manually.
-settings.autoCleanupExpired = Auto-clean expired summaries
-settings.autoCleanupExpiredHint = When enabled, summaries untouched for more than 180 days will be removed automatically from the plugin data file.
 settings.resetPlugin = Reset Plugin
 
 # ── Preprocess Tab ──
@@ -162,7 +160,6 @@ macro.chatAfter = Following chat context
 macro.chatLang = Chat language distribution
 
 # ── Toast Messages ──
-toast.unsummarizedUnhidden = Made all unsummarized messages visible again.
 toast.summarySaved = Summary saved
 toast.pluginReset = Browser plugin settings cleared
 toast.noChat = No chat history
@@ -171,6 +168,7 @@ toast.noMessagesInRange = No messages to summarize in selected range
 toast.contentEmpty = Content is empty
 toast.segmentDeleted = Latest segment deleted
 toast.segmentHiddenRestored = Latest segment hidden range restored
+toast.segmentsRepaired = Repaired ${count} out-of-range segment(s)
 toast.expiredSummariesCleared = Cleared ${count} expired summaries
 toast.promptSaved = Prompt saved
 toast.typographyReset = Typography settings reset

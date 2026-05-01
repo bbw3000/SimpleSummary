@@ -25,10 +25,10 @@ home.summaryLengthUnit = 字元
 home.autoHide = 自動隱藏
 home.autoHideHint = 摘要儲存時，所選範圍內的訊息會對 LLM 隱藏，效果等同 /hide。
 home.useStream = 串流請求
+home.autoRepairSummary = 自動對齊摘要
+home.autoRepairSummaryHint = 預設啟用，自動檢查和修復摘要隱藏範圍。
 home.summaryRange = 摘要範圍 · 保留訊息數
 home.startBtn = ▶ 產生摘要
-home.unhideBtn = 取消隱藏
-home.unhideHint = 讓所有未被摘要的訊息重新對 LLM 可見。
 home.requestPreviewBtn = 請求預覽
 
 # ── Edit Tab ──
@@ -114,8 +114,6 @@ settings.resetTypography = 重設字體設定
 settings.injectionDepth = 對話深度
 settings.injectionEnabled = 啟用插件注入
 settings.injectionHint = 啟用後，插件會將摘要注入到指定深度（預設 999，即最頂端）。停用時插件不會自動注入，您可以透過 ST 設定中的 {{SPSummaries}} 巨集隨時手動注入。
-settings.autoCleanupExpired = 自動清理過期摘要
-settings.autoCleanupExpiredHint = 啟用後，超過 180 天未更新的摘要會從插件資料檔中自動刪除。
 settings.resetPlugin = 重設插件
 
 # ── Preprocess Tab ──
@@ -162,7 +160,6 @@ macro.chatAfter = 後續聊天上下文
 macro.chatLang = 當前會話語言占比
 
 # ── Toast Messages ──
-toast.unsummarizedUnhidden = 所有未被摘要的訊息已重新可見。
 toast.summarySaved = 摘要已儲存
 toast.pluginReset = 已清除瀏覽器插件設定
 toast.noChat = 尚無聊天紀錄
@@ -171,6 +168,7 @@ toast.noMessagesInRange = 所選範圍內沒有可摘要的訊息
 toast.contentEmpty = 內容為空
 toast.segmentDeleted = 最新分段已刪除
 toast.segmentHiddenRestored = 已恢復最新分段的隱藏狀態
+toast.segmentsRepaired = 已修復 ${count} 段越界摘要
 toast.expiredSummariesCleared = 已清理 ${count} 個過期摘要
 toast.promptSaved = 提示詞已儲存
 toast.typographyReset = 字體設定已重設

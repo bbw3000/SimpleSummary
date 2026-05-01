@@ -1095,21 +1095,6 @@
     flex: 1;
 }
 
-.sp-home-unhide-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.sp-home-unhide-btn {
-    padding: 6px 12px;
-    min-height: 2.1em;
-    flex: 0 0 auto;
-    width: auto;
-    white-space: nowrap;
-    line-height: 1.2;
-}
 
 #sp-window.sp-fullscreen .sp-home-actions-row {
     flex-direction: column;
@@ -2204,8 +2189,7 @@
     flex-direction: column;
     gap: 8px;
     padding: 10px;
-    border: 1px solid var(--sp-border-subtle);
-    border-radius: 10px;
+    border: none;
     background: var(--sp-bg-input);
 }
 

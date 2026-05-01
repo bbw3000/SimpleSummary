@@ -25,10 +25,10 @@ home.summaryLengthUnit = 글자
 home.autoHide = 자동 숨기기
 home.autoHideHint = 요약을 저장할 때 선택한 범위의 메시지는 LLM에서 숨겨집니다. /hide와 같은 동작입니다.
 home.useStream = 스트리밍 요청
+home.autoRepairSummary = 요약 자동 복구
+home.autoRepairSummaryHint = 기본 활성화. 채팅 전환 시 요약 숨김 범위를 자동으로 확인하고 수정합니다.
 home.summaryRange = 요약 범위 · 유지 메시지 수
 home.startBtn = ▶ 요약 생성
-home.unhideBtn = 숨김 해제
-home.unhideHint = 요약되지 않은 모든 메시지를 다시 LLM이 볼 수 있게 합니다.
 home.requestPreviewBtn = 요청 미리보기
 
 # ── Edit Tab ──
@@ -114,8 +114,6 @@ settings.resetTypography = 글꼴 설정 초기화
 settings.injectionDepth = 채팅 깊이
 settings.injectionEnabled = 플러그인 주입 활성화
 settings.injectionHint = 활성화하면 플러그인이 지정된 깊이(기본값 999, 즉 상단)에 요약을 주입합니다. 비활성화하면 플러그인이 자동으로 주입하지 않으며, ST 프롬프트의 {{SPSummaries}} 매크로를 사용하여 언제든지 수동으로 주입할 수 있습니다.
-settings.autoCleanupExpired = 만료된 요약 자동 정리
-settings.autoCleanupExpiredHint = 활성화하면 180일 이상 업데이트되지 않은 요약이 플러그인 데이터 파일에서 자동으로 삭제됩니다.
 settings.resetPlugin = 플러그인 초기화
 
 # ── Preprocess Tab ──
@@ -162,7 +160,6 @@ macro.chatAfter = 후속 채팅 문맥
 macro.chatLang = 현재 세션 언어 비율
 
 # ── Toast Messages ──
-toast.unsummarizedUnhidden = 요약되지 않은 모든 메시지를 다시 보이게 했습니다.
 toast.summarySaved = 요약 저장됨
 toast.pluginReset = 브라우저 플러그인 설정이 지워졌습니다
 toast.noChat = 채팅 기록 없음
@@ -171,6 +168,7 @@ toast.noMessagesInRange = 선택한 범위에 요약할 메시지가 없습니�
 toast.contentEmpty = 내용이 비어 있습니다
 toast.segmentDeleted = 최근 분할이 삭제됨
 toast.segmentHiddenRestored = 최근 분할의 숨김 상태 복원됨
+toast.segmentsRepaired = 범위를 벗어난 요약 ${count}개를 복구했습니다
 toast.expiredSummariesCleared = 만료된 요약 ${count}개를 정리했습니다
 toast.promptSaved = 프롬프트 저장됨
 toast.typographyReset = 글꼴 설정이 초기화되었습니다

@@ -25,10 +25,10 @@ home.summaryLengthUnit = caractères
 home.autoHide = Masquer automatiquement
 home.autoHideHint = Lors de l'enregistrement d'un résumé, les messages de la plage sélectionnée sont masqués pour le LLM. C'est l'équivalent de /hide.
 home.useStream = Requête en streaming
+home.autoRepairSummary = Réparer automatiquement le résumé
+home.autoRepairSummaryHint = Activé par défaut. Vérifie et répare automatiquement les plages masquées du résumé lors du changement de chat.
 home.summaryRange = Plage de résumé · Messages à conserver
 home.startBtn = ▶ Résumer
-home.unhideBtn = Afficher
-home.unhideHint = Rend à nouveau visibles pour le LLM tous les messages non résumés.
 home.requestPreviewBtn = Aperçu requête
 
 # ── Edit Tab ──
@@ -114,8 +114,6 @@ settings.resetTypography = Réinitialiser la typographie
 settings.injectionDepth = Profondeur du chat
 settings.injectionEnabled = Activer l'injection du plugin
 settings.injectionHint = Lorsqu'activée, le plugin injecte le résumé dans le chat à la profondeur spécifiée (défaut 999, soit le haut). Lorsqu'elle est désactivée, le plugin n'injecte pas automatiquement ; vous pouvez utiliser la macro {{SPSummaries}} n'importe où dans votre preset ST pour une injection manuelle.
-settings.autoCleanupExpired = Nettoyer automatiquement les résumés expirés
-settings.autoCleanupExpiredHint = Lorsqu'il est activé, les résumés non mis à jour depuis plus de 180 jours seront supprimés automatiquement du fichier de données du plugin.
 settings.resetPlugin = Réinitialiser le plugin
 
 # ── Preprocess Tab ──
@@ -162,7 +160,6 @@ macro.chatAfter = Contexte de chat suivant
 macro.chatLang = Répartition des langues de la session actuelle
 
 # ── Toast Messages ──
-toast.unsummarizedUnhidden = Tous les messages non résumés sont à nouveau visibles.
 toast.summarySaved = Résumé enregistré
 toast.pluginReset = Paramètres navigateur du plugin effacés
 toast.noChat = Pas d'historique de chat
@@ -171,6 +168,7 @@ toast.noMessagesInRange = Aucun message à résumer dans la plage sélectionnée
 toast.contentEmpty = Le contenu est vide
 toast.segmentDeleted = Dernier segment supprimé
 toast.segmentHiddenRestored = État masqué du dernier segment restauré
+toast.segmentsRepaired = ${count} segment(s) hors plage réparé(s)
 toast.expiredSummariesCleared = ${count} résumés expirés supprimés
 toast.promptSaved = Prompt enregistré
 toast.typographyReset = Paramètres de typographie réinitialisés

@@ -10,7 +10,7 @@ import { createPromptPresetManager } from './src/prompt-presets.js';
 import { createApiPresetManager } from './src/api-presets.js';
 import { t, initI18n, setLocale, getCurrentLocale, getAvailableLocales, getLocaleLabel, applyAllDataI18n } from './src/i18n.js';
 import { createStorageManager } from './src/storage.js';
-import { createSegmentController, getSegmentLabel, normalizeRange } from './src/segments.js';
+import { getSegmentLabel, normalizeRange } from './src/segments.js';
 import { createPromptRuntime } from './src/prompt-runtime.js';
 import { createChatLogPreprocessManager } from './src/chat-log-preprocess.js';
 
@@ -34,7 +34,7 @@ const defaultSettings = Object.freeze({
     lightTheme: false,
     injectionEnabled: true,
     injectionDepth: 999,
-    autoCleanupExpired: true,
+    autoRepairSummary: true,
     activePromptPresetId: 'default',
     chatLogPreprocess: {
         structuredCleanup: true,
@@ -58,7 +58,6 @@ const BROWSER_SETTINGS_KEYS = Object.freeze(
 
 let loadedDefaultPromptData = { systemPrompt: '', userPrompt: '' };
 let storage;
-let segments;
 let promptRuntime;
 
 
@@ -305,34 +304,22 @@ function ensureCustomPromptsLoaded() {
     return storage.ensureCustomPromptsLoaded();
 }
 
-function ensureSummaryIndexLoaded() {
-    return storage.ensureSummaryIndexLoaded();
-}
-
 function queueCustomPromptsSave() {
     return storage.queueCustomPromptsSave();
 }
 
 function getCurrentChatId() {
-    return storage.getCurrentChatId();
+    const ctx = getST();
+    return ctx.chatId ?? ctx.getCurrentChatId?.() ?? '';
 }
 
-function ensureCurrentChatLoaded() {
-    return storage.ensureCurrentChatLoaded();
+function onCurrentChatChanged() {
+    const chat = getST()?.chat;
+    const len = Array.isArray(chat) ? chat.length : 0;
+    storage.onCurrentChatChanged(len);
+    applySummaryInjection();
+    refreshHome();
 }
-
-function saveCurrentChatState() {
-    return storage.saveCurrentChatState();
-}
-
-function resetCurrentChatState() {
-    return storage.resetCurrentChatState();
-}
-
-function cleanupExpiredSummaries(options) {
-    return storage.cleanupExpiredSummaries(options);
-}
-
 
 function removeLegacyPersistentFiles() {
     // no-op placeholder for older single-file leftovers; intentionally not used.
@@ -831,10 +818,6 @@ function saveInjectionSettingsFromForm() {
     applySummaryInjection();
 }
 
-function syncLegacySummaryCleanup() {
-    return stripLegacyChatMetadata();
-}
-
 function applySavedWindowSize() {
     const w = document.getElementById('sp-window');
     if (!w) return;
@@ -866,37 +849,45 @@ function saveCurrentWindowSize() {
 }
 
 // ---------------------------------------------------------------------------
-//  Persistent chat store  (user/files based segment system)
+//  Segment helpers — delegating to storage (backed by chat_metadata.SP)
 // ---------------------------------------------------------------------------
 
 function stripLegacyChatMetadata() {
-    const ctx = getST();
-    const meta = ctx.chatMetadata;
-    if (!meta || !Object.hasOwn(meta, 'simpleSummary')) return false;
-
-    delete meta.simpleSummary;
-    if (typeof ctx.saveMetadata === 'function') {
-        ctx.saveMetadata();
-    }
-    return true;
-}
-
-function migrateLegacyMeta() {
-    stripLegacyChatMetadata();
+    return storage.stripLegacyChatMetadata();
 }
 
 function getSegments() {
-    return segments.getSegments();
+    return storage.getSegmentsFromMeta();
 }
 
 function getChatSummary() {
-    return segments.getChatSummary();
+    return storage.getChatSummary();
+}
+
+function getSegmentById(id) {
+    return storage.getSegmentById(id);
+}
+
+function getLatestSegment() {
+    return storage.getLatestSegment();
+}
+
+function setSegmentSummaryText(id, txt) {
+    return storage.setSegmentSummaryText(id, txt);
+}
+
+function createSegment(summaryText, range) {
+    return storage.createSegment(summaryText, range);
+}
+
+function deleteLatestSegment() {
+    return storage.deleteLatestSegment();
 }
 
 function getSegmentIndexById(id) {
-    return segments.getSegmentIndexById(id);
+    const list = getSegments();
+    return list.findIndex(s => s.id === id);
 }
-
 
 function renderEditorView(targetId = null) {
     const editor = document.getElementById('sp-edit-textarea');
@@ -917,7 +908,6 @@ function renderEditorView(targetId = null) {
         const block = document.createElement('div');
         block.className = 'sp-edit-segment' + (i === targetIndex ? ' sp-edit-segment-current' : ' sp-edit-segment-ghost');
         block.dataset.segmentId = segment.id;
-        block.dataset.range = `${segment.range?.start ?? 0}-${segment.range?.end ?? -1}`;
         block.textContent = String(segment.summaryText || '');
         if (i === targetIndex) {
             block.contentEditable = 'true';
@@ -985,26 +975,6 @@ function animateScrollTop(el, targetTop, duration = 320) {
     };
 
     el._spScrollRaf = requestAnimationFrame(step);
-}
-
-function getSegmentById(id) {
-    return segments.getSegmentById(id);
-}
-
-function getLatestSegment() {
-    return segments.getLatestSegment();
-}
-
-function setSegmentSummaryText(id, txt) {
-    return segments.setSegmentSummaryText(id, txt);
-}
-
-function createSegment(summaryText, range) {
-    return segments.createSegment(summaryText, range);
-}
-
-function deleteLatestSegment() {
-    return segments.deleteLatestSegment();
 }
 
 
@@ -1365,13 +1335,6 @@ storage = createStorageManager({
     toast,
 });
 
-segments = createSegmentController({
-    getMeta: () => storage.getCurrentChatState(),
-    ensureMeta: () => storage.getCurrentChatState(),
-    saveMeta: () => { void saveCurrentChatState(); },
-    onChange: applySummaryInjection,
-});
-
 promptRuntime = createPromptRuntime({
     getST,
     getSegments,
@@ -1718,22 +1681,23 @@ function bindEvents() {
 
     on('sp-start-btn',      'click', startSummary);
     on('sp-request-preview-btn', 'click', openSummaryRequestPreview);
-    let unhideHelpTimer = null;
-    on('sp-unhide-help', 'click', () => {
-        const hint = document.getElementById('sp-unhide-hint');
+
+    // Auto-repair toggle (home)
+    let autoRepairHomeHelpTimer = null;
+    on('sp-auto-repair-help', 'click', () => {
+        const hint = document.getElementById('sp-auto-repair-hint-home');
         if (!hint) return;
         hint.style.display = 'block';
-        clearTimeout(unhideHelpTimer);
-        unhideHelpTimer = setTimeout(() => {
+        clearTimeout(autoRepairHomeHelpTimer);
+        autoRepairHomeHelpTimer = setTimeout(() => {
             hint.style.display = 'none';
         }, 5000);
     });
-
-    on('sp-unhide-btn', 'click', async () => {
-        await unhideUnsummarizedMessages();
-        toast(t('toast.unsummarizedUnhidden'));
-        refreshHome();
+    on('sp-opt-auto-repair', 'change', e => {
+        getSettings().autoRepairSummary = !!e.target.checked;
+        saveSettings();
     });
+    setChecked('sp-opt-auto-repair', !!getSettings().autoRepairSummary);
 
     // ── Edit ──
     on('sp-edit-save-btn', 'click', saveCurrentSummaryEditor);
@@ -1804,13 +1768,8 @@ function bindEvents() {
     // ── Settings ──
     on('sp-injection-enabled', 'change', saveInjectionSettingsFromForm);
     on('sp-injection-depth', 'change', saveInjectionSettingsFromForm);
-    on('sp-auto-cleanup-expired', 'change', e => {
-        getSettings().autoCleanupExpired = !!e.target.checked;
-        saveSettings();
-    });
     refreshInjectionSettingsUI();
     refreshTypographyUI();
-    setChecked('sp-auto-cleanup-expired', !!getSettings().autoCleanupExpired);
 
     on('sp-font-ui-select', 'change', () => onFontSelectChange('ui'));
     on('sp-font-text-select', 'change', () => onFontSelectChange('text'));
@@ -1873,16 +1832,6 @@ function bindEvents() {
         }, 10000);
     });
 
-    let autoCleanupHelpTimer = null;
-    on('sp-auto-cleanup-help', 'click', () => {
-        const hint = document.getElementById('sp-auto-cleanup-hint');
-        if (!hint) return;
-        hint.style.display = 'block';
-        clearTimeout(autoCleanupHelpTimer);
-        autoCleanupHelpTimer = setTimeout(() => {
-            hint.style.display = 'none';
-        }, 5000);
-    });
 
     // ── Preview ── 生成中：仅中止请求；空闲时「取消」才关闭预览
     on('sp-preview-cancel-btn', 'click', () => {
@@ -2081,6 +2030,7 @@ if (item.dataset.id === currentId) return;
         
         // Update UI to reflect reset settings
         setChecked('sp-opt-auto-hide', s.autoHide);
+        setChecked('sp-opt-auto-repair', s.autoRepairSummary);
         setChecked('sp-opt-stream', s.useStream);
         const retainInput = document.getElementById('sp-range-retain');
         if (retainInput) retainInput.value = String(s.summaryRetainCount);
@@ -2784,16 +2734,11 @@ export function onActivate() {
 
         await ensureSettingsLoaded();
         await ensureCustomPromptsLoaded();
-        await ensureSummaryIndexLoaded();
-        await ensureCurrentChatLoaded();
 
         // Initialize i18n
         const s = getSettings();
         await initI18n(s.locale);
-        syncLegacySummaryCleanup();
-        await cleanupExpiredSummaries({ silent: true });
-
-        migrateLegacyMeta();
+        stripLegacyChatMetadata();
         migratePreprocessSettings();
         registerMacros();
 
@@ -2801,15 +2746,15 @@ export function onActivate() {
         await reloadDefaultPrompt();
 
         await buildUI();
-        applySummaryInjection();
-        refreshHome();
+        stripLegacyChatMetadata();
+        await onCurrentChatChanged();
+        await unhideUnsummarizedMessages();
     });
 
     eventSource.on(event_types.CHAT_CHANGED, async () => {
-        await ensureCurrentChatLoaded();
-        syncLegacySummaryCleanup();
-        applySummaryInjection();
-        refreshHome();
+        stripLegacyChatMetadata();
+        await onCurrentChatChanged();
+        await unhideUnsummarizedMessages();
     });
 
     eventSource.on(event_types.CHARACTER_MESSAGE_RENDERED, () => {

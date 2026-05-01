@@ -1,13 +1,8 @@
 import { createDefaultChatState, normalizeChatState } from './segments.js';
 
 const STORAGE_VERSION = 1;
-const EXPIRY_DAYS = 180;
-const EXPIRY_MS = EXPIRY_DAYS * 24 * 60 * 60 * 1000;
 const SETTINGS_FILE_NAME = 'SP_settings.json';
 const BROWSER_SETTINGS_STORAGE_KEY = 'SimpleSummary:browserSettings';
-const SUMMARY_INDEX_FILE_NAME = 'SP_summary_index.json';
-const SUMMARY_FILE_PREFIX = 'SP_summary_';
-const SUMMARY_FILE_SUFFIX = '.json';
 const CUSTOM_PROMPTS_FILE_NAME = 'SP_custom_prompts.json';
 const SETTINGS_FILE_DEBOUNCE_MS = 10000;
 
@@ -21,21 +16,6 @@ function encodeTextToBase64(text) {
     return btoa(binary);
 }
 
-function hashChatId(chatId) {
-    const bytes = new TextEncoder().encode(String(chatId ?? ''));
-    let hash = 0xcbf29ce484222325n;
-    const prime = 0x100000001b3n;
-    for (const byte of bytes) {
-        hash ^= BigInt(byte);
-        hash = (hash * prime) & 0xffffffffffffffffn;
-    }
-    return hash.toString(16).padStart(16, '0');
-}
-
-function getChatFileName(chatId) {
-    return `${SUMMARY_FILE_PREFIX}${hashChatId(chatId)}${SUMMARY_FILE_SUFFIX}`;
-}
-
 function getUserFilePath(fileName) {
     return `/user/files/${encodeURIComponent(fileName)}`;
 }
@@ -43,22 +23,14 @@ function getUserFilePath(fileName) {
 export function createStorageManager({ defaultSettings, browserSettingsKeys, moduleName, getST, translate, toast } = {}) {
     const t = typeof translate === 'function' ? translate : (key) => key;
     let settingsState = structuredClone(defaultSettings || {});
-    let summaryIndexState = { version: STORAGE_VERSION, chats: {} };
-    let currentChatId = '';
-    let currentChatFileName = '';
-    let currentChatState = null;
     let settingsLoaded = false;
-    let indexLoaded = false;
     let settingsLoadPromise = null;
-    let indexLoadPromise = null;
-    let currentChatLoadPromise = null;
-    let currentChatSavePromise = Promise.resolve();
-    let persistChain = Promise.resolve();
     let customPromptsState = [];
     let customPromptsLoaded = false;
     let customPromptsLoadPromise = null;
     let settingsSaveTimer = null;
     let lastWrittenSettingsJson = null;
+    let persistChain = Promise.resolve();
 
     const getSettings = () => {
         const s = settingsState;
@@ -103,22 +75,6 @@ export function createStorageManager({ defaultSettings, browserSettingsKeys, mod
         if (!response.ok) {
             const error = await response.text();
             throw new Error(error || `Failed to save ${fileName}`);
-        }
-    };
-
-    const deleteUserFile = async (fileName) => {
-        const response = await fetch('/api/files/delete', {
-            method: 'POST',
-            headers: {
-                ...getRequestHeaders(),
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ path: `/user/files/${fileName}` }),
-        });
-
-        if (!response.ok && response.status !== 404) {
-            const error = await response.text();
-            throw new Error(error || `Failed to delete ${fileName}`);
         }
     };
 
@@ -201,24 +157,11 @@ export function createStorageManager({ defaultSettings, browserSettingsKeys, mod
         return persistChain;
     };
 
-    const writeSummaryIndexFile = async () => {
-        await writeUserFileText(SUMMARY_INDEX_FILE_NAME, JSON.stringify(summaryIndexState, null, 2));
-    };
-
     const writeCustomPromptsFile = async () => {
         await writeUserFileText(CUSTOM_PROMPTS_FILE_NAME, JSON.stringify({
             version: STORAGE_VERSION,
             prompts: customPromptsState,
         }, null, 2));
-    };
-
-    const queueIndexSave = () => {
-        persistChain = persistChain
-            .then(() => writeSummaryIndexFile())
-            .catch(error => {
-                console.error('[SimpleSummary] Failed to save summary index:', error);
-            });
-        return persistChain;
     };
 
     const queueCustomPromptsSave = () => {
@@ -309,159 +252,144 @@ export function createStorageManager({ defaultSettings, browserSettingsKeys, mod
         return customPromptsLoadPromise;
     };
 
-    const ensureSummaryIndexLoaded = async () => {
-        if (indexLoaded) return summaryIndexState;
-        if (indexLoadPromise) return indexLoadPromise;
+    // ── Chat metadata-based segments ──
 
-        indexLoadPromise = (async () => {
-            const raw = await readUserFileText(SUMMARY_INDEX_FILE_NAME);
-            if (raw) {
-                try {
-                    const parsed = JSON.parse(raw);
-                    if (parsed && typeof parsed === 'object') {
-                        summaryIndexState = {
-                            version: STORAGE_VERSION,
-                            chats: parsed.chats && typeof parsed.chats === 'object' ? parsed.chats : {},
-                        };
-                    }
-                } catch (error) {
-                    console.warn('[SimpleSummary] Failed to parse summary index, starting fresh.', error);
-                    summaryIndexState = { version: STORAGE_VERSION, chats: {} };
-                }
-            }
-
-            const legacy = getST?.()?.extensionSettings?.[moduleName];
-            if (legacy && legacy.chats && typeof legacy.chats === 'object') {
-                for (const [chatId, state] of Object.entries(legacy.chats)) {
-                    const fileName = getChatFileName(chatId);
-                    summaryIndexState.chats[hashChatId(chatId)] = {
-                        chatId,
-                        fileName,
-                        updatedAt: Number(state?.updatedAt || Date.now()),
-                    };
-                }
-                await queueIndexSave();
-            }
-
-            indexLoaded = true;
-            return summaryIndexState;
-        })();
-
-        return indexLoadPromise;
+    const getSegmentsFromMeta = () => {
+        const ctx = getST?.();
+        const meta = ctx?.chatMetadata;
+        if (!meta) return [];
+        const state = normalizeChatState(meta.SP, '');
+        return state.segments;
     };
 
-    const getCurrentChatId = () => {
-        const ctx = getST?.() || {};
-        const chatId = ctx.chatId ?? ctx.getCurrentChatId?.();
-        if (chatId === undefined || chatId === null) return '';
-        return String(chatId).trim();
-    };
-
-    const getCurrentChatFileName = (chatId = currentChatId) => chatId ? getChatFileName(chatId) : '';
-
-    const ensureCurrentChatLoaded = async () => {
-        const chatId = getCurrentChatId();
-        if (!chatId) {
-            currentChatId = '';
-            currentChatFileName = '';
-            currentChatState = null;
-            return null;
+    const ensureSegmentsInMeta = () => {
+        const ctx = getST?.();
+        if (!ctx) return null;
+        const meta = ctx.chatMetadata;
+        if (!meta) return null;
+        if (!meta.SP || typeof meta.SP !== 'object') {
+            meta.SP = createDefaultChatState('');
         }
-
-        if (currentChatState && currentChatId === chatId) return currentChatState;
-
-        currentChatId = chatId;
-        currentChatFileName = getCurrentChatFileName(chatId);
-        if (currentChatLoadPromise) return currentChatLoadPromise;
-
-        currentChatLoadPromise = (async () => {
-            const raw = await readUserFileText(currentChatFileName);
-            if (raw) {
-                try {
-                    currentChatState = normalizeChatState(JSON.parse(raw), chatId);
-                } catch (error) {
-                    console.warn('[SimpleSummary] Failed to parse summary file, starting fresh.', error);
-                    currentChatState = createDefaultChatState(chatId);
-                }
-            } else {
-                currentChatState = createDefaultChatState(chatId);
-            }
-
-            currentChatState = normalizeChatState(currentChatState, chatId);
-            summaryIndexState.chats[hashChatId(chatId)] = {
-                chatId,
-                fileName: currentChatFileName,
-                updatedAt: currentChatState.updatedAt,
-            };
-            await queueIndexSave();
-            currentChatLoadPromise = null;
-            return currentChatState;
-        })();
-
-        return currentChatLoadPromise;
+        meta.SP = normalizeChatState(meta.SP, '');
+        return meta.SP;
     };
 
-    const touchCurrentChatState = () => {
-        if (!currentChatState) return null;
-        currentChatState.updatedAt = Date.now();
-        return currentChatState;
-    };
-
-    const saveCurrentChatState = async () => {
-        const state = touchCurrentChatState();
-        if (!state || !currentChatFileName) return;
-        currentChatSavePromise = currentChatSavePromise
-            .then(async () => {
-                await writeUserFileText(currentChatFileName, JSON.stringify(state, null, 2));
-                summaryIndexState.chats[hashChatId(currentChatId)] = {
-                    chatId: currentChatId,
-                    fileName: currentChatFileName,
-                    updatedAt: state.updatedAt,
-                };
-                await queueIndexSave();
-            })
-            .catch(error => {
-                console.error('[SimpleSummary] Failed to save current chat state:', error);
-            });
-        await currentChatSavePromise;
-    };
-
-    const resetCurrentChatState = async () => {
-        if (!currentChatFileName || !currentChatId) return;
-        currentChatState = createDefaultChatState(currentChatId);
-        delete summaryIndexState.chats[hashChatId(currentChatId)];
-        await deleteUserFile(currentChatFileName);
-        await queueIndexSave();
-    };
-
-    const cleanupExpiredSummaries = async ({ force = false, silent = false } = {}) => {
-        if (!force && !getSettings().autoCleanupExpired) return 0;
-
-        await ensureSummaryIndexLoaded();
-        const cutoff = Date.now() - EXPIRY_MS;
-        let removed = 0;
-
-        for (const [hash, entry] of Object.entries(summaryIndexState.chats || {})) {
-            const updatedAt = Number(entry?.updatedAt || 0);
-            if (!Number.isFinite(updatedAt) || updatedAt <= 0 || updatedAt >= cutoff) continue;
-
-            const fileName = entry.fileName || `${SUMMARY_FILE_PREFIX}${hash}${SUMMARY_FILE_SUFFIX}`;
-            try {
-                await deleteUserFile(fileName);
-            } catch (error) {
-                console.warn('[SimpleSummary] Failed to delete expired summary file:', fileName, error);
-            }
-            delete summaryIndexState.chats[hash];
-            removed++;
+    const saveCurrentChatMetadata = () => {
+        const ctx = getST?.();
+        if (ctx && typeof ctx.saveMetadataDebounced === 'function') {
+            ctx.saveMetadataDebounced();
         }
+    };
 
-        if (removed > 0) {
-            await queueIndexSave();
-            if (!silent && typeof toast === 'function') {
-                toast(t('toast.expiredSummariesCleared', { count: removed }));
+    const getSegments = () => getSegmentsFromMeta();
+
+    const getChatSummary = () => {
+        const segments = getSegments();
+        if (!segments.length) return '';
+        return segments
+            .map(segment => String(segment?.summaryText || '').trim())
+            .filter(Boolean)
+            .join('\n\n');
+    };
+
+    const getSegmentById = (id) => {
+        if (!id) return null;
+        return getSegments().find(segment => segment.id === id) || null;
+    };
+
+    const getLatestSegment = () => {
+        const segments = getSegments();
+        return segments.length ? segments[segments.length - 1] : null;
+    };
+
+    const setSegmentSummaryText = (id, txt) => {
+        const state = ensureSegmentsInMeta();
+        if (!state) return null;
+        const segment = getSegmentById(id);
+        if (!segment) return null;
+        segment.summaryText = String(txt ?? '');
+        segment.updatedAt = Date.now();
+        saveCurrentChatMetadata();
+        return segment;
+    };
+
+    const createSegment = (summaryText, range) => {
+        const state = ensureSegmentsInMeta();
+        if (!state) return null;
+        const segment = {
+            id: `seg_${Date.now()}_${Math.random().toString(16).slice(2, 8)}`,
+            timestamp: Date.now(),
+            summaryText: String(summaryText || ''),
+            updatedAt: Date.now(),
+            range: { start: Number(range?.start) || 0, end: Number(range?.end) ?? -1 },
+        };
+        if (!Number.isFinite(segment.range.end)) segment.range.end = -1;
+        state.segments.push(segment);
+        saveCurrentChatMetadata();
+        return segment;
+    };
+
+    const deleteLatestSegment = () => {
+        const state = ensureSegmentsInMeta();
+        if (!state || !Array.isArray(state.segments) || !state.segments.length) return null;
+        const removed = state.segments.pop();
+        saveCurrentChatMetadata();
+        return removed;
+    };
+
+    const resetCurrentChatSegments = () => {
+        const ctx = getST?.();
+        const meta = ctx?.chatMetadata;
+        if (!meta) return;
+        delete meta.SP;
+        saveCurrentChatMetadata();
+    };
+
+    const stripLegacyChatMetadata = () => {
+        const ctx = getST?.();
+        const meta = ctx?.chatMetadata;
+        if (!meta || !Object.hasOwn(meta, 'simpleSummary')) return false;
+        delete meta.simpleSummary;
+        if (typeof ctx.saveMetadata === 'function') {
+            ctx.saveMetadata();
+        }
+        return true;
+    };
+
+    const repairSegments = (chatLength) => {
+        const state = ensureSegmentsInMeta();
+        if (!state || !Array.isArray(state.segments) || !state.segments.length) return 0;
+
+        const lastMsgIndex = chatLength - 1;
+        let cutIndex = -1;
+
+        for (let i = 0; i < state.segments.length; i++) {
+            const seg = state.segments[i];
+            const end = Number(seg?.range?.end);
+            if (Number.isFinite(end) && end >= lastMsgIndex) {
+                cutIndex = i;
+                break;
             }
         }
 
+        if (cutIndex < 0) return 0;
+
+        const removed = state.segments.length - cutIndex;
+        state.segments.splice(cutIndex);
+        saveCurrentChatMetadata();
+        return removed;
+    };
+
+    const onCurrentChatChanged = (chatLength) => {
+        if (!chatLength || chatLength <= 0) return 0;
+
+        const s = getSettings();
+        if (!s.autoRepairSummary) return 0;
+
+        const removed = repairSegments(chatLength);
+        if (removed > 0 && typeof toast === 'function') {
+            toast(t('toast.segmentsRepaired', { count: removed }));
+        }
         return removed;
     };
 
@@ -476,14 +404,18 @@ export function createStorageManager({ defaultSettings, browserSettingsKeys, mod
         setCustomPrompts: (prompts) => { customPromptsState = Array.isArray(prompts) ? prompts : []; },
         ensureSettingsLoaded,
         ensureCustomPromptsLoaded,
-        ensureSummaryIndexLoaded,
         queueCustomPromptsSave,
-        getCurrentChatId,
-        getCurrentChatFileName,
-        ensureCurrentChatLoaded,
-        getCurrentChatState: () => currentChatState,
-        saveCurrentChatState,
-        resetCurrentChatState,
-        cleanupExpiredSummaries,
+        // Segments via chat_metadata
+        getSegmentsFromMeta,
+        getChatSummary,
+        getSegmentById,
+        getLatestSegment,
+        setSegmentSummaryText,
+        createSegment,
+        deleteLatestSegment,
+        resetCurrentChatSegments,
+        stripLegacyChatMetadata,
+        repairSegments,
+        onCurrentChatChanged,
     };
 }

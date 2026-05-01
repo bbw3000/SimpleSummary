@@ -25,10 +25,10 @@ home.summaryLengthUnit = حرف
 home.autoHide = إخفاء تلقائي
 home.autoHideHint = عند حفظ الملخص، تُخفى الرسائل في النطاق المحدد عن الـ LLM. وهذا يعادل /hide.
 home.useStream = طلب بث
+home.autoRepairSummary = إصلاح الملخص تلقائياً
+home.autoRepairSummaryHint = مفعل افتراضياً. يتحقق ويصلح نطاقات الإخفاء للملخص تلقائياً عند تبديل الدردشات.
 home.summaryRange = نطاق الملخص · عدد الرسائل المحتفَظ بها
 home.startBtn = ▶ لخص
-home.unhideBtn = إلغاء الإخفاء
-home.unhideHint = إظهار جميع الرسائل غير المُلخَّصة للـ LLM مرة أخرى.
 home.requestPreviewBtn = معاينة الطلب
 
 # ── Edit Tab ──
@@ -114,8 +114,6 @@ settings.resetTypography = إعادة ضبط الطباعة
 settings.injectionDepth = عمق المحادثة
 settings.injectionEnabled = تفعيل حقن الإضافة
 settings.injectionHint = عند التفعيل، تحقن الإضافة الملخص في المحادثة على العمق المحدد (افتراضي 999، أي الأعلى). عند التعطيل، لا تحقن الإضافة تلقائياً؛ يمكنك استخدام ماكرو {{SPSummaries}} في أي مكان في إعداد ST للحقن اليدوي.
-settings.autoCleanupExpired = حذف الملخصات المنتهية تلقائياً
-settings.autoCleanupExpiredHint = عند التفعيل، سيتم حذف الملخصات التي لم تُحدَّث منذ أكثر من 180 يوماً تلقائياً من ملف بيانات الملحق.
 settings.resetPlugin = إعادة تعيين الإضافة
 
 # ── Preprocess Tab ──
@@ -162,7 +160,6 @@ macro.chatAfter = سياق المحادثة اللاحق
 macro.chatLang = نسبة لغات الجلسة الحالية
 
 # ── Toast Messages ──
-toast.unsummarizedUnhidden = أصبحت جميع الرسائل غير المُلخَّصة مرئية مرة أخرى.
 toast.summarySaved = تم حفظ الملخص
 toast.pluginReset = تم مسح إعدادات الإضافة في المتصفح
 toast.noChat = لا يوجد سجل محادثة
@@ -171,6 +168,7 @@ toast.noMessagesInRange = لا توجد رسائل لتلخيصها في الن�
 toast.contentEmpty = المحتوى فارغ
 toast.segmentDeleted = تم حذف أحدث جزء
 toast.segmentHiddenRestored = تم استعادة حالة الإخفاء لأحدث جزء
+toast.segmentsRepaired = تم إصلاح ${count} جزء/أجزاء خارج النطاق
 toast.expiredSummariesCleared = تم تنظيف ${count} من الملخصات المنتهية
 toast.promptSaved = تم حفظ الوصف
 toast.typographyReset = تمت إعادة ضبط إعدادات الطباعة

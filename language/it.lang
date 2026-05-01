@@ -25,10 +25,10 @@ home.summaryLengthUnit = caratteri
 home.autoHide = Nascondi automaticamente
 home.autoHideHint = Durante il salvataggio di un riepilogo, i messaggi nell'intervallo selezionato vengono nascosti al LLM. È l'equivalente di /hide.
 home.useStream = Richiesta in streaming
+home.autoRepairSummary = Ripara automaticamente il riepilogo
+home.autoRepairSummaryHint = Abilitato per impostazione predefinita. Controlla e ripara automaticamente gli intervalli nascosti del riepilogo quando si cambia chat.
 home.summaryRange = Intervallo riepilogo · Messaggi da conservare
 home.startBtn = ▶ Riepiloga
-home.unhideBtn = Rimuovi nascondi
-home.unhideHint = Rende di nuovo visibili al LLM tutti i messaggi non riepilogati.
 home.requestPreviewBtn = Anteprima richiesta
 
 # ── Edit Tab ──
@@ -114,8 +114,6 @@ settings.resetTypography = Reimposta tipografia
 settings.injectionDepth = Profondità chat
 settings.injectionEnabled = Attiva iniezione plugin
 settings.injectionHint = Se attivata, il plugin inietta il riepilogo nella chat alla profondità specificata (predefinita 999, cioè in alto). Quando disattivata, il plugin non inietta automaticamente; puoi usare la macro {{SPSummaries}} ovunque nel tuo preset ST per un'iniezione manuale.
-settings.autoCleanupExpired = Rimuovi automaticamente i riepiloghi scaduti
-settings.autoCleanupExpiredHint = Quando abilitato, i riepiloghi non aggiornati da oltre 180 giorni verranno rimossi automaticamente dal file dati del plugin.
 settings.resetPlugin = Ripristina plugin
 
 # ── Preprocess Tab ──
@@ -162,7 +160,6 @@ macro.chatAfter = Contesto chat successivo
 macro.chatLang = Distribuzione lingue della sessione corrente
 
 # ── Toast Messages ──
-toast.unsummarizedUnhidden = Tutti i messaggi non riepilogati sono di nuovo visibili.
 toast.summarySaved = Riepilogo salvato
 toast.pluginReset = Impostazioni browser del plugin cancellate
 toast.noChat = Nessuna cronologia chat
@@ -171,6 +168,7 @@ toast.noMessagesInRange = Nessun messaggio da riepilogare nell'intervallo selezi
 toast.contentEmpty = Il contenuto è vuoto
 toast.segmentDeleted = Ultimo segmento eliminato
 toast.segmentHiddenRestored = Stato nascosto dell'ultimo segmento ripristinato
+toast.segmentsRepaired = ${count} segmento(i) fuori intervallo riparati
 toast.expiredSummariesCleared = Eliminati ${count} riepiloghi scaduti
 toast.promptSaved = Prompt salvato
 toast.typographyReset = Impostazioni tipografiche ripristinate

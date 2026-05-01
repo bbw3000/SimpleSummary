@@ -25,10 +25,10 @@ home.summaryLengthUnit = अक्षर
 home.autoHide = स्वतः छिपाएँ
 home.autoHideHint = सारांश सहेजते समय चुनी हुई सीमा के संदेश LLM से छिपा दिए जाते हैं। यह /hide जैसा ही है।
 home.useStream = स्ट्रीम अनुरोध
+home.autoRepairSummary = सारांश स्वतः मरम्मत करें
+home.autoRepairSummaryHint = डिफ़ॉल्ट रूप से सक्षम। चैट स्विच करते समय सारांश छिपी रेंज की स्वतः जाँच और मरम्मत करता है।
 home.summaryRange = सारांश सीमा · रखने वाले संदेश
 home.startBtn = ▶ सारांश
-home.unhideBtn = छिपाना हटाएँ
-home.unhideHint = सभी असारांशित संदेशों को फिर से LLM के लिए दिखाएँ।
 home.requestPreviewBtn = अनुरोध पूर्वावलोकन
 
 # ── Edit Tab ──
@@ -114,8 +114,6 @@ settings.resetTypography = टाइपोग्राफी रीसेट क
 settings.injectionDepth = चैट गहराई
 settings.injectionEnabled = प्लगइन इंजेक्शन सक्षम करें
 settings.injectionHint = सक्षम होने पर, प्लगइन सारांश को निर्दिष्ट गहराई पर चैट में इंजेक्ट करता है (डिफ़ॉल्ट 999, यानी ऊपर)। अक्षम होने पर प्लगइन स्वचालित रूप से इंजेक्ट नहीं करता; मैन्युअल इंजेक्शन के लिए अपनी ST प्रीसेट में कहीं भी {{SPSummaries}} मैक्रो का उपयोग कर सकते हैं।
-settings.autoCleanupExpired = समाप्त सारों को स्वतः साफ़ करें
-settings.autoCleanupExpiredHint = सक्षम होने पर, 180 दिनों से अधिक समय से अपडेट न किए गए सार प्लगइन डेटा फ़ाइल से स्वतः हटा दिए जाएंगे।
 settings.resetPlugin = प्लगइन रीसेट करें
 
 # ── Preprocess Tab ──
@@ -162,7 +160,6 @@ macro.chatAfter = आगे की चैट का संदर्भ
 macro.chatLang = वर्तमान सत्र की भाषा-वितरण
 
 # ── Toast Messages ──
-toast.unsummarizedUnhidden = सभी असारांशित संदेश अब फिर से दिखाई दे रहे हैं।
 toast.summarySaved = सारांश सहेजा गया
 toast.pluginReset = ब्राउज़र प्लगइन सेटिंग्स साफ़ की गईं
 toast.noChat = कोई चैट इतिहास नहीं
@@ -171,6 +168,7 @@ toast.noMessagesInRange = चयनित सीमा में सारां
 toast.contentEmpty = सामग्री खाली है
 toast.segmentDeleted = नवीनतम खंड हटाया गया
 toast.segmentHiddenRestored = नवीनतम खंड की छुपी हुई स्थिति पुनर्स्थापित
+toast.segmentsRepaired = ${count} सीमा से बाहर खंडों की मरम्मत की गई
 toast.expiredSummariesCleared = ${count} समाप्त सारांश साफ़ किए गए
 toast.promptSaved = प्रॉम्प्ट सहेजा गया
 toast.typographyReset = टाइपोग्राफी सेटिंग्स रीसेट हो गईं

@@ -25,10 +25,10 @@ home.summaryLengthUnit = 字
 home.autoHide = 自动隐藏
 home.autoHideHint = 摘要保存时，所选范围内的消息会对 LLM 隐藏，效果等同 /hide。
 home.useStream = 流式请求 (Stream)
+home.autoRepairSummary = 自动对齐摘要
+home.autoRepairSummaryHint = 默认启用，自动检查和修复摘要隐藏范围。
 home.summaryRange = 总结范围 · 保留消息数
 home.startBtn = ▶ 生成摘要
-home.unhideBtn = 取消隐藏
-home.unhideHint = 让所有未被摘要的消息重新对 LLM 可见。
 home.requestPreviewBtn = 请求预览
 
 # ── Edit Tab ──
@@ -114,8 +114,6 @@ settings.resetTypography = 重置字体设置
 settings.injectionDepth = 聊天记录深度
 settings.injectionEnabled = 启用插件注入
 settings.injectionHint = 开启后，插件会把摘要内容作为聊天记录注入到指定深度（默认深度999，即顶楼）。关闭后，插件不会自动注入，你可以在酒馆预设的任意位置自行使用 {{SPSummaries}}宏注入。
-settings.autoCleanupExpired = 自动清理过期摘要
-settings.autoCleanupExpiredHint = 启用后，超过 180 天未更新的摘要会从插件数据文件中自动删除。
 settings.resetPlugin = 重置插件
 
 # ── Preprocess Tab ──
@@ -162,7 +160,6 @@ macro.chatAfter = 后续聊天上下文
 macro.chatLang = 当前会话语言占比
 
 # ── Toast Messages ──
-toast.unsummarizedUnhidden = 已让所有未被摘要的消息重新可见。
 toast.summarySaved = 摘要已保存
 toast.pluginReset = 已清除浏览器插件设置
 toast.noChat = 没有聊天记录
@@ -171,6 +168,7 @@ toast.noMessagesInRange = 所选范围内没有待总结消息
 toast.contentEmpty = 内容为空
 toast.segmentDeleted = 最新分段已删除
 toast.segmentHiddenRestored = 已恢复最新分段的隐藏状态
+toast.segmentsRepaired = 已修复 ${count} 段越界摘要
 toast.expiredSummariesCleared = 已清理 ${count} 个过期摘要
 toast.promptSaved = 提示词已保存
 toast.typographyReset = 字体设置已重置

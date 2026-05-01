@@ -25,10 +25,10 @@ home.summaryLengthUnit = Zeichen
 home.autoHide = Automatisch ausblenden
 home.autoHideHint = Beim Speichern einer Zusammenfassung werden die Nachrichten im ausgewählten Bereich für das LLM ausgeblendet. Das entspricht /hide.
 home.useStream = Streaming-Anfrage
+home.autoRepairSummary = Zusammenfassung automatisch reparieren
+home.autoRepairSummaryHint = Standardmäßig aktiviert. Überprüft und repariert automatisch versteckte Bereiche der Zusammenfassung beim Wechseln von Chats.
 home.summaryRange = Zusammenfassungsbereich · Nachrichten behalten
 home.startBtn = ▶ Zusammenfassen
-home.unhideBtn = Ausblenden aufheben
-home.unhideHint = Stellt alle nicht zusammengefassten Nachrichten wieder für das LLM sichtbar.
 home.requestPreviewBtn = Anfragevorschau
 
 # ── Edit Tab ──
@@ -114,8 +114,6 @@ settings.resetTypography = Typografie zurücksetzen
 settings.injectionDepth = Chat-Tiefe
 settings.injectionEnabled = Plugin-Injektion aktivieren
 settings.injectionHint = Wenn aktiviert, injiziert das Plugin die Zusammenfassung im Chat auf der angegebenen Tiefe (Standard 999, d.h. oben). Wenn deaktiviert, injiziert das Plugin nicht automatisch; Sie können das Makro {{SPSummaries}} beliebig in Ihrem ST-Preset verwenden, um manuell zu injizieren.
-settings.autoCleanupExpired = Abgelaufene Zusammenfassungen automatisch bereinigen
-settings.autoCleanupExpiredHint = Wenn aktiviert, werden Zusammenfassungen, die seit mehr als 180 Tagen nicht aktualisiert wurden, automatisch aus der Plugin-Datendatei entfernt.
 settings.resetPlugin = Plugin zurücksetzen
 
 # ── Preprocess Tab ──
@@ -162,7 +160,6 @@ macro.chatAfter = Nachfolgender Chatkontext
 macro.chatLang = Sprachverteilung der aktuellen Sitzung
 
 # ── Toast Messages ──
-toast.unsummarizedUnhidden = Alle nicht zusammengefassten Nachrichten sind wieder sichtbar.
 toast.summarySaved = Zusammenfassung gespeichert
 toast.pluginReset = Browser-Plugin-Einstellungen gelöscht
 toast.noChat = Kein Chatverlauf
@@ -171,6 +168,7 @@ toast.noMessagesInRange = Keine Nachrichten zum Zusammenfassen im ausgewählten 
 toast.contentEmpty = Inhalt ist leer
 toast.segmentDeleted = Letztes Segment gelöscht
 toast.segmentHiddenRestored = Ausgeblendeter Zustand des letzten Segments wiederhergestellt
+toast.segmentsRepaired = ${count} Segment(e) außerhalb des Bereichs repariert
 toast.expiredSummariesCleared = ${count} abgelaufene Zusammenfassungen bereinigt
 toast.promptSaved = Prompt gespeichert
 toast.typographyReset = Typografieeinstellungen zurückgesetzt

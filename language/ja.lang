@@ -25,10 +25,10 @@ home.summaryLengthUnit = 文字
 home.autoHide = 自動非表示
 home.autoHideHint = 要約を保存すると、選択範囲のメッセージは LLM から非表示になります。/hide と同じ動作です。
 home.useStream = ストリームリクエスト
+home.autoRepairSummary = 要約を自動修復
+home.autoRepairSummaryHint = デフォルトで有効。チャット切り替え時に要約の非表示範囲を自動的にチェックして修復します。
 home.summaryRange = 要約範囲 · 残すメッセージ数
 home.startBtn = ▶ 要約生成
-home.unhideBtn = 非表示解除
-home.unhideHint = 未要約のメッセージをすべて LLM に見える状態へ戻します。
 home.requestPreviewBtn = リクエスト確認
 
 # ── Edit Tab ──
@@ -114,8 +114,6 @@ settings.resetTypography = フォント設定をリセット
 settings.injectionDepth = チャット深度
 settings.injectionEnabled = プラグイン注入を有効化
 settings.injectionHint = 有効にすると、プラグインは指定深度（デフォルト 999、最上部）に要約を注入します。無効にすると自動注入されず、STプロンプト内の{{SPSummaries}}マクロでいつでも手動注入できます。
-settings.autoCleanupExpired = 期限切れの要約を自動削除
-settings.autoCleanupExpiredHint = 有効にすると、180日以上更新されていない要約がプラグインのデータファイルから自動的に削除されます。
 settings.resetPlugin = プラグインリセット
 
 # ── Preprocess Tab ──
@@ -162,7 +160,6 @@ macro.chatAfter = 後続チャット文脈
 macro.chatLang = 現在セッションの言語比率
 
 # ── Toast Messages ──
-toast.unsummarizedUnhidden = 未要約のメッセージをすべて再表示しました。
 toast.summarySaved = 要約を保存しました
 toast.pluginReset = ブラウザのプラグイン設定を消去しました
 toast.noChat = チャット履歴がありません
@@ -171,6 +168,7 @@ toast.noMessagesInRange = 選択範囲内に要約するメッセージがあり
 toast.contentEmpty = 内容が空です
 toast.segmentDeleted = 最新分段を削除しました
 toast.segmentHiddenRestored = 最新分段の非表示状態を復元しました
+toast.segmentsRepaired = 範囲外の要約 ${count} 件を修復しました
 toast.expiredSummariesCleared = 期限切れの要約を ${count} 件削除しました
 toast.promptSaved = プロンプトを保存しました
 toast.typographyReset = フォント設定をリセットしました

@@ -25,10 +25,10 @@ home.summaryLengthUnit = caracteres
 home.autoHide = Ocultar automáticamente
 home.autoHideHint = Al guardar un resumen, los mensajes del rango seleccionado se ocultan para el LLM. Es igual que usar /hide.
 home.useStream = Solicitud en streaming
+home.autoRepairSummary = Reparar resumen automáticamente
+home.autoRepairSummaryHint = Activado por defecto. Comprueba y repara automáticamente los rangos ocultos del resumen al cambiar de chat.
 home.summaryRange = Rango de resumen · Mensajes a conservar
 home.startBtn = ▶ Resumir
-home.unhideBtn = Quitar ocultar
-home.unhideHint = Vuelve a hacer visibles para el LLM todos los mensajes no resumidos.
 home.requestPreviewBtn = Vista previa solicitud
 
 # ── Edit Tab ──
@@ -114,8 +114,6 @@ settings.resetTypography = Restablecer tipografía
 settings.injectionDepth = Profundidad del chat
 settings.injectionEnabled = Habilitar inyección del plugin
 settings.injectionHint = Cuando está habilitado, el plugin inyecta el resumen en el chat a la profundidad especificada (por defecto 999, es decir, arriba). Cuando está deshabilitado, el plugin no inyecta automáticamente; puedes usar la macro {{SPSummaries}} en cualquier parte de tu preset ST para inyectar manualmente.
-settings.autoCleanupExpired = Limpiar resúmenes caducados automáticamente
-settings.autoCleanupExpiredHint = Cuando está activado, los resúmenes que no se hayan actualizado en más de 180 días se eliminarán automáticamente del archivo de datos del plugin.
 settings.resetPlugin = Restablecer plugin
 
 # ── Preprocess Tab ──
@@ -162,7 +160,6 @@ macro.chatAfter = Contexto de chat posterior
 macro.chatLang = Distribución de idiomas de la sesión actual
 
 # ── Toast Messages ──
-toast.unsummarizedUnhidden = Todos los mensajes no resumidos vuelven a estar visibles.
 toast.summarySaved = Resumen guardado
 toast.pluginReset = Ajustes del plugin restablecidos
 toast.noChat = Sin historial de chat
@@ -171,6 +168,7 @@ toast.noMessagesInRange = No hay mensajes para resumir en el rango seleccionado
 toast.contentEmpty = El contenido está vacío
 toast.segmentDeleted = Último segmento eliminado
 toast.segmentHiddenRestored = Estado oculto del último segmento restaurado
+toast.segmentsRepaired = ${count} segmento(s) fuera de rango reparado(s)
 toast.expiredSummariesCleared = Se limpiaron ${count} resúmenes caducados
 toast.promptSaved = Prompt guardado
 toast.typographyReset = Ajustes de tipografía restablecidos

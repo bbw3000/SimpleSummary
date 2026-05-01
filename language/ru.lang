@@ -25,10 +25,10 @@ home.summaryLengthUnit = символов
 home.autoHide = Автоскрытие
 home.autoHideHint = При сохранении сводки сообщения в выбранном диапазоне скрываются от LLM. Это то же самое, что /hide.
 home.useStream = Потоковый запрос
+home.autoRepairSummary = Автоматически восстанавливать сводки
+home.autoRepairSummaryHint = Включено по умолчанию. Автоматически проверяет и исправляет скрытые диапазоны сводок при переключении чатов.
 home.summaryRange = Диапазон сводки · Сообщений оставить
 home.startBtn = ▶ Создать сводку
-home.unhideBtn = Снять скрытие
-home.unhideHint = Снова показать LLM все несводные сообщения.
 home.requestPreviewBtn = Предпросмотр запроса
 
 # ── Edit Tab ──
@@ -114,8 +114,6 @@ settings.resetTypography = Сбросить типографику
 settings.injectionDepth = Глубина чата
 settings.injectionEnabled = Включить внедрение плагина
 settings.injectionHint = Если включено, плагин внедряет сводку в чат на указанной глубине (по умолчанию 999, т.е. наверху). Если отключено, плагин не внедряет автоматически; вы можете использовать макрос {{SPSummaries}} в любом месте пресета ST для ручного внедрения.
-settings.autoCleanupExpired = Автоматически очищать устаревшие сводки
-settings.autoCleanupExpiredHint = Если включено, сводки, не обновлявшиеся более 180 дней, будут автоматически удаляться из файла данных плагина.
 settings.resetPlugin = Сбросить плагин
 
 # ── Preprocess Tab ──
@@ -162,7 +160,6 @@ macro.chatAfter = Последующий контекст чата
 macro.chatLang = Распределение языков текущей сессии
 
 # ── Toast Messages ──
-toast.unsummarizedUnhidden = Все несводные сообщения снова видны.
 toast.summarySaved = Сводка сохранена
 toast.pluginReset = Настройки плагина сброшены
 toast.noChat = Нет истории чата
@@ -171,6 +168,7 @@ toast.noMessagesInRange = В выбранном диапазоне нет соо
 toast.contentEmpty = Содержимое пусто
 toast.segmentDeleted = Последний сегмент удалён
 toast.segmentHiddenRestored = Состояние скрытия последнего сегмента восстановлено
+toast.segmentsRepaired = Исправлено ${count} сегментов вне диапазона
 toast.expiredSummariesCleared = Очищено ${count} устаревших сводок
 toast.promptSaved = Промпт сохранён
 toast.typographyReset = Настройки типографики сброшены

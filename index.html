@@ -82,11 +82,15 @@
                             </label>
                         </div>
                         <div id="sp-auto-hide-hint" class="sp-injection-hint" style="display: none;" data-i18n="home.autoHideHint">When saving a summary, the messages in the corresponding range will be hidden (not visible to the LLM, equivalent to the /hide command).</div>
-                        <div class="sp-home-unhide-row">
-                            <button id="sp-unhide-btn" class="sp-btn sp-btn-secondary sp-home-unhide-btn" data-i18n="home.unhideBtn">Unhide</button>
-                            <span class="sp-help-tip" id="sp-unhide-help">?</span>
+                        <div class="sp-toggle-row-center">
+                            <span class="sp-toggle-label" data-i18n="home.autoRepairSummary">Auto-repair summary</span>
+                            <span class="sp-help-tip" id="sp-auto-repair-help">?</span>
+                            <label class="sp-switch">
+                                <input type="checkbox" id="sp-opt-auto-repair">
+                                <span class="sp-slider"></span>
+                            </label>
                         </div>
-                        <div id="sp-unhide-hint" class="sp-injection-hint" style="display: none;" data-i18n="home.unhideHint">Restore all unsummarized messages so they are visible to the LLM.</div>
+                        <div id="sp-auto-repair-hint-home" class="sp-injection-hint" style="display: none;" data-i18n="home.autoRepairSummaryHint">Default enabled. Automatically checks and repairs summary hidden ranges when switching chats.</div>
                         <div class="sp-toggle-row-center">
                             <span class="sp-toggle-label" data-i18n="home.useStream">Stream Request</span>
                             <label class="sp-switch">
@@ -428,20 +432,9 @@
                             <label for="sp-injection-depth" data-i18n="settings.injectionDepth">Chat Depth</label>
                             <input type="number" id="sp-injection-depth" min="0" max="9999" placeholder="999">
                         </div>
-                        <div class="sp-settings-line sp-settings-line-toggle">
-                            <div class="sp-settings-line-label">
-                                <span class="sp-toggle-label" data-i18n="settings.autoCleanupExpired">Auto-clean expired summaries</span>
-                                <span class="sp-help-tip" id="sp-auto-cleanup-help">?</span>
-                            </div>
-                            <label class="sp-switch">
-                                <input type="checkbox" id="sp-auto-cleanup-expired">
-                                <span class="sp-slider"></span>
-                            </label>
                         </div>
-                        <div id="sp-auto-cleanup-hint" class="sp-injection-hint" style="display: none;" data-i18n="settings.autoCleanupExpiredHint">When enabled, summaries untouched for more than 180 days will be removed automatically from the plugin data file.</div>
-                    </div>
                     <div id="sp-injection-hint" class="sp-injection-hint" style="display: none;" data-i18n="settings.injectionHint">When enabled, the plugin injects the summary into the chat at the specified depth (default 999, i.e. top). When disabled, the plugin won't auto-inject; you can use the {{SPSummaries}} macro anywhere in your ST preset to inject manually.</div>
-                </div>
+                    </div>
             </div>
 
             <div class="sp-settings-section">
