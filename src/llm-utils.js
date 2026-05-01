@@ -1,6 +1,12 @@
 import { log } from './logger.js';
 import { t } from './i18n.js';
 
+const SUPPORTED_API_TYPES = new Set(['openai', 'custom', 'anthropic', 'google']);
+
+function normalizeApiType(type) {
+    return SUPPORTED_API_TYPES.has(type) ? type : 'custom';
+}
+
 export function formatErrorObject(error) {
     if (error == null) return 'Unknown error';
     if (typeof error !== 'object') return String(error);
@@ -57,7 +63,7 @@ export function normalizeBaseUrl(rawUrl, type = 'openai') {
     url = url.replace(/\/+$/, '');
     url = url.replace(/\/(chat\/completions|completions|messages|models)$/, '');
 
-    if (type !== 'google' && type !== 'custom') {
+    if (type !== 'google') {
         if (!/\/v1(\/?|$)/.test(url)) url += '/v1';
         url = url.replace(/(\/v1)\/.*$/, '$1');
     }
@@ -155,22 +161,23 @@ function buildCustomIncludeHeaders(preset) {
 
 function buildCustomIncludeBody(preset) {
     const body = [];
-    const effort = preset.reasoning_effort || 'medium';
+    const effort = preset.reasoning_effort || 'auto';
     if (effort && effort !== 'auto') body.push(`reasoning_effort: ${yamlScalar(effort)}`);
     if (preset.customExtraEnabled) body.push(preset.custom_include_body || '');
     return joinYamlBlocks(...body);
 }
 
 export function buildStBackendRequestBody(preset, messages, stream) {
+    const apiType = normalizeApiType(preset.type);
     let chat_completion_source = 'openai';
-    if (preset.type === 'anthropic') chat_completion_source = 'claude';
-    else if (preset.type === 'google') chat_completion_source = 'makersuite';
-    else if (preset.type === 'custom') chat_completion_source = 'custom';
+    if (apiType === 'anthropic') chat_completion_source = 'claude';
+    else if (apiType === 'google') chat_completion_source = 'makersuite';
+    else if (apiType === 'custom') chat_completion_source = 'custom';
 
-    const isNativeProvider = preset.type === 'anthropic' || preset.type === 'google' || preset.type === 'custom';
+    const isNativeProvider = apiType === 'anthropic' || apiType === 'google' || apiType === 'custom';
     const reverseProxy = isNativeProvider
-        ? getReverseProxyUrl(preset.url, preset.type)
-        : normalizeBaseUrl(preset.url, preset.type);
+        ? getReverseProxyUrl(preset.url, apiType)
+        : normalizeBaseUrl(preset.url, apiType);
 
     const body = {
         chat_completion_source,
@@ -181,10 +188,13 @@ export function buildStBackendRequestBody(preset, messages, stream) {
         messages,
     };
     if (preset.en_maxtokens ?? true) body.max_tokens = preset.max_tokens ?? 8000;
-    if (preset.reasoning_effort && preset.reasoning_effort !== 'auto' && preset.type !== 'custom') {
-        body.reasoning_effort = preset.reasoning_effort;
+    const reasoningEffort = preset.reasoning_effort || 'auto';
+    if (reasoningEffort !== 'auto' && apiType !== 'custom') {
+        body.reasoning_effort = reasoningEffort;
+    } else if (reasoningEffort === 'auto' && apiType === 'anthropic') {
+        body.reasoning_effort = 'auto';
     }
-    if (preset.type === 'custom') {
+    if (apiType === 'custom') {
         body.custom_url = reverseProxy;
         body.custom_include_headers = buildCustomIncludeHeaders(preset);
         body.custom_include_body = buildCustomIncludeBody(preset);
@@ -195,7 +205,7 @@ export function buildStBackendRequestBody(preset, messages, stream) {
         body.proxy_password = preset.key;
         body.reverse_proxy = reverseProxy;
     }
-    if (preset.type === 'google') {
+    if (apiType === 'google' && reasoningEffort !== 'auto') {
         body.include_reasoning = true;
     }
     if (preset.en_topk) body.top_k = preset.top_k ?? 50;
@@ -328,8 +338,10 @@ async function generateViaStBackend(getST, preset, prompt, { stream, signal, onD
     const body = buildStBackendRequestBody(preset, buildGenerateMessages(prompt), stream);
     const stHeaders = getST().getRequestHeaders?.() || { 'Content-Type': 'application/json' };
 
+    const apiType = normalizeApiType(preset.type);
+
     log('── LLM Request (ST backend) ──');
-    log('Stream:', stream, '| Model:', preset.model, '| URL norm:', normalizeBaseUrl(preset.url, preset.type));
+    log('Stream:', stream, '| Model:', preset.model, '| URL norm:', normalizeBaseUrl(preset.url, apiType));
 
     const resp = await postStBackendGenerate(body, stHeaders, signal);
 

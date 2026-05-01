@@ -162,7 +162,7 @@
                         
                         <div class="sp-form-row">
                             <label data-i18n="api.presetName">Preset Name</label>
-                            <input type="text" id="sp-api-name" data-i18n-placeholder="api.presetNamePlaceholder" placeholder="e.g. DeepSeek Chat">
+                            <input type="text" id="sp-api-name" data-i18n-placeholder="api.presetNamePlaceholder" placeholder="e.g. My API Preset">
                         </div>
                         
                         <div class="sp-form-row">
@@ -173,12 +173,6 @@
                                     <option value="custom" data-i18n="api.apiTypeCustom">Custom (OpenAI Compatible)</option>
                                     <option value="anthropic" data-i18n="api.apiTypeAnthropic">Anthropic</option>
                                     <option value="google" data-i18n="api.apiTypeGoogle">Google AI Studio</option>
-                                    <option value="openrouter" data-i18n="api.apiTypeOpenRouter">OpenRouter</option>
-                                    <option value="deepseek" data-i18n="api.apiTypeDeepSeek">DeepSeek</option>
-                                    <option value="siliconflow_cn" data-i18n="api.apiTypeSiliconFlowCN">SiliconFlow (CN)</option>
-                                    <option value="siliconflow_global" data-i18n="api.apiTypeSiliconFlowGlobal">SiliconFlow (Global)</option>
-                                    <option value="mistral" data-i18n="api.apiTypeMistral">Mistral AI</option>
-                                    <option value="nvidia" data-i18n="api.apiTypeNVIDIA">nVidia NIM</option>
                                 </select>
                             </div>
                         </div>
@@ -243,10 +237,10 @@
                             <label data-i18n="api.reasoningEffort">Reasoning Effort</label>
                             <div class="sp-select-wrapper">
                                 <select id="sp-api-reasoning-effort">
-                                    <option value="auto" data-i18n="api.reasoningAuto">Auto</option>
+                                    <option value="auto" data-i18n="api.reasoningAuto" selected>Auto</option>
                                     <option value="min" data-i18n="api.reasoningMin">Min</option>
                                     <option value="low" data-i18n="api.reasoningLow">Low</option>
-                                    <option value="medium" data-i18n="api.reasoningMedium" selected>Medium</option>
+                                    <option value="medium" data-i18n="api.reasoningMedium">Medium</option>
                                     <option value="high" data-i18n="api.reasoningHigh">High</option>
                                     <option value="max" data-i18n="api.reasoningMax">Max</option>
                                 </select>

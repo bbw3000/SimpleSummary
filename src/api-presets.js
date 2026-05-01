@@ -37,25 +37,13 @@ export function createApiPresetManager({
         google: {
             url: 'https://generativelanguage.googleapis.com',
         },
-        openrouter: {
-            url: 'https://openrouter.ai/api',
-        },
-        deepseek: {
-            url: 'https://api.deepseek.com',
-        },
-        siliconflow_cn: {
-            url: 'https://api.siliconflow.cn/v1',
-        },
-        siliconflow_global: {
-            url: 'https://api.siliconflow.com/v1',
-        },
-        mistral: {
-            url: 'https://api.mistral.ai',
-        },
-        nvidia: {
-            url: 'https://integrate.api.nvidia.com/v1',
-        },
     };
+
+    const SUPPORTED_API_TYPES = new Set(Object.keys(API_DEFAULTS));
+
+    function normalizeApiType(type) {
+        return SUPPORTED_API_TYPES.has(type) ? type : 'custom';
+    }
 
     function getApiDefaults() {
         return API_DEFAULTS;
@@ -78,7 +66,7 @@ export function createApiPresetManager({
             useManualModel: false,
             temperature: 0.7,
             top_p: 1.0,
-            reasoning_effort: 'medium',
+            reasoning_effort: 'auto',
             top_k: 50,
             freq_penalty: 0,
             pres_penalty: 0,
@@ -119,7 +107,7 @@ export function createApiPresetManager({
     function syncPresetForm() {
         if (!presetDraft) return null;
         presetDraft.name = val('sp-api-name');
-        presetDraft.type = val('sp-api-type');
+        presetDraft.type = normalizeApiType(val('sp-api-type'));
         presetDraft.url = val('sp-api-url');
         presetDraft.key = val('sp-api-key');
         
@@ -130,7 +118,7 @@ export function createApiPresetManager({
         
         presetDraft.temperature = +val('sp-api-p-temp') || 0;
         presetDraft.top_p = +val('sp-api-p-topp') || 0;
-        presetDraft.reasoning_effort = val('sp-api-reasoning-effort') || 'medium';
+        presetDraft.reasoning_effort = val('sp-api-reasoning-effort') || 'auto';
         presetDraft.top_k = +val('sp-api-p-topk') || 50;
         presetDraft.freq_penalty = +val('sp-api-p-freqp') || 0;
         presetDraft.pres_penalty = +val('sp-api-p-presp') || 0;
@@ -193,8 +181,8 @@ export function createApiPresetManager({
         if (!preset) return [];
         const ids = Array.isArray(preset.availableModels) ? preset.availableModels : [];
         if (ids.length > 0) return ids;
-        const baseUrl = normalizeBaseUrl(preset.url || '', preset.type);
-        const cached = readModelCache(preset.type, baseUrl);
+        const baseUrl = normalizeBaseUrl(preset.url || '', normalizeApiType(preset.type));
+        const cached = readModelCache(normalizeApiType(preset.type), baseUrl);
         if (cached.length > 0) {
             preset.availableModels = cached;
         }
@@ -259,9 +247,11 @@ export function createApiPresetManager({
 
     function fillPresetForm(p) {
         if (!p) return;
+        const apiType = normalizeApiType(p.type);
+        p.type = apiType;
         setVal('sp-api-name', p.name);
-        setVal('sp-api-type', p.type);
-        setVal('sp-api-url', p.url || API_DEFAULTS[p.type]?.url || '');
+        setVal('sp-api-type', apiType);
+        setVal('sp-api-url', p.url || API_DEFAULTS[apiType]?.url || '');
         setVal('sp-api-key', p.key);
         setChecked('sp-api-custom-extra-toggle', p.customExtraEnabled ?? false);
         setVal('sp-api-custom-include-body', p.custom_include_body || '');
@@ -289,7 +279,7 @@ export function createApiPresetManager({
         
         setRange('sp-api-p-temp', 'sp-api-val-temp', p.temperature ?? 0.7);
         setRange('sp-api-p-topp', 'sp-api-val-topp', p.top_p ?? 1.0);
-        setVal('sp-api-reasoning-effort', p.reasoning_effort || 'medium');
+        setVal('sp-api-reasoning-effort', p.reasoning_effort || 'auto');
         setRange('sp-api-p-topk', 'sp-api-val-topk', p.top_k ?? 50);
         setRange('sp-api-p-freqp', 'sp-api-val-freqp', p.freq_penalty ?? 0);
         setRange('sp-api-p-presp', 'sp-api-val-presp', p.pres_penalty ?? 0);
@@ -373,7 +363,8 @@ export function createApiPresetManager({
             return;
         }
 
-        const baseUrl = normalizeBaseUrl(targetPreset.url, targetPreset.type);
+        const apiType = normalizeApiType(targetPreset.type);
+        const baseUrl = normalizeBaseUrl(targetPreset.url, apiType);
         log('── API Test (summary flow) ──');
         log('Base URL:', baseUrl, '| Model:', targetPreset.model);
 
@@ -419,12 +410,13 @@ export function createApiPresetManager({
         try {
             let ids = [];
             let usedBuiltinList = false;
+            const apiType = normalizeApiType(targetPreset.type);
 
-            if (targetPreset.type === 'anthropic' || targetPreset.type === 'google') {
+            if (apiType === 'anthropic' || apiType === 'google') {
                 toast(t('api.status.fetching'));
                 if (targetPreset?.url && targetPreset?.key) {
                     const baseUrl = normalizeBaseUrl(targetPreset.url, 'openai');
-                    log('Fetching models via OpenAI-compatible endpoint, baseUrl:', baseUrl, 'type:', targetPreset.type);
+                    log('Fetching models via OpenAI-compatible endpoint, baseUrl:', baseUrl, 'type:', apiType);
                     try {
                         ids = await fetchModelsViaStBackend(baseUrl, targetPreset.key);
                     } catch (error) {
@@ -433,7 +425,7 @@ export function createApiPresetManager({
                 }
 
                 if (ids.length === 0) {
-                    ids = getBuiltinModelsFromSt(targetPreset.type);
+                    ids = getBuiltinModelsFromSt(apiType);
                     usedBuiltinList = true;
                 }
             } else {
@@ -442,8 +434,8 @@ export function createApiPresetManager({
                     return;
                 }
 
-                const baseUrl = normalizeBaseUrl(targetPreset.url, targetPreset.type);
-                log('Fetching models, baseUrl:', baseUrl, 'type:', targetPreset.type);
+                const baseUrl = normalizeBaseUrl(targetPreset.url, apiType);
+                log('Fetching models, baseUrl:', baseUrl, 'type:', apiType);
                 toast(t('api.status.fetching'));
 
                 if (ids.length === 0) {
@@ -452,15 +444,15 @@ export function createApiPresetManager({
             }
 
             if (usedBuiltinList) {
-                log('Using built-in ST models, type:', targetPreset.type, 'count:', ids.length);
+                log('Using built-in ST models, type:', apiType, 'count:', ids.length);
             }
 
             targetPreset.availableModels = ids;
             if (presetDraft) presetDraft.availableModels = ids;
-            if (targetPreset.type === 'anthropic' || targetPreset.type === 'google') {
-                writeModelCache(targetPreset.type, normalizeBaseUrl(targetPreset.url || '', 'openai'), ids);
-            } else if (targetPreset.type !== 'anthropic' && targetPreset.type !== 'google') {
-                writeModelCache(targetPreset.type, normalizeBaseUrl(targetPreset.url, targetPreset.type), ids);
+            if (apiType === 'anthropic' || apiType === 'google') {
+                writeModelCache(apiType, normalizeBaseUrl(targetPreset.url || '', 'openai'), ids);
+            } else {
+                writeModelCache(apiType, normalizeBaseUrl(targetPreset.url, apiType), ids);
             }
             renderPresetModelsSelect(targetPreset);
             log('Models fetched:', ids.length);
