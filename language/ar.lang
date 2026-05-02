@@ -26,7 +26,7 @@ home.autoHide = إخفاء تلقائي
 home.autoHideHint = عند حفظ الملخص، تُخفى الرسائل في النطاق المحدد عن الـ LLM. وهذا يعادل /hide.
 home.useStream = طلب بث
 home.autoRepairSummary = إصلاح الملخص تلقائياً
-home.autoRepairSummaryHint = مفعل افتراضياً. يتحقق ويصلح نطاقات الإخفاء للملخص تلقائياً عند تبديل الدردشات.
+home.autoRepairSummaryHint = معطل افتراضياً. عند تفعيله، يتم فرض Auto-hide للتحقق من نطاقات إخفاء الملخص وإصلاحها عند تبديل الدردشات.
 home.summaryRange = نطاق الملخص · عدد الرسائل المحتفَظ بها
 home.startBtn = ▶ لخص
 home.requestPreviewBtn = معاينة الطلب
@@ -152,6 +152,14 @@ macro.spSummariesFallback = (لا يوجد ملخص بعد)
 macro.latestSegment = آخر مقطع من الملخص
 macro.chatAfter = سياق المحادثة اللاحق
 macro.chatLang = نسبة لغات الجلسة الحالية
+
+# ── Slash Commands ──
+slash.sp.help = يفتح امتداد SimpleSummary؛ /sp [رقم] يلخص مباشرة حتى رسالة النهاية المحددة؛ /sp p [رقم] يعرض المعاينة قبل التلخيص حتى تلك الرسالة؛ /sp ls يعرض قائمة الملخصات؛ /sp max يلخص حتى أحدث رسالة
+slash.sp.usage = الأوامر المتاحة: /sp، /sp [رقم]، /sp p [رقم]، /sp ls، /sp max
+slash.sp.previewUsage = الاستخدام: /sp p [رقم]
+slash.sp.maxUsage = الاستخدام: /sp max
+slash.sp.alreadyCovered = الرسالة #${end} مشمولة بالفعل في الملخصات الموجودة
+slash.sp.endTooHigh = لا يمكن أن تكون رسالة النهاية أكبر من #${max}
 
 # ── Toast Messages ──
 toast.summarySaved = تم حفظ الملخص

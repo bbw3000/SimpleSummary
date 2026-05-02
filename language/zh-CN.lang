@@ -26,7 +26,7 @@ home.autoHide = 自动隐藏
 home.autoHideHint = 摘要保存时，所选范围内的消息会对 LLM 隐藏，效果等同 /hide。
 home.useStream = 流式请求 (Stream)
 home.autoRepairSummary = 自动对齐摘要
-home.autoRepairSummaryHint = 默认启用，自动检查和修复摘要隐藏范围。
+home.autoRepairSummaryHint = 默认关闭。开启后会强制启用自动隐藏，以便在切换聊天时自动检查和修复摘要隐藏范围。
 home.summaryRange = 总结范围 · 保留消息数
 home.startBtn = ▶ 生成摘要
 home.requestPreviewBtn = 请求预览
@@ -65,9 +65,9 @@ api.reasoningMedium = 中
 api.reasoningHigh = 高
 api.reasoningMax = 最大
 api.customExtraParams = 附加参数
-api.customIncludeBodyPlaceholder = 合并到 custom_include_body 的 YAML
-api.customExcludeBodyPlaceholder = 由 custom_exclude_body 移除的 YAML 键
-api.customIncludeHeadersPlaceholder = 合并到 custom_include_headers 的 YAML
+api.customIncludeBodyPlaceholder = 合并到 custom include body 的 YAML
+api.customExcludeBodyPlaceholder = 由 custom exclude body 移除的 YAML 键
+api.customIncludeHeadersPlaceholder = 合并到 custom include headers 的 YAML
 api.samplingParams = 采样参数
 api.freqPenalty = 频率惩罚 (Freq. Penalty)
 api.presPenalty = 存在惩罚 (Pres. Penalty)
@@ -152,6 +152,14 @@ macro.spSummariesFallback = (暂无剧情摘要)
 macro.latestSegment = 最新摘要分段
 macro.chatAfter = 后续聊天上下文
 macro.chatLang = 当前会话语言占比
+
+# ── Slash Commands ──
+slash.sp.help = 打开 SimpleSummary插件；/sp (数字) 直接摘要到指定结束消息；/sp p  (数字)  摘要到该消息前预览请求；/sp ls 显示摘要列表；/sp max 摘要到最新一条消息
+slash.sp.usage = 可用指令：/sp、/sp  (数字) 、/sp p  (数字) 、/sp ls、/sp max
+slash.sp.previewUsage = 用法：/sp p  (数字)
+slash.sp.maxUsage = 用法：/sp max
+slash.sp.alreadyCovered = 消息 #${end} 已包含在现有摘要中
+slash.sp.endTooHigh = 结束消息不能大于 #${max}
 
 # ── Toast Messages ──
 toast.summarySaved = 摘要已保存

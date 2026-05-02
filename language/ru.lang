@@ -26,7 +26,7 @@ home.autoHide = Автоскрытие
 home.autoHideHint = При сохранении сводки сообщения в выбранном диапазоне скрываются от LLM. Это то же самое, что /hide.
 home.useStream = Потоковый запрос
 home.autoRepairSummary = Автоматически восстанавливать сводки
-home.autoRepairSummaryHint = Включено по умолчанию. Автоматически проверяет и исправляет скрытые диапазоны сводок при переключении чатов.
+home.autoRepairSummaryHint = Отключено по умолчанию. При включении автоскрытие принудительно включается, чтобы проверять и исправлять скрытые диапазоны сводок при переключении чатов.
 home.summaryRange = Диапазон сводки · Сообщений оставить
 home.startBtn = ▶ Создать сводку
 home.requestPreviewBtn = Предпросмотр запроса
@@ -152,6 +152,14 @@ macro.spSummariesFallback = (Сводки пока нет)
 macro.latestSegment = Последний сегмент сводки
 macro.chatAfter = Последующий контекст чата
 macro.chatLang = Распределение языков текущей сессии
+
+# ── Slash Commands ──
+slash.sp.help = Открывает расширение SimpleSummary; /sp [число] сразу суммирует до указанного конечного сообщения; /sp p [число] показывает предпросмотр перед суммированием до этого сообщения; /sp ls показывает список сводок; /sp max суммирует до самого последнего сообщения
+slash.sp.usage = Доступные команды: /sp, /sp [число], /sp p [число], /sp ls, /sp max
+slash.sp.previewUsage = Использование: /sp p [число]
+slash.sp.maxUsage = Использование: /sp max
+slash.sp.alreadyCovered = Сообщение #${end} уже покрыто существующими сводками
+slash.sp.endTooHigh = Конечное сообщение не может быть больше #${max}
 
 # ── Toast Messages ──
 toast.summarySaved = Сводка сохранена

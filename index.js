@@ -2,6 +2,8 @@
    SimpleSummary — SillyTavern Chat Summary Extension
    ========================================================================== */
 
+import { SlashCommand } from '../../../slash-commands/SlashCommand.js';
+import { SlashCommandParser } from '../../../slash-commands/SlashCommandParser.js';
 import { on, val, setVal, setText, setChecked, escapeHtml, show, hide, setRange } from './src/dom-utils.js';
 import { log, logE } from './src/logger.js';
 import { normalizeBaseUrl, generateSummaryText, buildStBackendRequestBody, buildSummaryMessages } from './src/llm-utils.js';
@@ -34,7 +36,7 @@ const defaultSettings = Object.freeze({
     lightTheme: false,
     injectionEnabled: true,
     injectionDepth: 999,
-    autoRepairSummary: true,
+    autoRepairSummary: false,
     activePromptPresetId: 'default',
     chatLogPreprocess: {
         structuredCleanup: true,
@@ -222,6 +224,23 @@ function bindNumericGestureInput(input, getLimits) {
 
 function saveSettings() {
     storage.saveSettings();
+}
+
+function syncHomeAutoHideControl({ persist = false } = {}) {
+    const settings = getSettings();
+    const autoHideInput = document.getElementById('sp-opt-auto-hide');
+    const forcedByAutoRepair = !!settings.autoRepairSummary;
+
+    if (forcedByAutoRepair && !settings.autoHide) {
+        settings.autoHide = true;
+        if (persist) saveSettings();
+    }
+
+    if (autoHideInput) {
+        autoHideInput.checked = !!settings.autoHide;
+        autoHideInput.disabled = forcedByAutoRepair;
+        autoHideInput.closest('.sp-switch')?.classList.toggle('sp-switch-forced', forcedByAutoRepair);
+    }
 }
 
 function getBrowserSettings() {
@@ -1158,6 +1177,14 @@ function toast(msg) {
     _toastTimer = setTimeout(() => el.classList.remove('sp-toast-show'), 3000);
 }
 
+function notifyCommandWarning(msg) {
+    if (typeof toastr?.warning === 'function') {
+        toastr.warning(msg, MODULE_NAME, { preventDuplicates: true });
+        return;
+    }
+    toast(msg);
+}
+
 // ---------------------------------------------------------------------------
 //  Confirm Dialog
 // ---------------------------------------------------------------------------
@@ -1572,16 +1599,23 @@ function applyWindowResponsiveMode() {
     backdrop.style.display = fullscreen ? 'none' : 'block';
 }
 
-function toggleWindow() {
+function openMainWindow(tab = 'home') {
     const w = document.getElementById('sp-window');
     const backdrop = document.getElementById('sp-backdrop');
     if (!w) return;
     applyWindowResponsiveMode();
     const fullscreen = w.classList.contains('sp-fullscreen');
-    if (w.style.display === 'none' || !w.style.display) {
-        if (backdrop) backdrop.style.display = fullscreen ? 'none' : 'block';
-        w.style.display = 'flex';
-        switchTab('home');
+    if (backdrop) backdrop.style.display = fullscreen ? 'none' : 'block';
+    w.style.display = 'flex';
+    switchTab(tab);
+}
+
+function toggleWindow() {
+    const w = document.getElementById('sp-window');
+    if (!w) return;
+    const isOpen = w.style.display !== 'none' && !!w.style.display;
+    if (!isOpen) {
+        openMainWindow('home');
     } else {
         void closeMainWindowWithGuard();
     }
@@ -1638,7 +1672,8 @@ function bindEvents() {
 
     // ── Home ──
     const settings = getSettings();
-    setChecked('sp-opt-auto-hide', settings.autoHide);
+    setChecked('sp-opt-auto-repair', !!settings.autoRepairSummary);
+    syncHomeAutoHideControl({ persist: true });
     setChecked('sp-opt-stream', settings.useStream);
     on('sp-home-char-status-right', 'click', () => {
         setHomeStatusStackExpanded(true, { autoCollapse: true });
@@ -1659,7 +1694,17 @@ function bindEvents() {
         });
     }
 
-    on('sp-opt-auto-hide', 'change', e => { getSettings().autoHide = e.target.checked; saveSettings(); });
+    on('sp-opt-auto-hide', 'change', e => {
+        const s = getSettings();
+        if (s.autoRepairSummary) {
+            s.autoHide = true;
+            syncHomeAutoHideControl();
+            saveSettings();
+            return;
+        }
+        s.autoHide = e.target.checked;
+        saveSettings();
+    });
     on('sp-opt-stream',    'change', e => { getSettings().useStream = e.target.checked; saveSettings(); });
     on('sp-range-retain', 'change', e => {
         const next = normalizeRetainCount(e.target.value);
@@ -1679,8 +1724,8 @@ function bindEvents() {
         e.target.value = String(Number.isFinite(clamped) ? clamped : lower);
     });
 
-    on('sp-start-btn',      'click', startSummary);
-    on('sp-request-preview-btn', 'click', openSummaryRequestPreview);
+    on('sp-start-btn',      'click', () => startSummary());
+    on('sp-request-preview-btn', 'click', () => openSummaryRequestPreview());
 
     // Auto-repair toggle (home)
     let autoRepairHomeHelpTimer = null;
@@ -1694,10 +1739,14 @@ function bindEvents() {
         }, 5000);
     });
     on('sp-opt-auto-repair', 'change', e => {
-        getSettings().autoRepairSummary = !!e.target.checked;
+        const s = getSettings();
+        s.autoRepairSummary = !!e.target.checked;
+        if (s.autoRepairSummary) s.autoHide = true;
+        syncHomeAutoHideControl();
         saveSettings();
     });
     setChecked('sp-opt-auto-repair', !!getSettings().autoRepairSummary);
+    syncHomeAutoHideControl();
 
     // ── Edit ──
     on('sp-edit-save-btn', 'click', saveCurrentSummaryEditor);
@@ -2031,6 +2080,7 @@ if (item.dataset.id === currentId) return;
         // Update UI to reflect reset settings
         setChecked('sp-opt-auto-hide', s.autoHide);
         setChecked('sp-opt-auto-repair', s.autoRepairSummary);
+        syncHomeAutoHideControl();
         setChecked('sp-opt-stream', s.useStream);
         const retainInput = document.getElementById('sp-range-retain');
         if (retainInput) retainInput.value = String(s.summaryRetainCount);
@@ -2199,7 +2249,7 @@ function switchTab(name) {
     if (name === 'prompt') {
         renderPromptPresetTabs();
         loadPromptEditor();
-        setActivePromptSection('system');
+        setActivePromptSection('user');
     }
     if (name === 'preprocess') {
         loadPreprocessEditor();
@@ -2384,6 +2434,8 @@ function getCurrentCharacterImageUrl() {
 // ---------------------------------------------------------------------------
 
 function refreshHome() {
+    syncHomeAutoHideControl();
+
     const ctx = getST();
     const chatName = ctx.chat?.name || ctx.name2 || '—';
     setText('sp-home-char-name', chatName);
@@ -2544,7 +2596,7 @@ function formatSummaryRequestPreview(prompts, preset, stream) {
         .replace(/\\n/g, '\n');
 }
 
-function buildSummaryRequestContext() {
+function buildSummaryRequestContext(endOverride = null) {
     const ctx = getST();
     const chat = ctx.chat || [];
     if (!chat.length) {
@@ -2559,11 +2611,12 @@ function buildSummaryRequestContext() {
         return null;
     }
 
-    const { start: lo, end: maxHi } = getHomeSummaryRange(chat);
-    const manualHiRaw = Number(val('sp-range-end'));
+    const { start: lo, end: maxHi, lastVisible } = getHomeSummaryRange(chat);
+    const hasEndOverride = endOverride != null;
+    const manualHiRaw = hasEndOverride ? Number(endOverride) : Number(val('sp-range-end'));
     const hi = Number.isFinite(manualHiRaw) ? Math.floor(manualHiRaw) : maxHi;
     const lower = lo === -1 ? 0 : lo;
-    const upper = Math.max(lower, maxHi);
+    const upper = Math.max(lower, hasEndOverride ? lastVisible : maxHi);
     const clampedHi = Math.min(Math.max(lower, hi), upper);
     if (lo === -1 || clampedHi < lo) {
         toast(t('toast.noMessagesInRange'));
@@ -2688,16 +2741,152 @@ async function runSummaryRequest(request = null) {
     }
 }
 
-async function startSummary() {
-    const request = buildSummaryRequestContext();
+async function startSummary(endOverride = null) {
+    const request = buildSummaryRequestContext(endOverride);
     if (!request) return;
     await runSummaryRequest(request);
 }
 
-async function openSummaryRequestPreview() {
-    const request = buildSummaryRequestContext();
+async function openSummaryRequestPreview(endOverride = null) {
+    const request = buildSummaryRequestContext(endOverride);
     if (!request) return;
     showRequestPreviewOverlay(request);
+}
+
+function parseSlashEnd(raw) {
+    const text = String(raw ?? '').trim();
+    if (!/^\d+$/.test(text)) return null;
+    const end = Number(text);
+    return Number.isSafeInteger(end) ? end : null;
+}
+
+function getSummarizedMaxEnd() {
+    return getSegments()
+        .map(segment => normalizeRange(segment?.range).end)
+        .filter(end => Number.isFinite(end))
+        .reduce((max, end) => Math.max(max, end), -1);
+}
+
+function getSlashMaxEnd() {
+    const chat = getST().chat || [];
+    const { lastVisible } = getHomeSummaryRange(chat);
+    return Number.isFinite(lastVisible) ? lastVisible : -1;
+}
+
+function getSlashUsageText() {
+    return t('slash.sp.usage');
+}
+
+function getSlashPreviewUsageText() {
+    return t('slash.sp.previewUsage');
+}
+
+function getSlashMaxUsageText() {
+    return t('slash.sp.maxUsage');
+}
+
+function validateSlashEnd(end) {
+    const chat = getST().chat || [];
+    if (!chat.length) {
+        notifyCommandWarning(t('toast.noChat'));
+        return false;
+    }
+
+    const { start, lastVisible } = getHomeSummaryRange(chat);
+    if (!Number.isSafeInteger(end) || end < 0) {
+        notifyCommandWarning(getSlashUsageText());
+        return false;
+    }
+    if (start === -1 || lastVisible === -1) {
+        notifyCommandWarning(t('toast.noMessagesInRange'));
+        return false;
+    }
+    const summarizedMaxEnd = getSummarizedMaxEnd();
+    if (summarizedMaxEnd >= 0 && end <= summarizedMaxEnd) {
+        notifyCommandWarning(t('slash.sp.alreadyCovered', { end }));
+        return false;
+    }
+    if (end < start) {
+        notifyCommandWarning(t('toast.noMessagesInRange'));
+        return false;
+    }
+    if (end > lastVisible) {
+        notifyCommandWarning(t('slash.sp.endTooHigh', { max: lastVisible }));
+        return false;
+    }
+    return true;
+}
+
+function syncSlashEndInput(end) {
+    const rangeEnd = document.getElementById('sp-range-end');
+    if (!rangeEnd) return;
+    rangeEnd.dataset.userEdited = '1';
+    rangeEnd.value = String(end);
+}
+
+async function handleSimpleSummarySlashCommand(_, value) {
+    const text = String(value ?? '').trim();
+    if (!text) {
+        openMainWindow('home');
+        return '';
+    }
+
+    const parts = text.split(/\s+/);
+    const action = parts[0]?.toLowerCase();
+
+    if (action === 'ls') {
+        openMainWindow('edit');
+        return '';
+    }
+
+    if (action === 'max') {
+        if (parts.length !== 1) {
+            notifyCommandWarning(getSlashMaxUsageText());
+            return '';
+        }
+        const end = getSlashMaxEnd();
+        if (!validateSlashEnd(end)) return '';
+        openMainWindow('home');
+        syncSlashEndInput(end);
+        await startSummary(end);
+        return '';
+    }
+
+    if (action === 'p') {
+        if (parts.length !== 2) {
+            notifyCommandWarning(getSlashPreviewUsageText());
+            return '';
+        }
+        const end = parseSlashEnd(parts[1]);
+        if (!validateSlashEnd(end)) return '';
+        openMainWindow('home');
+        syncSlashEndInput(end);
+        await openSummaryRequestPreview(end);
+        return '';
+    }
+
+    if (parts.length === 1) {
+        const end = parseSlashEnd(action);
+        if (!validateSlashEnd(end)) return '';
+        openMainWindow('home');
+        syncSlashEndInput(end);
+        await startSummary(end);
+        return '';
+    }
+
+    notifyCommandWarning(getSlashUsageText());
+    return '';
+}
+
+let slashCommandRegistered = false;
+function registerSlashCommands() {
+    if (slashCommandRegistered) return;
+    slashCommandRegistered = true;
+    SlashCommandParser.addCommandObject(SlashCommand.fromProps({
+        name: 'sp',
+        callback: handleSimpleSummarySlashCommand,
+        helpString: t('slash.sp.help'),
+    }));
 }
 
 async function saveSummaryResult() {
@@ -2741,6 +2930,7 @@ export function onActivate() {
         stripLegacyChatMetadata();
         migratePreprocessSettings();
         registerMacros();
+        registerSlashCommands();
 
         migratePromptSettings();
         await reloadDefaultPrompt();

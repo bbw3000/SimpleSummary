@@ -26,7 +26,7 @@ home.autoHide = Ocultar automáticamente
 home.autoHideHint = Al guardar un resumen, los mensajes del rango seleccionado se ocultan para el LLM. Es igual que usar /hide.
 home.useStream = Solicitud en streaming
 home.autoRepairSummary = Reparar resumen automáticamente
-home.autoRepairSummaryHint = Activado por defecto. Comprueba y repara automáticamente los rangos ocultos del resumen al cambiar de chat.
+home.autoRepairSummaryHint = Desactivado por defecto. Al activarlo, Auto-hide se fuerza para comprobar y reparar los rangos ocultos del resumen al cambiar de chat.
 home.summaryRange = Rango de resumen · Mensajes a conservar
 home.startBtn = ▶ Resumir
 home.requestPreviewBtn = Vista previa solicitud
@@ -152,6 +152,14 @@ macro.spSummariesFallback = (Sin resumen aún)
 macro.latestSegment = Último segmento del resumen
 macro.chatAfter = Contexto de chat posterior
 macro.chatLang = Distribución de idiomas de la sesión actual
+
+# ── Slash Commands ──
+slash.sp.help = Abre la extension SimpleSummary; /sp [numero] resume directamente hasta el mensaje final indicado; /sp p [numero] muestra una vista previa antes de resumir hasta ese mensaje; /sp ls muestra la lista de resumenes; /sp max resume hasta el mensaje mas reciente
+slash.sp.usage = Comandos disponibles: /sp, /sp [numero], /sp p [numero], /sp ls, /sp max
+slash.sp.previewUsage = Uso: /sp p [numero]
+slash.sp.maxUsage = Uso: /sp max
+slash.sp.alreadyCovered = El mensaje #${end} ya esta incluido en los resumenes existentes
+slash.sp.endTooHigh = El mensaje final no puede ser mayor que #${max}
 
 # ── Toast Messages ──
 toast.summarySaved = Resumen guardado

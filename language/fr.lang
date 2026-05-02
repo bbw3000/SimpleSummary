@@ -26,7 +26,7 @@ home.autoHide = Masquer automatiquement
 home.autoHideHint = Lors de l'enregistrement d'un résumé, les messages de la plage sélectionnée sont masqués pour le LLM. C'est l'équivalent de /hide.
 home.useStream = Requête en streaming
 home.autoRepairSummary = Réparer automatiquement le résumé
-home.autoRepairSummaryHint = Activé par défaut. Vérifie et répare automatiquement les plages masquées du résumé lors du changement de chat.
+home.autoRepairSummaryHint = Désactivé par défaut. Une fois activé, le masquage automatique est forcé afin de vérifier et réparer les plages masquées du résumé lors du changement de chat.
 home.summaryRange = Plage de résumé · Messages à conserver
 home.startBtn = ▶ Résumer
 home.requestPreviewBtn = Aperçu requête
@@ -152,6 +152,14 @@ macro.spSummariesFallback = (Pas encore de résumé)
 macro.latestSegment = Dernier segment du résumé
 macro.chatAfter = Contexte de chat suivant
 macro.chatLang = Répartition des langues de la session actuelle
+
+# ── Slash Commands ──
+slash.sp.help = Ouvre l'extension SimpleSummary ; /sp [nombre] resume directement jusqu'au message de fin indique ; /sp p [nombre] affiche un apercu avant de resumer jusqu'a ce message ; /sp ls affiche la liste des resumes ; /sp max resume jusqu'au message le plus recent
+slash.sp.usage = Commandes disponibles : /sp, /sp [nombre], /sp p [nombre], /sp ls, /sp max
+slash.sp.previewUsage = Utilisation : /sp p [nombre]
+slash.sp.maxUsage = Utilisation : /sp max
+slash.sp.alreadyCovered = Le message #${end} est deja inclus dans les resumes existants
+slash.sp.endTooHigh = Le message de fin ne peut pas etre superieur a #${max}
 
 # ── Toast Messages ──
 toast.summarySaved = Résumé enregistré

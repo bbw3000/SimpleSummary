@@ -26,7 +26,7 @@ home.autoHide = 自動隱藏
 home.autoHideHint = 摘要儲存時，所選範圍內的訊息會對 LLM 隱藏，效果等同 /hide。
 home.useStream = 串流請求
 home.autoRepairSummary = 自動對齊摘要
-home.autoRepairSummaryHint = 預設啟用，自動檢查和修復摘要隱藏範圍。
+home.autoRepairSummaryHint = 預設關閉。啟用後會強制開啟自動隱藏，以便在切換聊天時自動檢查和修復摘要隱藏範圍。
 home.summaryRange = 摘要範圍 · 保留訊息數
 home.startBtn = ▶ 產生摘要
 home.requestPreviewBtn = 請求預覽
@@ -152,6 +152,14 @@ macro.spSummariesFallback = （尚無摘要）
 macro.latestSegment = 最新摘要分段
 macro.chatAfter = 後續聊天上下文
 macro.chatLang = 當前會話語言占比
+
+# ── Slash Commands ──
+slash.sp.help = 開啟 SimpleSummary 外掛；/sp [數字] 直接摘要到指定結束訊息；/sp p [數字] 先預覽再摘要到該訊息；/sp ls 顯示摘要列表；/sp max 摘要到最新一則訊息
+slash.sp.usage = 可用指令：/sp、/sp [數字]、/sp p [數字]、/sp ls、/sp max
+slash.sp.previewUsage = 用法：/sp p [數字]
+slash.sp.maxUsage = 用法：/sp max
+slash.sp.alreadyCovered = 訊息 #${end} 已包含在現有摘要中
+slash.sp.endTooHigh = 結束訊息不能大於 #${max}
 
 # ── Toast Messages ──
 toast.summarySaved = 摘要已儲存

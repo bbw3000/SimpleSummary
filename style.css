@@ -1293,6 +1293,17 @@
 .sp-switch input:checked + .sp-slider { background: rgba(137, 180, 250, 0.28); }
 #sp-window.sp-light .sp-switch input:checked + .sp-slider { background: rgba(59, 130, 246, 0.25); }
 .sp-switch input:checked + .sp-slider::before { transform: translateX(16px); background: var(--sp-accent); }
+.sp-switch input:disabled + .sp-slider {
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+.sp-switch input:checked:disabled + .sp-slider,
+#sp-window.sp-light .sp-switch input:checked:disabled + .sp-slider {
+    background: var(--sp-slider-track);
+}
+.sp-switch input:checked:disabled + .sp-slider::before {
+    background: var(--sp-slider-knob);
+}
 
 /* ===== EDIT TAB ===== */
 .sp-edit-header {
@@ -1366,7 +1377,7 @@
 }
 
 .sp-edit-segment-ghost {
-    opacity: 0.5;
+    opacity: 0.75;
 }
 
 .sp-edit-segment-current {

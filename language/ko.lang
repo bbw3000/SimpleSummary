@@ -26,7 +26,7 @@ home.autoHide = 자동 숨기기
 home.autoHideHint = 요약을 저장할 때 선택한 범위의 메시지는 LLM에서 숨겨집니다. /hide와 같은 동작입니다.
 home.useStream = 스트리밍 요청
 home.autoRepairSummary = 요약 자동 복구
-home.autoRepairSummaryHint = 기본 활성화. 채팅 전환 시 요약 숨김 범위를 자동으로 확인하고 수정합니다.
+home.autoRepairSummaryHint = 기본 비활성화. 켜면 자동 숨기기가 강제로 활성화되어 채팅 전환 시 요약 숨김 범위를 자동으로 확인하고 수정합니다.
 home.summaryRange = 요약 범위 · 유지 메시지 수
 home.startBtn = ▶ 요약 생성
 home.requestPreviewBtn = 요청 미리보기
@@ -152,6 +152,14 @@ macro.spSummariesFallback = (아직 요약이 없습니다)
 macro.latestSegment = 최신 요약 분할
 macro.chatAfter = 후속 채팅 문맥
 macro.chatLang = 현재 세션 언어 비율
+
+# ── Slash Commands ──
+slash.sp.help = SimpleSummary 확장을 엽니다. /sp [숫자]는 지정한 마지막 메시지까지 바로 요약합니다. /sp p [숫자]는 해당 메시지까지 요약하기 전에 미리보기를 엽니다. /sp ls는 요약 목록을 표시합니다. /sp max는 최신 메시지까지 요약합니다
+slash.sp.usage = 사용 가능한 명령: /sp, /sp [숫자], /sp p [숫자], /sp ls, /sp max
+slash.sp.previewUsage = 사용법: /sp p [숫자]
+slash.sp.maxUsage = 사용법: /sp max
+slash.sp.alreadyCovered = 메시지 #${end}은(는) 이미 기존 요약에 포함되어 있습니다
+slash.sp.endTooHigh = 종료 메시지는 #${max}보다 클 수 없습니다
 
 # ── Toast Messages ──
 toast.summarySaved = 요약 저장됨

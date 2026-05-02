@@ -26,7 +26,7 @@ home.autoHide = Auto-hide
 home.autoHideHint = When saving a summary, messages in the selected range will be hidden from the LLM, just like /hide.
 home.useStream = Stream Request
 home.autoRepairSummary = Auto-repair summary
-home.autoRepairSummaryHint = Default enabled. Automatically checks and repairs summary hidden ranges when switching chats.
+home.autoRepairSummaryHint = Disabled by default. When enabled, Auto-hide is forced on so summary hidden ranges can be checked and repaired when switching chats.
 home.summaryRange = Summary Range · Retain Messages
 home.startBtn = ▶ Generate
 home.requestPreviewBtn = Request Preview
@@ -152,6 +152,14 @@ macro.spSummariesFallback = (No summary yet)
 macro.latestSegment = Latest summary segment
 macro.chatAfter = Following chat context
 macro.chatLang = Chat language distribution
+
+# ── Slash Commands ──
+slash.sp.help = Open the SimpleSummary extension; /sp [number] summarizes directly to the specified ending message; /sp p [number] previews the request before summarizing to that message; /sp ls shows the summary list; /sp max summarizes to the latest message
+slash.sp.usage = Available commands: /sp, /sp [number], /sp p [number], /sp ls, /sp max
+slash.sp.previewUsage = Usage: /sp p [number]
+slash.sp.maxUsage = Usage: /sp max
+slash.sp.alreadyCovered = Message #${end} is already covered by existing summaries
+slash.sp.endTooHigh = Ending message cannot be greater than #${max}
 
 # ── Toast Messages ──
 toast.summarySaved = Summary saved

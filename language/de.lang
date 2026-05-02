@@ -26,7 +26,7 @@ home.autoHide = Automatisch ausblenden
 home.autoHideHint = Beim Speichern einer Zusammenfassung werden die Nachrichten im ausgewählten Bereich für das LLM ausgeblendet. Das entspricht /hide.
 home.useStream = Streaming-Anfrage
 home.autoRepairSummary = Zusammenfassung automatisch reparieren
-home.autoRepairSummaryHint = Standardmäßig aktiviert. Überprüft und repariert automatisch versteckte Bereiche der Zusammenfassung beim Wechseln von Chats.
+home.autoRepairSummaryHint = Standardmäßig deaktiviert. Wenn aktiviert, wird Auto-hide erzwungen, damit versteckte Zusammenfassungsbereiche beim Wechseln von Chats geprüft und repariert werden können.
 home.summaryRange = Zusammenfassungsbereich · Nachrichten behalten
 home.startBtn = ▶ Zusammenfassen
 home.requestPreviewBtn = Anfragevorschau
@@ -152,6 +152,14 @@ macro.spSummariesFallback = (Noch keine Zusammenfassung)
 macro.latestSegment = Letztes Zusammenfassungssegment
 macro.chatAfter = Nachfolgender Chatkontext
 macro.chatLang = Sprachverteilung der aktuellen Sitzung
+
+# ── Slash Commands ──
+slash.sp.help = Oeffnet die SimpleSummary-Erweiterung; /sp [Zahl] fasst direkt bis zur angegebenen Endnachricht zusammen; /sp p [Zahl] zeigt vor dem Zusammenfassen bis zu dieser Nachricht eine Vorschau; /sp ls zeigt die Zusammenfassungsliste; /sp max fasst bis zur neuesten Nachricht zusammen
+slash.sp.usage = Verfuegbare Befehle: /sp, /sp [Zahl], /sp p [Zahl], /sp ls, /sp max
+slash.sp.previewUsage = Verwendung: /sp p [Zahl]
+slash.sp.maxUsage = Verwendung: /sp max
+slash.sp.alreadyCovered = Nachricht #${end} ist bereits in vorhandenen Zusammenfassungen enthalten
+slash.sp.endTooHigh = Endnachricht darf nicht groesser als #${max} sein
 
 # ── Toast Messages ──
 toast.summarySaved = Zusammenfassung gespeichert

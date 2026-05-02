@@ -26,7 +26,7 @@ home.autoHide = स्वतः छिपाएँ
 home.autoHideHint = सारांश सहेजते समय चुनी हुई सीमा के संदेश LLM से छिपा दिए जाते हैं। यह /hide जैसा ही है।
 home.useStream = स्ट्रीम अनुरोध
 home.autoRepairSummary = सारांश स्वतः मरम्मत करें
-home.autoRepairSummaryHint = डिफ़ॉल्ट रूप से सक्षम। चैट स्विच करते समय सारांश छिपी रेंज की स्वतः जाँच और मरम्मत करता है।
+home.autoRepairSummaryHint = डिफ़ॉल्ट रूप से अक्षम। सक्षम करने पर Auto-hide अनिवार्य रूप से चालू रहेगा, ताकि चैट बदलते समय सारांश की छिपी रेंज जाँची और सुधारी जा सके।
 home.summaryRange = सारांश सीमा · रखने वाले संदेश
 home.startBtn = ▶ सारांश
 home.requestPreviewBtn = अनुरोध पूर्वावलोकन
@@ -152,6 +152,14 @@ macro.spSummariesFallback = (अभी तक कोई सारांश न�
 macro.latestSegment = सारांश का नवीनतम खंड
 macro.chatAfter = आगे की चैट का संदर्भ
 macro.chatLang = वर्तमान सत्र की भाषा-वितरण
+
+# ── Slash Commands ──
+slash.sp.help = SimpleSummary एक्सटेंशन खोलता है; /sp [संख्या] सीधे निर्दिष्ट अंतिम संदेश तक सारांशित करता है; /sp p [संख्या] उस संदेश तक सारांशित करने से पहले पूर्वावलोकन दिखाता है; /sp ls सारांश सूची दिखाता है; /sp max सबसे हाल के संदेश तक सारांशित करता है
+slash.sp.usage = उपलब्ध आदेश: /sp, /sp [संख्या], /sp p [संख्या], /sp ls, /sp max
+slash.sp.previewUsage = उपयोग: /sp p [संख्या]
+slash.sp.maxUsage = उपयोग: /sp max
+slash.sp.alreadyCovered = संदेश #${end} पहले से मौजूद सारांशों में शामिल है
+slash.sp.endTooHigh = अंतिम संदेश #${max} से अधिक नहीं हो सकता
 
 # ── Toast Messages ──
 toast.summarySaved = सारांश सहेजा गया

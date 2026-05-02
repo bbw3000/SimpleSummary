@@ -26,7 +26,7 @@ home.autoHide = 自動非表示
 home.autoHideHint = 要約を保存すると、選択範囲のメッセージは LLM から非表示になります。/hide と同じ動作です。
 home.useStream = ストリームリクエスト
 home.autoRepairSummary = 要約を自動修復
-home.autoRepairSummaryHint = デフォルトで有効。チャット切り替え時に要約の非表示範囲を自動的にチェックして修復します。
+home.autoRepairSummaryHint = デフォルトでは無効です。有効にすると自動非表示が強制的にオンになり、チャット切り替え時に要約の非表示範囲を自動的に確認して修復します。
 home.summaryRange = 要約範囲 · 残すメッセージ数
 home.startBtn = ▶ 要約生成
 home.requestPreviewBtn = リクエスト確認
@@ -152,6 +152,14 @@ macro.spSummariesFallback = （まだ要約がありません）
 macro.latestSegment = 最新の要約分割
 macro.chatAfter = 後続チャット文脈
 macro.chatLang = 現在セッションの言語比率
+
+# ── Slash Commands ──
+slash.sp.help = SimpleSummary拡張機能を開きます。/sp [数字] は指定した終了メッセージまで直接要約します。/sp p [数字] はそのメッセージまでの要約前にプレビューを開きます。/sp ls は要約リストを表示します。/sp max は最新メッセージまで要約します
+slash.sp.usage = 使用可能なコマンド: /sp、/sp [数字]、/sp p [数字]、/sp ls、/sp max
+slash.sp.previewUsage = 使用方法: /sp p [数字]
+slash.sp.maxUsage = 使用方法: /sp max
+slash.sp.alreadyCovered = メッセージ #${end} は既存の要約に含まれています
+slash.sp.endTooHigh = 終了メッセージは #${max} 以下である必要があります
 
 # ── Toast Messages ──
 toast.summarySaved = 要約を保存しました
