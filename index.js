@@ -1263,6 +1263,7 @@ function saveCurrentSummaryEditor() {
     if (!targetId) return false;
     const newText = getEditorCurrentSegmentText();
     setSegmentSummaryText(targetId, newText);
+    applySummaryInjection();
 
     renderSegmentTimeline();
     renderEditorView(targetId);
@@ -2351,6 +2352,7 @@ async function onDeleteLatestSegment() {
 
     const removed = deleteLatestSegment();
     if (!removed) return;
+    applySummaryInjection();
 
     const removedRange = normalizeRange(removed.range);
     if (removedRange.end >= removedRange.start) {
@@ -2897,6 +2899,7 @@ async function saveSummaryResult() {
     const hiddenRange = range.end >= range.start ? normalizeRange(range) : { start: 0, end: -1 };
 
     createSegment(text, hiddenRange);
+    applySummaryInjection();
 
     if (getSettings().autoHide && hiddenRange.end >= hiddenRange.start) {
         await hideMessagesByRange(hiddenRange.start, hiddenRange.end);
